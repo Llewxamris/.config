@@ -28,9 +28,8 @@ URxvt.lineSpace:            0
 
 ! Fonts
 URxvt.allow_bold:           false
-/* URxvt.font:                 -*-terminus-medium-r-normal-*-12-120-72-72-c-60-iso8859-1 */
-URxvt*font: xft:Terminus:pixelsize=14
-URxvt*boldFont: xft:Terminus:pixelsize=14
+URxvt*font: xft:Hack:pixelsize=14
+URxvt*boldFont: xft:Hack:pixelsize=14
 
 ! Fix font space
 !URxvt*letterSpace: -1
@@ -52,44 +51,39 @@ URxvt.cursorUnderline:      false
 ! Pointer
 URxvt.pointerBlank:         true
 
-!!Source http://github.com/altercation/solarized
+! special
+ *.foreground:   #d2c5bc
+ *.background:   #101010
+ *.cursorColor:  #d2c5bc
 
-*background: #002b36
-*foreground: #657b83
-!!*fading: 40
-*fadeColor: #002b36
-*cursorColor: #93a1a1
-*pointerColorBackground: #586e75
-*pointerColorForeground: #93a1a1
+! ! black
+ *.color0:       #202020
+ *.color8:       #606060
 
-!! black dark/light
-*color0: #073642
-*color8: #002b36
+! ! red
+ *.color1:       #b91e2e
+ *.color9:       #d14548
 
-!! red dark/light
-*color1: #dc322f
-*color9: #cb4b16
+! ! green
+ *.color2:       #81957c
+ *.color10:      #a7b79a
 
-!! green dark/light
-*color2: #859900
-*color10: #586e75
+! ! yellow
+ *.color3:       #f9bb80
+ *.color11:      #fae3a0
 
-!! yellow dark/light
-*color3: #b58900
-*color11: #657b83
+! ! blue
+ *.color4:       #356579
+ *.color12:      #7491a1
 
-!! blue dark/light
-*color4: #268bd2
-*color12: #839496
+! ! magenta
+ *.color5:       #2d2031
+ *.color13:      #87314e
 
-!! magenta dark/light
-*color5: #d33682
-*color13: #6c71c4
+! ! cyan
+ *.color6:       #0b3452
+ *.color14:      #0f829d
 
-!! cyan dark/light
-*color6: #2aa198
-*color14: #93a1a1
-
-!! white dark/light
-*color7: #eee8d5
-*color15: #fdf6e3
+! ! white
+ *.color7:       #909090
+ *.color15:      #fff0f0
