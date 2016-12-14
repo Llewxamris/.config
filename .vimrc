@@ -28,7 +28,7 @@ autocmd FileType css            vnoremap    <buffer>    <c-f> :call RangeCSSBeau
 
 "Solarized ColourScheme
 set background=dark
-colorscheme solarized
+" colorscheme solarized
 
 "EasyMotion
 let g:EasyMotion_do_mapping = 0 " Disable default mappings
