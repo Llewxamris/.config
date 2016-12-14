@@ -7,6 +7,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/s
 SHELL=/bin/bash
 EDITOR=/usr/bin/vim
 export EDITOR
+
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -62,7 +63,7 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 #PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-PS1="\[\033[38;5;14m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\]\n\[$(tput sgr0)\]\[\033[38;5;9m\][\[$(tput sgr0)\]\[\033[38;5;11m\]\@\[$(tput sgr0)\]\[\033[38;5;9m\]]\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;10m\]\u@\h\[$(tput sgr0)\]\[\033[38;5;15m\] \\$\[$(tput sgr0)\] "
+PS1="\n\[\033[38;5;14m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\]\n\[$(tput sgr0)\]\[\033[38;5;9m\][\[$(tput sgr0)\]\[\033[38;5;11m\]\@\[$(tput sgr0)\]\[\033[38;5;9m\]]\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;10m\]\u@\h\[$(tput sgr0)\]\[\033[38;5;15m\] \\$\[$(tput sgr0)\] "
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*)
