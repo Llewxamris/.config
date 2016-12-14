@@ -107,11 +107,11 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-set $bg-color 	         #2f343f
-set $inactive-bg-color   #2f343f
-set $text-color          #f3f4f5
-set $inactive-text-color #676E7D
-set $urgent-bg-color     #E53935
+set $bg-color 	         #101010
+set $inactive-bg-color   #202020
+set $text-color          #D2C5BC
+set $inactive-text-color #606060
+set $urgent-bg-color     #B91E2E
 
 #window colors
 #                       border              background         text                 indicator
@@ -137,7 +137,9 @@ bar {
 hide_edge_borders both
 
 # key-bindings
-bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 337 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "System San Francisco Display 18"
+#bindsym $mod+d exec rofi -show run -lines 3 -eh 2 -width 100 -padding 337 -opacity "85" -bw 0 -bc "$bg-color" -bg "$bg-color" -fg "$text-color" -hlbg "$bg-color" -hlfg "#9575cd" -font "System San Francisco Display 18"
+
+bindsym $mod+d exec dmenu_run
 
 # startup
 exec_always xrdb -load ~/.Xresources
@@ -147,4 +149,5 @@ exec_always compton
 for_window [class="^.*"] border pixel 0
 
 smart_gaps on
-gaps inner 10px
+gaps outer 10px
+gaps inner 5px
