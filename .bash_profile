@@ -1,1 +1,0 @@
-/home/max/.bash_profile
