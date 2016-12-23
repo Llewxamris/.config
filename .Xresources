@@ -17,8 +17,9 @@ Xft.hintstyle:              hintslight
 
 URxvt.depth:                32
 URxvt.geometry:             90x30
+URxvt.shading:              20
 URxvt.transparent:          false
-URxvt.fading:               0
+URxvt.fading:               20
 ! URxvt.urgentOnBell:         true
 ! URxvt.visualBell:           true
 URxvt.loginShell:           true
@@ -50,40 +51,48 @@ URxvt.cursorUnderline:      false
 
 ! Pointer
 URxvt.pointerBlank:         true
-
 ! special
- *.foreground:   #d2c5bc
- *.background:   #101010
- *.cursorColor:  #d2c5bc
+*.foreground:   #f8f6f2
+*.background:   #141413
+*.cursorColor:  #0a9dff
 
-! ! black
- *.color0:       #202020
- *.color8:       #606060
+! black
+*.color0:       #242321
+*.color8:       #857f78
 
-! ! red
- *.color1:       #b91e2e
- *.color9:       #d14548
+! red
+*.color1:       #ff2c4b
+*.color9:       #ff9eb8
 
-! ! green
- *.color2:       #81957c
- *.color10:      #a7b79a
+! green
+*.color2:       #82ee00
+*.color10:      #aeee00
 
-! ! yellow
- *.color3:       #f9bb80
- *.color11:      #fae3a0
+! yellow
+*.color3:       #88633f
+*.color11:      #c7915b
 
-! ! blue
- *.color4:       #356579
- *.color12:      #7491a1
+! blue
+*.color4:       #0a9dff
+*.color12:      #69c3ff
 
-! ! magenta
- *.color5:       #2d2031
- *.color13:      #87314e
+! magenta
+*.color5:       #964eff
+*.color13:      #ba8aff
 
-! ! cyan
- *.color6:       #0b3452
- *.color14:      #0f829d
+! cyan
+*.color6:       #0affd9
+*.color14:      #93ffee
 
-! ! white
- *.color7:       #909090
- *.color15:      #fff0f0
+! white
+*.color7:       #858382
+*.color15:      #bbb9b7
+ 
+!------------------------------------------------------------------------------
+! ROFI Color theme
+!------------------------------------------------------------------------------
+rofi.color-enabled: true
+rofi.color-window: #101010, #202020, #000000
+rofi.color-normal: #101010, #d2c5bc, #202020, #356579, #0d0d0d
+rofi.color-active: #81957c, #a7b79a, #202020, #356579, #101010
+rofi.color-urgent: #b91e2e, #d2c5bc, #202020, #dc322f, #fdf6e3
