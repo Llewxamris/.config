@@ -9,7 +9,9 @@ Relies on the following fonts:
 [Hack](http://sourcefoundry.org/hack/)
 
 # Colours
-Uses the [Vacuous 2](http://dotshare.it/dots/818/) colour scheme by hal
+Uses the [Vacuous 2](http://dotshare.it/dots/818/) colour scheme by hal for i3bar and Rofi.
+
+Uses the [Badwolf](https://github.com/sjl/badwolf) colour scheme by Steve Losh for Vim and a modified version for Xresources.
 
 # License
 All files are free to use regardless of purpose. See UNLICENSE for more
