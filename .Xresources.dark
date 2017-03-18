@@ -1,0 +1,86 @@
+! Title: Xresources
+! Author: Maxwell Haley
+! Description: URxvt and Rofi customization with Bad Wolf colour scheme 
+! and Hack font. See README.md for more information.
+!
+! This file is licensed under UNLICENSE. See UNLICENSE for more details
+! or visit http://unlicense.org
+
+! Xft Settings
+Xft.dpi:                    96
+Xft.antialias:              true
+Xft.rgba:                   rgb
+Xft.hinting:                true
+Xft.hintstyle:              hintslight
+
+! URxvt Settings
+URxvt.depth:                32
+URxvt.geometry:             90x30
+URxvt.shading:              20
+URxvt.transparent:          false
+URxvt.fading:               20
+URxvt.loginShell:           true
+URxvt.saveLines:            50
+URxvt.internalBorder:       3
+URxvt.lineSpace:            0
+
+! Fonts
+URxvt.allow_bold:           false
+URxvt*font:                 xft:Hack:pixelsize=14
+URxvt*boldFont:             xft:Hack:pixelsize=14
+
+! Scrollbar
+URxvt.scrollStyle:          rxvt
+URxvt.scrollBar:            false
+
+! Cursor
+URxvt.cursorBlink:          true
+URxvt.cursorColor:          #657b83
+URxvt.cursorUnderline:      false
+
+! Pointer
+URxvt.pointerBlank:         true
+
+! Special
+*.foreground:   #d7d7d7
+*.background:   #121212
+*.cursorColor:  #d7d7d7
+
+! Black
+*.color0:       #121212
+*.color8:       #121212
+
+! Red
+*.color1:       #ff5f5f
+*.color9:       #ff5f5f
+
+! Green
+*.color2:       #afd787
+*.color10:      #afd787
+
+! Yellow
+*.color3:       #d7d7af
+*.color11:      #d7d7af
+
+! Blue
+*.color4:       #87d7ff
+*.color12:      #87d7ff
+
+! Magenta
+*.color5:       #d7afd7
+*.color13:      #d7afd7
+
+! Cyan
+*.color6:       #87d7af
+*.color14:      #87d7af
+
+! White
+*.color7:       #d7d7d7
+*.color15:      #d7d7d7
+ 
+! ROFI Color theme
+rofi.color-enabled: true
+rofi.color-window: #101010, #202020, #000000
+rofi.color-normal: #101010, #d2c5bc, #202020, #356579, #0d0d0d
+rofi.color-active: #81957c, #a7b79a, #202020, #356579, #101010
+rofi.color-urgent: #b91e2e, #d2c5bc, #202020, #dc322f, #fdf6e3
