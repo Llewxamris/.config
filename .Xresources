@@ -1,27 +1,24 @@
-!-------------------------------------------------------------------------------
-! Xft settings
-!-------------------------------------------------------------------------------
+! Title: Xresources
+! Author: Maxwell Haley
+! Description: URxvt and Rofi customization with Bad Wolf colour scheme 
+! and Hack font. See README.md for more information.
+!
+! This file is licensed under UNLICENSE. See UNLICENSE for more details
+! or visit http://unlicense.org
 
+! Xft Settings
 Xft.dpi:                    96
 Xft.antialias:              true
 Xft.rgba:                   rgb
 Xft.hinting:                true
 Xft.hintstyle:              hintslight
 
-!-------------------------------------------------------------------------------
-! URxvt settings
-! Colours lifted from Solarized (http://ethanschoonover.com/solarized)
-! More info at:
-! http://pod.tst.eu/http://cvs.schmorp.de/rxvt-unicode/doc/rxvt.1.pod
-!-------------------------------------------------------------------------------
-
+! URxvt Settings
 URxvt.depth:                32
 URxvt.geometry:             90x30
 URxvt.shading:              20
 URxvt.transparent:          false
 URxvt.fading:               20
-! URxvt.urgentOnBell:         true
-! URxvt.visualBell:           true
 URxvt.loginShell:           true
 URxvt.saveLines:            50
 URxvt.internalBorder:       3
@@ -29,20 +26,12 @@ URxvt.lineSpace:            0
 
 ! Fonts
 URxvt.allow_bold:           false
-URxvt*font: xft:Hack:pixelsize=14
-URxvt*boldFont: xft:Hack:pixelsize=14
-
-! Fix font space
-!URxvt*letterSpace: -1
+URxvt*font:                 xft:Hack:pixelsize=14
+URxvt*boldFont:             xft:Hack:pixelsize=14
 
 ! Scrollbar
 URxvt.scrollStyle:          rxvt
 URxvt.scrollBar:            false
-
-! Perl extensions
-URxvt.perl-ext-common:      default,matcher
-URxvt.matcher.button:       1
-URxvt.urlLauncher:          firefox
 
 ! Cursor
 URxvt.cursorBlink:          true
@@ -51,46 +40,45 @@ URxvt.cursorUnderline:      false
 
 ! Pointer
 URxvt.pointerBlank:         true
-! special
+
+! Special
 *.foreground:   #f8f6f2
 *.background:   #141413
 *.cursorColor:  #0a9dff
 
-! black
+! Black
 *.color0:       #242321
 *.color8:       #857f78
 
-! red
+! Red
 *.color1:       #ff2c4b
 *.color9:       #ff9eb8
 
-! green
+! Green
 *.color2:       #82ee00
 *.color10:      #aeee00
 
-! yellow
+! Yellow
 *.color3:       #88633f
 *.color11:      #c7915b
 
-! blue
+! Blue
 *.color4:       #0a9dff
 *.color12:      #69c3ff
 
-! magenta
+! Magenta
 *.color5:       #964eff
 *.color13:      #ba8aff
 
-! cyan
+! Cyan
 *.color6:       #0affd9
 *.color14:      #93ffee
 
-! white
+! White
 *.color7:       #858382
 *.color15:      #bbb9b7
  
-!------------------------------------------------------------------------------
 ! ROFI Color theme
-!------------------------------------------------------------------------------
 rofi.color-enabled: true
 rofi.color-window: #101010, #202020, #000000
 rofi.color-normal: #101010, #d2c5bc, #202020, #356579, #0d0d0d
