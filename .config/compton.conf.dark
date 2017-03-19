@@ -1,0 +1,45 @@
+# Title: compton.conf
+# Author: Maxwell haley
+# Description: Compton configuration file.
+#
+# This file is license under UNLICENSE. See UNLICENSE for me details
+# or visit http://unlicense.org
+
+# Backend {{{
+backend                     = "glx";
+glx-no-stencil              = true;
+# }}}
+
+# Shadow Settings {{{
+shadow          = true;
+shadow-radius   = 5;
+shadow-offset-x = -5;
+shadow-offset-y = -5;
+shadow-opacity  = 0.75;
+shadow-red      = 0.5;
+shadow-blue     = 0.5;
+shadow-green    = 0.5;
+no-dnd-shadow   = true;
+no-dock-shadow  = false;
+# }}}
+
+# Opacity Settings {{{
+menu-opacity                = 1;
+inactive-opacity            = 1;
+active-opacity              = 1;
+frame-opacity               = 1;
+inactive-opacity-override   = false;
+alpha-step                  = 0.06;
+blur-background-fixed       = false;
+inactive-dim                = 0;
+inactive-dim-fixed          = false;
+# }}}
+
+# Fading Settings {{{
+fading           = true;
+fade-delta       = 4;
+fade-in-step     = 0.03;
+fade-out-step    = 0.03;
+# }}}
+
+# vim:foldmethod=marker:foldlevel=0
