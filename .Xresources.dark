@@ -18,7 +18,7 @@ URxvt.depth:                32
 URxvt.geometry:             90x30
 URxvt.shading:              20
 URxvt.transparent:          false
-URxvt.fading:               20
+URxvt.fading:               10
 URxvt.loginShell:           true
 URxvt.saveLines:            50
 URxvt.internalBorder:       3
