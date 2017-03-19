@@ -47,36 +47,36 @@ URxvt.pointerBlank:         true
 *.cursorColor:  #ffffff
 
 ! Black
-*.color0:       #555555
-*.color8:       #888888
+*.color0:       #444444
+*.color8:       #444444
 
 ! Red
-*.color1:       #9c3528
-*.color9:       #d64937
+*.color1:       #af0000
+*.color9:       #af0000
 
 ! Green
-*.color2:       #61bc3b
-*.color10:      #86df5d
+*.color2:       #008700
+*.color10:      #008700
 
 ! Yellow
-*.color3:       #f3b43a
-*.color11:      #fdd75a
+*.color3:       #af5f00
+*.color11:      #af5f00
 
 ! Blue
-*.color4:       #0d68a8
-*.color12:      #0f75bd
+*.color4:       #005faf
+*.color12:      #005faf
 
 ! Magenta
-*.color5:       #744560
-*.color13:      #9e5e83
+*.color5:       #870087
+*.color13:      #870087
 
 ! Cyan
-*.color6:       #288e9c
-*.color14:      #37c3d6
+*.color6:       #008787
+*.color14:      #008787
 
 ! White
-*.color7:       #858382
-*.color15:      #bbb9b7
+*.color7:       #ffffff
+*.color15:      #ffffff
  
 ! ROFI Color theme
 rofi.color-enabled: true
