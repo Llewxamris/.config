@@ -18,6 +18,7 @@
 " - JSBeautify
 " This file is licensed under UNLICENSE, see UNLICENSE for more details or
 " visit http://unlicense.org
+
 " Sorry Vi, going with the big kid on the block
 set nocompatible
 " Enable the Pathogen to spread
@@ -30,47 +31,43 @@ colorscheme solarized           " Enable colourscheme 'Solarized'
 "}}}
 
 " UI {{{
-filetype plugin indent on   " Extention specific indenting
-set cursorline              " Highlights the current line
-set showcmd                 " Show last entered command
-set number                  " Show line numbers
-set relativenumber          " Show line numbers relative to current line
-set wildmenu                " Visual autocompletion for Command mode
-set lazyredraw              " More efficient redrawing
-set showmatch               " Shows matching open/closing symbols
-set vb                      " Disable the bell
-set modelines=1
-set mouse=a
-noremap K :Superman <cword><CR>
+filetype plugin indent on                        " Extention specific indenting
+set cursorline                                   " Highlights the current line
+set showcmd                                      " Show last entered command
+set number                                       " Show line numbers
+set relativenumber                               " Show line numbers relative to current line
+set wildmenu                                     " Visual autocompletion for Command mode
+set lazyredraw                                   " More efficient redrawing
+set showmatch                                    " Shows matching open/closing symbols
+set vb                                           " Disable the bell
+set modelines = 1                                " Allows modelines to be enabled
+set mouse = a                                    " Enable mouse support
 " Airline {{{
-set laststatus=2
-let g:airline_detect_paste=1
-let g:airline#extensions#tabline#enabled=1
-let g:airline_theme='solarized'
-let g:airline_powerline_fonts=1
-let g:airline#extentions#hunks#non_zero_only = 1
-" }}}za
+set laststatus = 2                               " Always show status line
+let g:airline_detect_paste = 1                   " Detect if in Paste mode
+let g:airline#extensions#tabline#enabled = 1     " Enable tabline extention
+let g:airline_theme = 'solarized'                " Use solarized colour theme
+let g:airline_powerline_fonts = 1                " Enable use of patch fonts
+let g:airline#extentions#hunks#non_zero_only = 1 " No Hunks plz
+" }}}
 " NERDTree {{{
 " Toggle NERDTree with leader + t
 nmap <silent> <leader>t :NERDTreeTabsToggle<CR>
-let g:nerdtree_tabs_open_on_console_startup=1 " Open NERDTree on startup
+let g:nerdtree_tabs_open_on_console_startup=1    " Open NERDTree on startup
 " }}}
 " Syntastic {{{
-hi clear SignColumn
-let g:syntastic_error_symbol='✘'
-let g:syntastic_warning_symbol = "▲"
-augroup Syntastic
-    au!
-    au FileType tex let b:syntastic_mode = 'passive'
-augroup END
+hi clear SignColumn                             " Clear SignColumn
+let g:syntastic_error_symbol='✘'                " Use custom error symbol
+let g:syntastic_warning_symbol = "▲"            " Use custom warning symbol
 " }}}
 " Easytags/Tagbar {{{
-set tags=./tags;~/.vimtags "Tag locations
+set tags=./tags;~/.vimtags                       " Tag locations
 let g:easytags_events = ['BufReadPost', 'BufWritePost']
-let g:easytags_async = 1
-let g:easytags_dynamic_files = 2
+let g:easytags_async = 1                         " Update tags Async
+let g:easytags_dynamic_files = 2                 " Dynamically load files
 let g:easytags_resolve_links = 1
-let g:easytags_suppress_ctags_warning = 1
+let g:easytags_suppress_ctags_warning = 1        " Suppress warning thrown by ctags
+" Toggle with <leader>b
 nmap <silent> <leader>b :TagbarToggle<CR>
 " }}}
 " delimitMate {{{
