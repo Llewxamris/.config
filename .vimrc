@@ -81,10 +81,10 @@ augroup END
 " }}}
 
 " Tabs & Spaces {{{
-set softtabstop=4
-set shiftwidth=4
-set tabstop=4
-set expandtab
+set softtabstop=4 " How many cols used to Tab
+set shiftwidth=4  " How many cols indented with reindent
+set tabstop=4     " How many cols used visually to Tab
+set expandtab     " Use Spaces instead of Tabs
 " }}}
 
 " Searching {{{
@@ -123,10 +123,11 @@ endif
 " }}}
 
 " JS Libraries {{{
-let g:used_javascript_libs='jquery'
+let g:used_javascript_libs='jquery' " Assumes only lib is JQuery
 " }}}
 
 " Beautify {{{
+" Change call based on filetype
 map <c-f> :call JsBeautify()<cr>
 autocmd FileType javascript     noremap     <buffer>    <c-f> :call JsBeautify()<cr>
 autocmd FileType html           noremap     <buffer>    <c-f> :call HtmlBeautify()<cr>
