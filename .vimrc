@@ -40,10 +40,10 @@ set wildmenu                                     " Visual autocompletion for Com
 set lazyredraw                                   " More efficient redrawing
 set showmatch                                    " Shows matching open/closing symbols
 set vb                                           " Disable the bell
-set modelines = 1                                " Allows modelines to be enabled
-set mouse = a                                    " Enable mouse support
+set modelines=1                                " Allows modelines to be enabled
+set mouse=a                                    " Enable mouse support
 " Airline {{{
-set laststatus = 2                               " Always show status line
+set laststatus=2                               " Always show status line
 let g:airline_detect_paste = 1                   " Detect if in Paste mode
 let g:airline#extensions#tabline#enabled = 1     " Enable tabline extention
 let g:airline_theme = 'solarized'                " Use solarized colour theme
