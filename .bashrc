@@ -116,3 +116,12 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
+# Launch man pages in vim using vman $PAGENAME
+vman() {
+    vim -c "SuperMan $*"
+
+    if ["$?" != "0"]; then
+        echo "No manual entry for $*"
+    fi
+}
