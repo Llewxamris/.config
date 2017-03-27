@@ -1,5 +1,7 @@
 # Llewxamris' DotFiles
-Collection of my personal config files.
+Collection of my personal config files. Built over time, on the backs of giants,
+entirely out of my own needs. Links to influences are listed inside the files
+they had influenced.
 
 # Fonts
 Relies on the following fonts:
@@ -9,11 +11,8 @@ Relies on the following fonts:
 [Hack](http://sourcefoundry.org/hack/)
 
 # Colours
-Uses the [Lucius](https://github.com/jonathanfilip/lucius) colour scheme by 
-Jonathan Filip for Vim and Xresources.
-
-The switchmod.sh script switches the colourscheme between light and dark. 
-It takes in one parameter. Valid parameters are "light" and "dark".
+Uses the [Solarized](http://http://ethanschoonover.com/solarized) Vim
+colour scheme by Ethan Schoonover.
 
 # License
 All files are free to use regardless of purpose. See UNLICENSE for more
