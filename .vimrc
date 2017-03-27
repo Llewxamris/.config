@@ -1,4 +1,23 @@
-" Used alongside vim-sensible.
+" Title: Vim Configuration File
+" Author: Maxwell Haley
+" Description: My personal configuration for Vim.
+" Built using information I've learnt along the way. Special thanks to the
+" following guides:
+" - Doug Black's "A Good Vimrc": https://dougblack.io/words/a-good-vimrc.html
+" - Jake Zimmerman's "Vim as an IDE": https://github.com/jez/vim-as-an-ide
+" Assumes the following plugins are installed:
+" - Pathogen
+" - Solarized Colour Theme
+" - Airline
+" - NERDTree + NERDTreeTab
+" - Syntastic
+" - Easytags + Tagbar
+" - delimitMate
+" - SuperMan
+" - Easymotion
+" - JSBeautify
+" This file is licensed under UNLICENSE, see UNLICENSE for more details or
+" visit http://unlicense.org
 " Sorry Vi, going with the big kid on the block
 set nocompatible
 " Enable the Pathogen to spread
