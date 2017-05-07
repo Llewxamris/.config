@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# TITLE: Config File Setup Script
+# AUTHOR: Maxwell Haley
+# DESCRIPTION: Small script that symbolically links configuration files.
+# This file is license under UNLICENSE, see UNLICENSE for more details or vist
+# http://unlicense.org
+
 dotpath="$HOME/git/dotfiles/"
 
 remove_files() {
