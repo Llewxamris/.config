@@ -154,3 +154,9 @@ bindsym $mod+r mode "resize"
 bar {
         status_command i3status
 }
+
+# Gaps
+for_window [class="^.*"] border pixel 0
+gaps outer 5
+gaps inner 5
+smart_gaps on
