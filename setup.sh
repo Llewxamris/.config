@@ -7,10 +7,13 @@
 # http://unlicense.org
 
 dotpath="$HOME/git/dotfiles/"
+configpath="$HOME/.config/"
 
 remove_files() {
     rm ~/.bashrc
     rm ~/.vimrc
+    rm "$configpath"i3/config
+    rm "$configpath"termite/config
 }
 
 common_files() {
@@ -19,6 +22,8 @@ common_files() {
 
 workstation_files() {
     ln -s "$dotpath"vimrc ~/.vimrc
+    ln -s "$dotpath"i3-config "$configpath"i3/config
+    ln -s "$dotpath"termite-config "$configpath"termite/config
 }
 
 server_files() {
