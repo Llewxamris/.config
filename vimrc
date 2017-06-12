@@ -6,7 +6,7 @@
 " - Doug Black's "A Good Vimrc": https://dougblack.io/words/a-good-vimrc.html
 " - Jake Zimmerman's "Vim as an IDE": https://github.com/jez/vim-as-an-ide
 " Assumes the following plugins are installed:
-" - Pathogen
+" - Vundle
 " - Solarized Colour Theme
 " - Airline
 " - NERDTree + NERDTreeTab
@@ -15,19 +15,38 @@
 " - delimitMate
 " - SuperMan
 " - Easymotion
-" - JSBeautify
 " This file is licensed under UNLICENSE, see UNLICENSE for more details or
 " visit http://unlicense.org
 
 " Sorry Vi, going with the big kid on the block
 set nocompatible
-" Enable the Pathogen to spread
-execute pathogen#infect()
+
+" Enable Vundle
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" Plugins {{{
+Plugin 'VundleVim/Vundle.vim' " Vundle manages itself
+Plugin 'tpope/vim-fugitive'   " Git integration
+Plugin 'vim-airline/vim-airline' " Status bar
+Plugin 'scrooloose/nerdtree' " Tree-style file explorer
+Plugin 'jistr/vim-nerdtree-tabs' " Tabs for Nerdtree
+Plugin 'vim-syntastic/syntastic' " Better Syntax checking
+Plugin 'xolox/vim-easytags' " Automatic tag generation
+Plugin 'xolox/vim-misc' " 
+Plugin 'majutsushi/tagbar' " Sidebar for tags
+Plugin 'Raimondi/delimitMate' " Autoclosing \"([{
+Plugin 'jez/vim-superman' " Read Manpages in Vim
+Plugin 'easymotion/vim-easymotion'
+
+call vundle#end()
+" }}}
 
 " Colours {{{
 syntax on                       " Enable syntax colourization
-set background=dark             " Use solarized 'Dark' version
-colorscheme solarized           " Enable colourscheme 'Solarized'
+"set background=dark             " Use solarized 'Dark' version
+"colorscheme solarized           " Enable colourscheme 'Solarized'
 "}}}
 
 " UI {{{
@@ -46,19 +65,19 @@ set mouse=a                                    " Enable mouse support
 set laststatus=2                               " Always show status line
 let g:airline_detect_paste = 1                   " Detect if in Paste mode
 let g:airline#extensions#tabline#enabled = 1     " Enable tabline extention
-let g:airline_theme = 'solarized'                " Use solarized colour theme
-let g:airline_powerline_fonts = 1                " Enable use of patch fonts
+" let g:airline_theme = 'solarized'                " Use solarized colour theme
+let g:airline_powerline_fonts = 0                " Enable use of patch fonts
 let g:airline#extentions#hunks#non_zero_only = 1 " No Hunks plz
 " }}}
 " NERDTree {{{
 " Toggle NERDTree with leader + t
 nmap <silent> <leader>t :NERDTreeTabsToggle<CR>
-let g:nerdtree_tabs_open_on_console_startup=1    " Open NERDTree on startup
+let g:nerdtree_tabs_open_on_console_startup=0    " Open NERDTree on startup
 " }}}
 " Syntastic {{{
 hi clear SignColumn                             " Clear SignColumn
-let g:syntastic_error_symbol='✘'                " Use custom error symbol
-let g:syntastic_warning_symbol = "▲"            " Use custom warning symbol
+" let g:syntastic_error_symbol='✘'                " Use custom error symbol
+" let g:syntastic_warning_symbol = "▲"            " Use custom warning symbol
 " }}}
 " Easytags/Tagbar {{{
 set tags=./tags;~/.vimtags                       " Tag locations
@@ -124,19 +143,6 @@ endif
 
 " JS Libraries {{{
 let g:used_javascript_libs='jquery' " Assumes only lib is JQuery
-" }}}
-
-" Beautify {{{
-" Change call based on filetype
-map <c-f> :call JsBeautify()<cr>
-autocmd FileType javascript     noremap     <buffer>    <c-f> :call JsBeautify()<cr>
-autocmd FileType html           noremap     <buffer>    <c-f> :call HtmlBeautify()<cr>
-autocmd FileType php            noremap     <buffer>    <c-f> :call HtmlBeautify()<cr>
-autocmd FileType css            noremap     <buffer>    <c-f> :call CSSBeautify()<cr>
-autocmd FileType javascript     vnoremap    <buffer>    <c-f> :call RangeJsBeautify()<cr>
-autocmd FileType html           vnoremap    <buffer>    <c-f> :call RangeHtmlBeautify()<cr>
-autocmd FileType php            vnoremap    <buffer>    <c-f> :call RangeHtmlBeautify()<cr>
-autocmd FileType css            vnoremap    <buffer>    <c-f> :call RangeCSSBeautify()<cr>
 " }}}
 
 " EasyMotion {{{
