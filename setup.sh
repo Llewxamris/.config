@@ -14,6 +14,7 @@ remove_files() {
     rm ~/.vimrc
     rm "$configpath"i3/config
     rm "$configpath"termite/config
+    rm "$configpath"compton/compton.conf
 }
 
 common_files() {
@@ -24,6 +25,7 @@ workstation_files() {
     ln -s "$dotpath"vimrc ~/.vimrc
     ln -s "$dotpath"i3-config "$configpath"i3/config
     ln -s "$dotpath"termite-config "$configpath"termite/config
+    ln -s "$dotpath"compton-config "$configpath"compton/compton.conf
 }
 
 server_files() {
