@@ -15,6 +15,7 @@ remove_files() {
     rm "$configpath"i3/config
     rm "$configpath"termite/config
     rm "$configpath"compton/compton.conf
+    rm "$configpath"dunst/dunstrc
 }
 
 common_files() {
@@ -26,6 +27,7 @@ workstation_files() {
     ln -s "$dotpath"i3-config "$configpath"i3/config
     ln -s "$dotpath"termite-config "$configpath"termite/config
     ln -s "$dotpath"compton-config "$configpath"compton/compton.conf
+    ln -s "$dotpath"dunstrc "$configpath"dunst/dunstrc
 }
 
 server_files() {
