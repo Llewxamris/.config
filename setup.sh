@@ -16,6 +16,7 @@ remove_files() {
     rm "$configpath"termite/config
     rm "$configpath"compton/compton.conf
     rm "$configpath"dunst/dunstrc
+    rm "$configpath"polybar/config
 }
 
 common_files() {
@@ -28,6 +29,7 @@ workstation_files() {
     ln -s "$dotpath"termite-config "$configpath"termite/config
     ln -s "$dotpath"compton-config "$configpath"compton/compton.conf
     ln -s "$dotpath"dunstrc "$configpath"dunst/dunstrc
+    ln -s "$dotpath"polybar-config "$configpath"polybar/config
 }
 
 server_files() {
