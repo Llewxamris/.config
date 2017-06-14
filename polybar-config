@@ -12,9 +12,9 @@ background = #121212
 background-alt = #111111
 foreground = #eeeeee
 foreground-alt = #ffffff
-primary = #F4CF86
-secondary = #0a9dff
-alert = #ff2c4b
+primary = #d7ffaf
+secondary = #afffff
+alert = #ff8787
 
 [global/wm]
 margin-top = 5
@@ -188,7 +188,7 @@ format-connected-underline = #9f78e1
 format-disconnected-underline = ${self.format-connected-underline}
 
 label-connected =  %essid%
-label-disconnected = %ifname% disconnected
+label-disconnected =
 label-disconnected-foreground = ${colors.foreground-alt}
 
 ramp-signal-0 = 1
@@ -273,14 +273,14 @@ format-full-prefix = 
 format-full-prefix-foreground = ${colors.foreground-alt}
 format-full-underline = ${self.format-charging-underline}
 
-ramp-capacity-0 =  
+ramp-capacity-0 = ☠
 ramp-capacity-1 =  
-ramp-capacity-2 = ☠
+ramp-capacity-2 = 
 ramp-capacity-foreground = ${colors.foreground-alt}
 
-animation-charging-0 = 
+animation-charging-0 = 
 animation-charging-1 = 
-animation-charging-2 = 
+animation-charging-2 = 
 animation-charging-foreground = ${colors.foreground-alt}
 animation-charging-framerate = 750
 
