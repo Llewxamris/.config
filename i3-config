@@ -1,9 +1,12 @@
 # Title: i3 Configuration File
 # Author: Maxwell Haley
 # Description: My personal configuration for the i3 wm.
-# Assumes i3-gaps. 
+# Assumes i3-gaps.
 # This file is licensed under UNLICENSE, see UNLICENSE for more details or
 # visit http://unlicense.org
+
+# Font for window titles
+font pango:Inconsolata 10
 
 # Keybinds {{{
 
@@ -11,7 +14,7 @@
 set $mod Mod1
 
 # Use mod+mouse1 to drag windows
-floating_modifier $mod 
+floating_modifier $mod
 
 # Use Termite as the terminal emulator
 bindsym $mod+Return exec termite
@@ -82,13 +85,13 @@ bindsym $mod+Shift+0 move container to workspace 10
 # Reload the configuration file
 bindsym $mod+Shift+c reload
 
-# Restart i3 inplace 
+# Restart i3 inplace
 bindsym $mod+Shift+r restart
 
 # Exit i3
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
-# Resize window 
+# Resize window
 mode "resize" {
         bindsym h resize shrink width 10 px or 10 ppt
         bindsym j resize grow height 10 px or 10 ppt
@@ -104,29 +107,21 @@ bindsym $mod+Shift+x exec i3lock
 
 # }}}
 
-# Font for window titles
-font pango:Inconsolata 10
-
-# Start i3bar 
-# bar {
-#         status_command i3status
-# }
-
 # Gaps {{{
 
 # Shrink the borders around the windows
 for_window [class="^.*"] border pixel 0
 
 # Set inner gaps pixel amount
-gaps inner 5 #px
+# gaps inner 5 #px
 
 # Enable smart gaps
-smart_gaps on
+# smart_gaps on
 
 # }}}
 
 # Autostart {{{
- 
+
 # Start Compton
 exec_always --no-startup-id compton
 
