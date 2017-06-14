@@ -108,14 +108,14 @@ bindsym $mod+Shift+x exec i3lock
 font pango:Inconsolata 10
 
 # Start i3bar 
-bar {
-        status_command i3status
-}
+# bar {
+#         status_command i3status
+# }
 
 # Gaps {{{
 
 # Shrink the borders around the windows
-for_window [class="^.*"] border pixel 2
+for_window [class="^.*"] border pixel 0
 
 # Set inner gaps pixel amount
 gaps inner 5 #px
@@ -132,6 +132,12 @@ exec_always --no-startup-id compton
 
 # Start Dunst
 exec_always --no-startup-id dunst
+
+# Set pape with Feh
+exec_always --no-startup-id feh --bg-fill $HOME/img/b_field.jpg
+
+# Start Polybar
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # }}}
 
