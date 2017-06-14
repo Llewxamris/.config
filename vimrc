@@ -1,4 +1,4 @@
-" Title: Vim Configuration File
+" Titlt: Vim Configuration File
 " Author: Maxwell Haley
 " Description: My personal configuration for Vim.
 " Built using information I've learnt along the way. Special thanks to the
@@ -21,6 +21,8 @@
 " Sorry Vi, going with the big kid on the block
 set nocompatible
 
+set encoding=utf8
+
 " Enable Vundle
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -30,23 +32,25 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim' " Vundle manages itself
 Plugin 'tpope/vim-fugitive'   " Git integration
 Plugin 'vim-airline/vim-airline' " Status bar
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'scrooloose/nerdtree' " Tree-style file explorer
 Plugin 'jistr/vim-nerdtree-tabs' " Tabs for Nerdtree
 Plugin 'vim-syntastic/syntastic' " Better Syntax checking
 Plugin 'xolox/vim-easytags' " Automatic tag generation
-Plugin 'xolox/vim-misc' " 
+Plugin 'xolox/vim-misc'
 Plugin 'majutsushi/tagbar' " Sidebar for tags
 Plugin 'Raimondi/delimitMate' " Autoclosing \"([{
 Plugin 'jez/vim-superman' " Read Manpages in Vim
 Plugin 'easymotion/vim-easymotion'
-
+Plugin  'jonathanfilip/vim-lucius'
 call vundle#end()
 " }}}
 
 " Colours {{{
 syntax on                       " Enable syntax colourization
-"set background=dark             " Use solarized 'Dark' version
-"colorscheme solarized           " Enable colourscheme 'Solarized'
+"set background=black             " Use solarized 'Dark' version
+colorscheme lucius           " Enable colourscheme 'Solarized'
+LuciusBlackHighContrast
 "}}}
 
 " UI {{{
@@ -65,8 +69,8 @@ set mouse=a                                    " Enable mouse support
 set laststatus=2                               " Always show status line
 let g:airline_detect_paste = 1                   " Detect if in Paste mode
 let g:airline#extensions#tabline#enabled = 1     " Enable tabline extention
-" let g:airline_theme = 'solarized'                " Use solarized colour theme
-let g:airline_powerline_fonts = 0                " Enable use of patch fonts
+let g:airline_theme = 'lucius'                " Use solarized colour theme
+let g:airline_powerline_fonts = 1                " Enable use of patch fonts
 let g:airline#extentions#hunks#non_zero_only = 1 " No Hunks plz
 " }}}
 " NERDTree {{{
