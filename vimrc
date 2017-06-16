@@ -47,6 +47,11 @@ Plugin 'Raimondi/delimitMate'           " Autoclosing \"([{
 Plugin 'jez/vim-superman'               " Read Manpages in Vim
 Plugin 'easymotion/vim-easymotion'
 Plugin 'jonathanfilip/vim-lucius'
+Plugin 'tpope/vim-surround'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'godlygeek/tabular'
+Plugin 'goldfeld/vim-seek'
+Plugin 'airblade/vim-gitgutter'
 
 " End Vundle loading
 call vundle#end()
@@ -54,13 +59,15 @@ call vundle#end()
 " }}}
 
 " Colours {{{
+" Better colours
+set t_Co=256
 
 " Enable Syntax highlighting
 syntax on
 
 " Enable colourscheme 'Lucius'
-colorscheme lucius           
-LuciusBlackHighContrast     
+colorscheme lucius
+LuciusBlackHighContrast
 
 "}}}
 
@@ -77,9 +84,10 @@ set vb                                  " Disable the bell
 set modelines=1                         " Allows modelines to be enabled
 set mouse=a                             " Enable mouse support
 set breakindent                         " Indent on linebreak
-set showbreak=\\\\\                     " Use symbols to show the indent
+set showbreak=\ \ \ \                   " Use symbols to show the indent
 set synmaxcol=200                       " Syntax highlighting stops after col 200
 autocmd VimResized * wincmd =           " Auto resize splits
+set colorcolumn=80
 " Airline {{{
 set laststatus=2                                 " Always show status line
 let g:airline_detect_paste = 1                   " Detect if in Paste mode
@@ -93,7 +101,7 @@ let g:airline#extentions#hunks#non_zero_only = 1 " No Hunks plz
 nmap <silent> <leader>t :NERDTreeTabsToggle<CR>
 
 " Do not open NERDTree on startup
-let g:nerdtree_tabs_open_on_console_startup=0   
+let g:nerdtree_tabs_open_on_console_startup=0
 " }}}
 " Syntastic {{{
 hi clear SignColumn                             " Clear SignColumn
@@ -143,8 +151,21 @@ set foldmethod=indent   " Fold based on indentation level
 " }}}
 
 " Movement/Editing {{{
+" Disable the arrowkeys
+noremap  <up> <nop>
+inoremap <up> <nop>
+
+noremap  <down> <nop>
+inoremap <down> <nop>
+
+noremap  <left> <nop>
+inoremap <left> <nop>
+
+noremap  <right> <nop>
+inoremap <right> <nop>
+
 " Set <leader> to the comma key
-let mapleader=","   
+let mapleader=","
 
 " Move by visual line, not by actual line
 nnoremap j gj
@@ -181,11 +202,11 @@ let g:used_javascript_libs='jquery' " Assumes only lib is JQuery
 
 " EasyMotion {{{
 " Disable default mappings
-let g:EasyMotion_do_mapping = 0 
+let g:EasyMotion_do_mapping = 0
 
-" Bind easymotion to s
-nmap s <Plug>(easymotion-overwin-f)
-nmap s <Plug>(easymotion-overwin-f2)
+" Bind easymotion to 'f'
+nmap f <Plug>(easymotion-overwin-f)
+nmap F <Plug>(easymotion-overwin-f2)
 
 " Use easymotion smartcase
 let g:EasyMotion_smartcase = 1
