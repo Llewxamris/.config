@@ -74,7 +74,7 @@ LuciusBlackHighContrast
 " UI {{{
 filetype plugin indent on               " Extention specific indenting
 set cursorline                          " Highlights the current line
-set showcmd                             " Show last entered command
+set showcmd                             " Show entered command
 set number                              " Show line numbers
 set relativenumber                      " Show line numbers relative to current line
 set wildmenu                            " Visual autocompletion for Command mode
@@ -88,6 +88,10 @@ set showbreak=\ \ \ \                   " Use symbols to show the indent
 set synmaxcol=200                       " Syntax highlighting stops after col 200
 autocmd VimResized * wincmd =           " Auto resize splits
 set colorcolumn=80
+set noshowmode
+set scrolloff=3
+set backspace=2
+set mousehide
 " Airline {{{
 set laststatus=2                                 " Always show status line
 let g:airline_detect_paste = 1                   " Detect if in Paste mode
