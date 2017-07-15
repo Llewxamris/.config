@@ -46,12 +46,12 @@ Plugin 'majutsushi/tagbar'              " Sidebar for tags
 Plugin 'Raimondi/delimitMate'           " Autoclosing \"([{
 Plugin 'jez/vim-superman'               " Read Manpages in Vim
 Plugin 'easymotion/vim-easymotion'
-Plugin 'jonathanfilip/vim-lucius'
 Plugin 'tpope/vim-surround'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'godlygeek/tabular'
 Plugin 'goldfeld/vim-seek'
 Plugin 'airblade/vim-gitgutter'
+Plugin 'rakr/vim-one'
 
 " End Vundle loading
 call vundle#end()
@@ -61,14 +61,14 @@ call vundle#end()
 " Colours {{{
 " Better colours
 set t_Co=256
+set termguicolors
 
 " Enable Syntax highlighting
 syntax on
 
 " Enable colourscheme 'Lucius'
-colorscheme lucius
-LuciusBlackHighContrast
-
+colorscheme one
+set background=dark
 "}}}
 
 " UI {{{
@@ -96,7 +96,7 @@ set mousehide
 set laststatus=2                                 " Always show status line
 let g:airline_detect_paste = 1                   " Detect if in Paste mode
 let g:airline#extensions#tabline#enabled = 1     " Enable tabline extention
-let g:airline_theme = 'lucius'                   " Use 'Lucius' colour theme
+let g:airline_theme = 'one'                   " Use 'Lucius' colour theme
 let g:airline_powerline_fonts = 1                " Enable use of patch fonts
 let g:airline#extentions#hunks#non_zero_only = 1 " No Hunks plz
 " }}}
