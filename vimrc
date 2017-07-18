@@ -52,6 +52,7 @@ Plugin 'godlygeek/tabular'
 Plugin 'goldfeld/vim-seek'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'rakr/vim-one'
+Plugin 'sheerun/vim-polyglot'
 
 " End Vundle loading
 call vundle#end()
@@ -61,12 +62,17 @@ call vundle#end()
 " Colours {{{
 " Better colours
 set t_Co=256
-set termguicolors
+
+if (has("termguicolors"))
+    set termguicolors
+endif
 
 " Enable Syntax highlighting
 syntax on
 
 " Enable colourscheme 'Lucius'
+let g:onedark_termcolors=16
+let g:onedark_terminal_italics=1
 colorscheme one
 set background=dark
 "}}}
