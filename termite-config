@@ -7,8 +7,8 @@ allow_bold = true
 dynamic_title = true
 urgent_on_bell = true
 clickable_url = true
-# font = InconsolataForPowerline Nerd Font 14
-font = Inconsolata 14
+font = InconsolataForPowerline Nerd Font 14
+# font = Inconsolata 12
 scrollback_lines = 10000
 search_wrap = true
 #icon_name = terminal
@@ -32,36 +32,46 @@ filter_unmatched_urls = true
 # emit escape sequences for extra modified keys
 #modify_other_keys = false
 
+# one dark
 [colors]
-cursor = #afd7ff
-#cursor_foreground = #dcdccc
-foreground = #eeeeee
-#foreground_bold = #ffffff
-background = #121212
 
-# 20% background transparency (requires a compositor)
-#background = rgba(63, 63, 63, 0.8)
+# special
+foreground      = #abb2bf
+foreground_bold = #abb2bf
+cursor          =
+background      = #282c34
 
-# if unset, will reverse foreground and background
-#highlight = #2f2f2f
+# black
+color0  = #282c34
+color8  = #5c6370
 
-# colors from color0 to color254 can be set
-color0 = #121212
-color8 = #121212
-color1 = #ff8787
-color9 = #ff8787
-color2 = #d7ffaf
-color10 = #d7ffaf
-color3 = #ffffd7
-color11 = #ffffd7
-color4 = #afffff
-color12 = #afffff
-color5 = #ffd7ff
-color13 = #ffd7ff
-color6 = #afffd7
-color14 = #afffd7
-color7 = #eeeeee
-color15 = #eeeeee
+# red
+color1  = #e06c75
+color9  = #be5046
+
+# green
+color2  = #98c379
+color10 = #7a9f60
+
+# yellow
+color3  = #e5c07b
+color11 = #d19a66
+
+# blue
+color4  = #61afef
+color12 = #3b84c0
+
+# magenta
+color5  = #c678dd
+color13 = #9a52af
+
+# cyan
+color6  = #56b6c2
+color14 = #3c909b
+
+# white
+color7  = #abb2bf
+color15 = #828997
 
 [hints]
 #font = Monospace 12

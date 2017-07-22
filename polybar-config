@@ -54,14 +54,17 @@ label-mode-padding = 2
 label-mode-foreground = #000
 label-mode-background = ${colors.primary}
 
-label-focused = ●
+# label-focused = ●
+label-focused = ?
 label-focused-background = ${colors.background-alt}
 label-focused-padding = 2
 
-label-unfocused = ○
+# label-unfocused = ○
+label-unfocused = -
 label-unfocused-padding = 2
 
-label-urgent = ◐
+# label-urgent = ◐
+label-urgent = !
 label-urgent-background = ${colors.alert}
 label-urgent-padding = 2
 
@@ -140,13 +143,13 @@ battery = BAT0
 adapter = AC
 full-at = 98
 
-format-charging = BAT <animation-charging><label-charging>
+format-charging = BAT <label-charging>
 format-charging-underline = #ffb52a
 
-format-discharging = BAT <ramp-capacity><label-discharging>
+format-discharging = BAT <label-discharging>
 format-discharging-underline = ${self.format-charging-underline}
 
-format-full-prefix = BAT █
+format-full-prefix = "BAT "
 format-full-prefix-foreground = ${colors.foreground-alt}
 format-full-underline = ${self.format-charging-underline}
 

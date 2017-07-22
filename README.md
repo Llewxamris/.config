@@ -6,13 +6,7 @@ they had influenced.
 # Fonts
 Relies on the following fonts:
 
-[Google Noto Fonts](https://www.google.com/get/noto/)
-
-[Hack](http://sourcefoundry.org/hack/)
-
-# Colours
-Uses the [Solarized](http://http://ethanschoonover.com/solarized) Vim
-colour scheme by Ethan Schoonover.
+[Inconsolata for Powerline](https://github.com/powerline/fonts)
 
 # License
 All files are free to use regardless of purpose. See UNLICENSE for more

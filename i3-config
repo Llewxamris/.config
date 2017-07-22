@@ -39,7 +39,7 @@ bindsym $mod+Shift+l move right
 
 # Use 'v' and 'b' for setting splits
 bindsym $mod+v split v
-bindsym $mod+b split b
+bindsym $mod+b split h
 
 # Enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -110,10 +110,10 @@ bindsym $mod+Shift+x exec i3lock
 # Gaps {{{
 
 # Shrink the borders around the windows
-for_window [class="^.*"] border pixel 0
+for_window [class="^.*"] border pixel 1
 
 # Set inner gaps pixel amount
-# gaps inner 5 #px
+# gaps outer 5 px
 
 # Enable smart gaps
 # smart_gaps on
