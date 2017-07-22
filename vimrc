@@ -53,6 +53,9 @@ Plugin 'goldfeld/vim-seek'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'rakr/vim-one'
 Plugin 'sheerun/vim-polyglot'
+Plugin 'Shougo/neocomplete.vim'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
 
 " End Vundle loading
 call vundle#end()
