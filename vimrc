@@ -45,17 +45,19 @@ Plugin 'xolox/vim-misc'                 " Misc tools for vim-easytags
 Plugin 'majutsushi/tagbar'              " Sidebar for tags
 Plugin 'Raimondi/delimitMate'           " Autoclosing \"([{
 Plugin 'jez/vim-superman'               " Read Manpages in Vim
-Plugin 'easymotion/vim-easymotion'
-Plugin 'tpope/vim-surround'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'godlygeek/tabular'
-Plugin 'goldfeld/vim-seek'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'rakr/vim-one'
-Plugin 'sheerun/vim-polyglot'
-Plugin 'Shougo/neocomplete.vim'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
+Plugin 'easymotion/vim-easymotion'      " Jump to a specific word
+Plugin 'tpope/vim-surround'             " Easially surround text
+Plugin 'ctrlpvim/ctrlp.vim'             " Fuzzy finder
+Plugin 'godlygeek/tabular'              " Easy text alignment
+Plugin 'airblade/vim-gitgutter'         " Add Git glyphs
+Plugin 'rakr/vim-one'                   " One Dark theme
+Plugin 'sheerun/vim-polyglot'           " Mass-lanuage pack
+Plugin 'Shougo/neocomplete.vim'         " Vim autocomplete
+Plugin 'SirVer/ultisnips'               " Snippet Engine
+Plugin 'honza/vim-snippets'             " Snippets
+Plugin 'dbeniamine/todo.txt-vim'        " todo.txt intergration
+Plugin 'cympfh/vim-hy'                  " Support for the Hylang
+Plugin 'ntpeters/vim-better-whitespace' " Show inproper whitespace
 
 " End Vundle loading
 call vundle#end()
@@ -101,6 +103,7 @@ set noshowmode
 set scrolloff=3
 set backspace=2
 set mousehide
+let g:neocomplete#enable_at_startup = 1
 " Airline {{{
 set laststatus=2                                 " Always show status line
 let g:airline_detect_paste = 1                   " Detect if in Paste mode
