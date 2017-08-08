@@ -100,6 +100,17 @@ alias l='ls -CF'
 
 # Alert alias for long running commands
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+# q to close terminal
+alias q='exit'
+
+# pacaur aliases
+alias pin='pacaur -S'
+alias pup='pacaur -Syu'
+alias pud='pacaur -Syu --devel'
+alias pre='pacaur -R'
+
+alias term='gnome-terminal --hide-menubar'
 # }}}
 
 # make less more friendly for non-text input files, see lesspipe(1)
