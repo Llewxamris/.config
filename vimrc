@@ -7,18 +7,14 @@
 " - Jake Zimmerman's "Vim as an IDE": https://github.com/jez/vim-as-an-ide
 " - Denis B's "Vim Tips & Tracks":
 "       https://bluz71.github.io/2017/05/15/vim-tips-tricks.html
-" Assumes the following plugins are installed:
-" - Vundle
-" - Solarized Colour Theme
-" - Airline
-" - NERDTree + NERDTreeTab
-" - Syntastic
-" - Easytags + Tagbar
-" - delimitMate
-" - SuperMan
-" - Easymotion
 " This file is licensed under UNLICENSE, see UNLICENSE for more details or
 " visit http://unlicense.org
+"
+" **Don't use anything from this file without researching what it does
+" first!**
+
+" Maintenance {{{
+" Config settings that need to be set early.
 
 " Sorry Vi, going with the big kid on the block
 set nocompatible
@@ -26,12 +22,18 @@ set nocompatible
 " Modern encoding for fancy airline fonts
 set encoding=utf8
 
+" Set <leader> to the comma key
+let mapleader=","
+
 " Enable Vundle
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
+" }}}
+
 " Plugins {{{
+" List of pluggins managed by Vundle.vim
 
 Plugin 'VundleVim/Vundle.vim'           " Vundle manages itself
 Plugin 'tpope/vim-fugitive'             " Git integration
@@ -45,12 +47,10 @@ Plugin 'xolox/vim-misc'                 " Misc tools for vim-easytags
 Plugin 'majutsushi/tagbar'              " Sidebar for tags
 Plugin 'Raimondi/delimitMate'           " Autoclosing \"([{
 Plugin 'jez/vim-superman'               " Read Manpages in Vim
-Plugin 'easymotion/vim-easymotion'      " Jump to a specific word
 Plugin 'tpope/vim-surround'             " Easially surround text
 Plugin 'ctrlpvim/ctrlp.vim'             " Fuzzy finder
-Plugin 'godlygeek/tabular'              " Easy text alignment
 Plugin 'airblade/vim-gitgutter'         " Add Git glyphs
-Plugin 'rakr/vim-one'                   " One Dark theme
+Plugin 'joshdick/onedark.vim'           " One Dark theme
 Plugin 'sheerun/vim-polyglot'           " Mass-lanuage pack
 Plugin 'Shougo/neocomplete.vim'         " Vim autocomplete
 Plugin 'SirVer/ultisnips'               " Snippet Engine
@@ -65,24 +65,23 @@ call vundle#end()
 " }}}
 
 " Colours {{{
-" Better colours
-set t_Co=256
-
-if (has("termguicolors"))
-    set termguicolors
-endif
 
 " Enable Syntax highlighting
 syntax on
 
-" Enable colourscheme 'Lucius'
-let g:onedark_termcolors=16
-let g:onedark_terminal_italics=1
-colorscheme one
-set background=dark
+" Better colours
+set termguicolors
+
+
+" Enable colourscheme 'OneDark'
+let g:onedark_termcolors=256        " Fallback to 256 if TrueColour is not enabled.
+let g:onedark_terminal_italics=1    " Enable italics for comments.
+colorscheme onedark                 " Atom-like colourscheme.
+
 "}}}
 
 " UI {{{
+
 filetype plugin indent on               " Extention specific indenting
 set cursorline                          " Highlights the current line
 set showcmd                             " Show entered command
@@ -95,35 +94,39 @@ set vb                                  " Disable the bell
 set modelines=1                         " Allows modelines to be enabled
 set mouse=a                             " Enable mouse support
 set breakindent                         " Indent on linebreak
-set showbreak=\ \ \ \                   " Use symbols to show the indent
+set showbreak="+++ "                    " Use symbols to show the indent
 set synmaxcol=200                       " Syntax highlighting stops after col 200
 autocmd VimResized * wincmd =           " Auto resize splits
-set colorcolumn=80
-set noshowmode
-set scrolloff=3
+set colorcolumn=80                      " Add a margin at 80 characters
+set noshowmode                          " Don't show the mode on the bottom left
+set scrolloff=3                         " Always show at least 3 lines
 set backspace=2
-set mousehide
-let g:neocomplete#enable_at_startup = 1
+set mousehide                           " Hide the mouse while typing
+let g:neocomplete#enable_at_startup = 1 " Always enable neocomplete
+
 " Airline {{{
 set laststatus=2                                 " Always show status line
 let g:airline_detect_paste = 1                   " Detect if in Paste mode
 let g:airline#extensions#tabline#enabled = 1     " Enable tabline extention
-let g:airline_theme = 'one'                   " Use 'Lucius' colour theme
+let g:airline_theme = 'onedark'                  " Use 'onedark' colour theme
 let g:airline_powerline_fonts = 1                " Enable use of patch fonts
 let g:airline#extentions#hunks#non_zero_only = 1 " No Hunks plz
 " }}}
+
 " NERDTree {{{
-" Toggle NERDTree with leader + t
+" Toggle NERDTreeTab with leader + t
 nmap <silent> <leader>t :NERDTreeTabsToggle<CR>
 
-" Do not open NERDTree on startup
+" Do not open NERDTreeTab on startup
 let g:nerdtree_tabs_open_on_console_startup=0
 " }}}
+
 " Syntastic {{{
 hi clear SignColumn                             " Clear SignColumn
 let g:syntastic_error_symbol='✘'                " Use custom error symbol
 let g:syntastic_warning_symbol = "▲"            " Use custom warning symbol
 " }}}
+
 " Easytags/Tagbar {{{
 set tags=./tags;~/.vimtags                       " Tag locations
 let g:easytags_events = ['BufReadPost', 'BufWritePost']
@@ -135,6 +138,7 @@ let g:easytags_suppress_ctags_warning = 1        " Suppress warning thrown by ct
 " Toggle with <leader>b
 nmap <silent> <leader>b :TagbarToggle<CR>
 " }}}
+
 " delimitMate {{{
 let delimitMate_expand_cr = 1
 augroup delimitMate
@@ -180,8 +184,6 @@ inoremap <left> <nop>
 noremap  <right> <nop>
 inoremap <right> <nop>
 
-" Set <leader> to the comma key
-let mapleader=","
 
 " Move by visual line, not by actual line
 nnoremap j gj
@@ -200,34 +202,6 @@ augroup autoSaveAndRead
     autocmd TextChanged,InsertLeave,FocusLost * silent! wall
     autocmd CursorHold * silent! checktime
 augroup END
-" }}}
-
-" Tmux Settings {{{
-"if exists('$TMUX')
-"    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-"    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-"else
-"    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-"    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-"endif
-" }}}
-
-" JS Libraries {{{
-let g:used_javascript_libs='jquery' " Assumes only lib is JQuery
-" }}}
-
-" EasyMotion {{{
-" Disable default mappings
-let g:EasyMotion_do_mapping = 0
-
-" Bind easymotion to 'f'
-nmap f <Plug>(easymotion-overwin-f)
-nmap F <Plug>(easymotion-overwin-f2)
-
-" Use easymotion smartcase
-let g:EasyMotion_smartcase = 1
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
 " }}}
 
 " vim:foldmethod=marker:foldlevel=0
