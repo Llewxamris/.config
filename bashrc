@@ -4,7 +4,7 @@
 # Special thanks to the following guide:
 # - Mattia Tezzele's "bash-sensible": https://github.com/mrzool/bash-sensible/
 
-PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl
+PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/bin:/usr/games
 SHELL=/bin/bash
 EDITOR=/usr/bin/vim
 export EDITOR
