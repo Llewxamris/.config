@@ -72,7 +72,6 @@ syntax on
 " Better colours
 set termguicolors
 
-
 " Enable colourscheme 'OneDark'
 let g:onedark_termcolors=256        " Fallback to 256 if TrueColour is not enabled.
 let g:onedark_terminal_italics=1    " Enable italics for comments.
@@ -100,9 +99,11 @@ autocmd VimResized * wincmd =           " Auto resize splits
 set colorcolumn=80                      " Add a margin at 80 characters
 set noshowmode                          " Don't show the mode on the bottom left
 set scrolloff=3                         " Always show at least 3 lines
-set backspace=2
+set backspace=indent,eol,start
 set mousehide                           " Hide the mouse while typing
+set hidden                              " Allow unsaved buffers
 let g:neocomplete#enable_at_startup = 1 " Always enable neocomplete
+runtime macros/matchit.vim
 
 " Airline {{{
 set laststatus=2                                 " Always show status line
