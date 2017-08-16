@@ -1,0 +1,22 @@
+" Title: Mirco-Vim Configuration
+" Description: A small Vim config file that gives sane defaults without using
+" any plugins. Meant for server deployments that are only accessed via `ssh`.
+" Shamlessly copied from https://github.com/romainl/microvimrc.
+
+" filetype detection and syntax highlighting
+filetype plugin indent on
+syntax on
+
+" it's there so let's activate it
+runtime macros/matchit.vim
+
+" various settings
+set autoindent
+set backspace=indent,eol,start
+set hidden
+set incsearch
+set path=.,**
+set ruler
+set shiftround
+set smarttab
+set wildmenu

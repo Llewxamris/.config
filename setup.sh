@@ -89,8 +89,10 @@ workstation_files() {
 
 server_files() {
     # Creates symlinks for all configs destined for a server.
-
-    echo "No server files availble.";
+    if [ ! -d "$vimpath" ]; then
+        mkdir "$vimpath"
+    fi
+    ln -s "$dotpath"/microvimrc "$vimfile"
 }
 
 remove_files; # Always refresh the links.
