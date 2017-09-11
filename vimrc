@@ -7,6 +7,8 @@
 " - Jake Zimmerman's "Vim as an IDE": https://github.com/jez/vim-as-an-ide
 " - Denis B's "Vim Tips & Tracks":
 "       https://bluz71.github.io/2017/05/15/vim-tips-tricks.html
+" - George Ornbo's Vim: You don't need NERDTree or (maybe) netrw
+"       https://shapeshed.com/vim-netrw/
 " This file is licensed under UNLICENSE, see UNLICENSE for more details or
 " visit http://unlicense.org
 "
