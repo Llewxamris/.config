@@ -4,7 +4,7 @@
 # Special thanks to the following guide:
 # - Mattia Tezzele's "bash-sensible": https://github.com/mrzool/bash-sensible/
 
-PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/bin:/usr/games
+PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/bin:/usr/games:/home/max/.local/bin:/usr/sbin:/sbin
 SHELL=/bin/bash
 EDITOR=/usr/bin/vim
 export EDITOR
@@ -111,6 +111,8 @@ alias pud='pacaur -Syu --devel'
 alias pre='pacaur -R'
 
 alias term='gnome-terminal --hide-menubar'
+
+alias mandom='apropos . | shuf -n 1 | awk "{print $1}" | xargs man'
 # }}}
 
 # make less more friendly for non-text input files, see lesspipe(1)
