@@ -39,8 +39,6 @@ Plugin 'VundleVim/Vundle.vim'           " Vundle manages itself
 Plugin 'tpope/vim-fugitive'             " Git integration
 Plugin 'vim-airline/vim-airline'        " Airline Statusbar
 Plugin 'vim-airline/vim-airline-themes' " Airline Statusbar Themes
-Plugin 'scrooloose/nerdtree'            " Tree-style file explorer
-Plugin 'jistr/vim-nerdtree-tabs'        " Tabs for Nerdtree
 Plugin 'vim-syntastic/syntastic'        " Better Syntax checking
 Plugin 'xolox/vim-easytags'             " Automatic tag generation
 Plugin 'xolox/vim-misc'                 " Misc tools for vim-easytags
@@ -114,12 +112,13 @@ let g:airline_powerline_fonts = 1                " Enable use of patch fonts
 let g:airline#extentions#hunks#non_zero_only = 1 " No Hunks plz
 " }}}
 
-" NERDTree {{{
-" Toggle NERDTreeTab with leader + t
-nmap <silent> <leader>t :NERDTreeTabsToggle<CR>
-
-" Do not open NERDTreeTab on startup
-let g:nerdtree_tabs_open_on_console_startup=0
+" netrw {{{
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
+nnoremap <leader>t :Vexplore<CR>
 " }}}
 
 " Syntastic {{{
@@ -185,7 +184,6 @@ inoremap <left> <nop>
 noremap  <right> <nop>
 inoremap <right> <nop>
 
-
 " Move by visual line, not by actual line
 nnoremap j gj
 nnoremap k gk
@@ -203,6 +201,10 @@ augroup autoSaveAndRead
     autocmd TextChanged,InsertLeave,FocusLost * silent! wall
     autocmd CursorHold * silent! checktime
 augroup END
+
+" 0 goes to first non-blank character
+map 0 ^
+
 " }}}
 
 " vim:foldmethod=marker:foldlevel=0
