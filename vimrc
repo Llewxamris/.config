@@ -1,4 +1,4 @@
-" Title: Vim Configuration File
+"Title: Vim Configuration File
 " Author: Maxwell Haley
 " Description: My personal configuration for Vim.
 " Built using information I've learnt along the way. Special thanks to the
@@ -41,7 +41,7 @@ Plugin 'VundleVim/Vundle.vim'           " Vundle manages itself
 Plugin 'tpope/vim-fugitive'             " Git integration
 Plugin 'vim-airline/vim-airline'        " Airline Statusbar
 Plugin 'vim-airline/vim-airline-themes' " Airline Statusbar Themes
-Plugin 'vim-syntastic/syntastic'        " Better Syntax checking
+" Plugin 'vim-syntastic/syntastic'        " Better Syntax checking
 Plugin 'xolox/vim-easytags'             " Automatic tag generation
 Plugin 'xolox/vim-misc'                 " Misc tools for vim-easytags
 Plugin 'majutsushi/tagbar'              " Sidebar for tags
@@ -50,7 +50,7 @@ Plugin 'jez/vim-superman'               " Read Manpages in Vim
 Plugin 'tpope/vim-surround'             " Easially surround text
 Plugin 'ctrlpvim/ctrlp.vim'             " Fuzzy finder
 Plugin 'airblade/vim-gitgutter'         " Add Git glyphs
-Plugin 'joshdick/onedark.vim'           " One Dark theme
+Plugin 'rakr/vim-one'
 Plugin 'sheerun/vim-polyglot'           " Mass-lanuage pack
 Plugin 'Shougo/neocomplete.vim'         " Vim autocomplete
 Plugin 'SirVer/ultisnips'               " Snippet Engine
@@ -58,6 +58,7 @@ Plugin 'honza/vim-snippets'             " Snippets
 Plugin 'dbeniamine/todo.txt-vim'        " todo.txt intergration
 Plugin 'cympfh/vim-hy'                  " Support for the Hylang
 Plugin 'ntpeters/vim-better-whitespace' " Show inproper whitespace
+Plugin 'w0rp/ale'
 
 " End Vundle loading
 call vundle#end()
@@ -75,7 +76,8 @@ set termguicolors
 " Enable colourscheme 'OneDark'
 let g:onedark_termcolors=256        " Fallback to 256 if TrueColour is not enabled.
 let g:onedark_terminal_italics=1    " Enable italics for comments.
-colorscheme onedark                 " Atom-like colourscheme.
+colorscheme one                 " Atom-like colourscheme.
+set background=light
 
 "}}}
 
@@ -92,7 +94,7 @@ set showmatch                           " Shows matching open/closing symbols
 set vb                                  " Disable the bell
 set modelines=1                         " Allows modelines to be enabled
 set mouse=a                             " Enable mouse support
-set breakindent                         " Indent on linebreak
+" set breakindent                         " Indent on linebreak
 set showbreak="+++ "                    " Use symbols to show the indent
 set synmaxcol=200                       " Syntax highlighting stops after col 200
 autocmd VimResized * wincmd =           " Auto resize splits
@@ -109,7 +111,7 @@ runtime macros/matchit.vim
 set laststatus=2                                 " Always show status line
 let g:airline_detect_paste = 1                   " Detect if in Paste mode
 let g:airline#extensions#tabline#enabled = 1     " Enable tabline extention
-let g:airline_theme = 'onedark'                  " Use 'onedark' colour theme
+let g:airline_theme = 'one'                  " Use 'onedark' colour theme
 let g:airline_powerline_fonts = 1                " Enable use of patch fonts
 let g:airline#extentions#hunks#non_zero_only = 1 " No Hunks plz
 " }}}
@@ -130,7 +132,7 @@ let g:syntastic_warning_symbol = "▲"            " Use custom warning symbol
 " }}}
 
 " Easytags/Tagbar {{{
-set tags=./tags;~/.vimtags                       " Tag locations
+set tags=./tags                       " Tag locations
 let g:easytags_events = ['BufReadPost', 'BufWritePost']
 let g:easytags_async = 1                         " Update tags Async
 let g:easytags_dynamic_files = 2                 " Dynamically load files
