@@ -105,10 +105,10 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 alias q='exit'
 
 # pacaur aliases
-alias pin='pacaur -S'
-alias pup='pacaur -Syu'
-alias pud='pacaur -Syu --devel'
-alias pre='pacaur -R'
+# alias pin='pacaur -S'
+# alias pup='pacaur -Syu'
+# alias pud='pacaur -Syu --devel'
+# alias pre='pacaur -R'
 
 alias term='gnome-terminal --hide-menubar'
 
@@ -117,6 +117,12 @@ alias mandom='apropos . | shuf -n 1 | awk "{print $1}" | xargs man'
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# Android Studio executable
+alias android-studio='~/bin/android-studio/bin/studio.sh >> /dev/null 2>&1 &'
+
+# Full system upgrade Debian
+alias uu='sudo apt update && sudo apt upgrade && sudo apt autoremove'
 
 # Launch man pages in vim using vman $PAGENAME
 vman() {
