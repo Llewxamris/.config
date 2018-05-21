@@ -41,7 +41,6 @@ Plugin 'VundleVim/Vundle.vim'           " Vundle manages itself
 Plugin 'tpope/vim-fugitive'             " Git integration
 Plugin 'vim-airline/vim-airline'        " Airline Statusbar
 Plugin 'vim-airline/vim-airline-themes' " Airline Statusbar Themes
-" Plugin 'vim-syntastic/syntastic'        " Better Syntax checking
 Plugin 'xolox/vim-easytags'             " Automatic tag generation
 Plugin 'xolox/vim-misc'                 " Misc tools for vim-easytags
 Plugin 'majutsushi/tagbar'              " Sidebar for tags
@@ -77,7 +76,7 @@ set termguicolors
 let g:onedark_termcolors=256        " Fallback to 256 if TrueColour is not enabled.
 let g:onedark_terminal_italics=1    " Enable italics for comments.
 colorscheme one                 " Atom-like colourscheme.
-set background=light
+set background=dark
 
 "}}}
 

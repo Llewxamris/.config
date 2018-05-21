@@ -26,6 +26,13 @@ shopt -s checkwinsize
 # Automatically trim long paths
 PROMPT_DIRTRIM=2
 
+# Enable Brace ({}) expansion
+# Alows the use of ranges when creating files
+# `touch page{01..10}.txt` makes page01.txt, page02.txt, ..., page10.txt
+# Can be used with raw strings
+# `touch {index,about,faq}.html`
+set +B
+
 # Enable history expansion with space
 bind Space:magic-space
 
