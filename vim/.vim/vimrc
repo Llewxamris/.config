@@ -29,7 +29,7 @@ let mapleader=","
 
 " Enable Vundle
 filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
+set runtimepath+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 " }}}
@@ -38,23 +38,22 @@ call vundle#begin()
 " List of pluggins managed by Vundle.vim
 
 Plugin 'VundleVim/Vundle.vim'           " Vundle manages itself
-Plugin 'tpope/vim-fugitive'             " Git integration
 Plugin 'vim-airline/vim-airline'        " Airline Statusbar
 Plugin 'vim-airline/vim-airline-themes' " Airline Statusbar Themes
 Plugin 'xolox/vim-easytags'             " Automatic tag generation
 Plugin 'xolox/vim-misc'                 " Misc tools for vim-easytags
 Plugin 'majutsushi/tagbar'              " Sidebar for tags
 Plugin 'Raimondi/delimitMate'           " Autoclosing \"([{
-Plugin 'jez/vim-superman'               " Read Manpages in Vim
 Plugin 'tpope/vim-surround'             " Easially surround text
 Plugin 'ctrlpvim/ctrlp.vim'             " Fuzzy finder
 Plugin 'airblade/vim-gitgutter'         " Add Git glyphs
-Plugin 'rakr/vim-one'
+Plugin 'rakr/vim-one'                   " One theme
 Plugin 'sheerun/vim-polyglot'           " Mass-lanuage pack
-Plugin 'Shougo/neocomplete.vim'         " Vim autocomplete
+Plugin 'Shougo/deoplete.nvim'           " Autocomplete engine
+Plugin 'roxma/nvim-yarp'
+Plugin 'roxma/vim-hug-neovim-rpc'
 Plugin 'SirVer/ultisnips'               " Snippet Engine
 Plugin 'honza/vim-snippets'             " Snippets
-Plugin 'dbeniamine/todo.txt-vim'        " todo.txt intergration
 Plugin 'cympfh/vim-hy'                  " Support for the Hylang
 Plugin 'ntpeters/vim-better-whitespace' " Show inproper whitespace
 Plugin 'w0rp/ale'
@@ -90,10 +89,9 @@ set relativenumber                      " Show line numbers relative to current 
 set wildmenu                            " Visual autocompletion for Command mode
 set lazyredraw                          " More efficient redrawing
 set showmatch                           " Shows matching open/closing symbols
-set vb                                  " Disable the bell
+set visualbell                          " Disable the bell
 set modelines=1                         " Allows modelines to be enabled
 set mouse=a                             " Enable mouse support
-" set breakindent                         " Indent on linebreak
 set showbreak="+++ "                    " Use symbols to show the indent
 set synmaxcol=200                       " Syntax highlighting stops after col 200
 autocmd VimResized * wincmd =           " Auto resize splits
@@ -103,7 +101,7 @@ set scrolloff=3                         " Always show at least 3 lines
 set backspace=indent,eol,start
 set mousehide                           " Hide the mouse while typing
 set hidden                              " Allow unsaved buffers
-let g:neocomplete#enable_at_startup = 1 " Always enable neocomplete
+let g:deoplete#enable_at_startup = 1 " Always enable deoplete
 runtime macros/matchit.vim
 
 " Airline {{{
@@ -125,7 +123,7 @@ nnoremap <leader>t :Vexplore<CR>
 " }}}
 
 " Syntastic {{{
-hi clear SignColumn                             " Clear SignColumn
+highlight clear SignColumn                             " Clear SignColumn
 let g:syntastic_error_symbol='✘'                " Use custom error symbol
 let g:syntastic_warning_symbol = "▲"            " Use custom warning symbol
 " }}}
@@ -149,6 +147,10 @@ augroup delimitMate
     au FileType markdown let b:delimitMate_nesting_quotes = ["`"]
     au FileType python let b:delimitMate_nesting_quotes   = ['"', "'"]
 augroup END
+" }}}
+
+" UtliSnips {{{
+    let g:UltiSnipsExpandTrigger="<tab>"
 " }}}
 " }}}
 
@@ -209,5 +211,4 @@ augroup END
 map 0 ^
 
 " }}}
-
 " vim:foldmethod=marker:foldlevel=0
