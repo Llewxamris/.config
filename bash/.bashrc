@@ -7,7 +7,7 @@
 PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/bin:/usr/games:/home/max/.local/bin:/usr/sbin:/sbin
 SHELL=/bin/bash
 EDITOR=/usr/bin/vim
-export EDITOR
+JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64/
 
 # If not running interactively, don't do anything
 case $- in
@@ -54,6 +54,9 @@ bind "set show-all-if-ambiguous on"
 
 # Add trailing slash when autocompleting symlinks to directories
 bind "set mark-symlinked-directories on"
+
+# Man based completion
+source /etc/bash_completion
 # }}}
 
 # History {{{
@@ -111,33 +114,12 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # q to close terminal
 alias q='exit'
 
-# pacaur aliases
-# alias pin='pacaur -S'
-# alias pup='pacaur -Syu'
-# alias pud='pacaur -Syu --devel'
-# alias pre='pacaur -R'
-
-alias term='gnome-terminal --hide-menubar'
-
-alias mandom='apropos . | shuf -n 1 | awk "{print $1}" | xargs man'
+# Full system upgrade Debian
+alias uu='sudo apt update && sudo apt upgrade && sudo apt autoremove'
 # }}}
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-# Android Studio executable
-alias android-studio='~/bin/android-studio/bin/studio.sh >> /dev/null 2>&1 &'
-
-# Full system upgrade Debian
-alias uu='sudo apt update && sudo apt upgrade && sudo apt autoremove'
-
-# Launch man pages in vim using vman $PAGENAME
-vman() {
-    if vim -c "SuperMan $*"; then
-        echo "No manual entry for $*"
-    fi
-}
-
-
-PS1="\n\[\033[38;5;13m\]\\$\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;14m\]\w\[$(tput sgr0)\]\[\033[38;5;15m\]\n\[$(tput sgr0)\]\[\033[38;5;9m\]>\[$(tput sgr0)\]\[\033[38;5;11m\]>\[$(tput sgr0)\]\[\033[38;5;10m\]>\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]"
+PS1="\n\[\033[38;5;13m\]\\$\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]\[\033[38;5;14m\]\w\$(__git_ps1 ' (%s)')\[$(tput sgr0)\]\[\033[38;5;15m\]\n\[$(tput sgr0)\]\[\033[38;5;9m\]>\[$(tput sgr0)\]\[\033[38;5;11m\]>\[$(tput sgr0)\]\[\033[38;5;10m\]>\[$(tput sgr0)\]\[\033[38;5;15m\]\[$(tput sgr0)\] "
 # vim:foldmethod=marker:foldlevel=0
