@@ -5,6 +5,15 @@
   :init
   (linum-relative-global-mode 1))
 
+;; atom-one-dark-theme: An Emacs port of the Atom One Dark theme from Atom.io.
+;; https://github.com/jonathanchu/atom-one-dark-theme
+(use-package atom-one-dark-theme
+  :ensure atom-one-dark-theme
+  :config
+  (progn
+    (unless noninteractive
+      (load-theme 'atom-one-dark t))))
+
 ;; Disable the intro screen & message
 (setq inhibit-splash-screen t
       inhibit-startup-echo-area-message t
