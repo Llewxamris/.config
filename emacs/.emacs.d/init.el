@@ -23,7 +23,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (flyspell-correct-popup markdown-mode auto-dictionary auto-dictionary-mode magit dired-x evil-leader elisp-slime-nav linum-relative evil))))
+    (flycheck flyspell-correct-popup markdown-mode auto-dictionary auto-dictionary-mode magit dired-x evil-leader elisp-slime-nav linum-relative evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -31,13 +31,14 @@
  ;; If there is more than one, they won't work right.
  )
 
-;; Require custom packages
+;; require custom packages
 (require 'my-evil)
 (require 'my-dired-x)
 (require 'my-ibuffer)
 (require 'my-lookfeel)
 (require 'my-magit)
 (require 'my-spellchecking)
+(require 'my-flycheck)
 
 ;; Language Support
 (require 'my-markdown)
@@ -53,3 +54,5 @@
 (add-hook 'emacs-lisp-mode-hook 'my-lisp-hook)
 (evil-define-key 'normal emacs-listp-mode-map (kbd "K")
   'elisp-slime-nav-describe-elisp-thing-at-point)
+
+(provide 'init)
