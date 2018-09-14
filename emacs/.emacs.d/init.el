@@ -4,6 +4,9 @@
 (setq package-enable-at-startup nil)
 
 (add-to-list 'load-path (concat user-emacs-directory "config"))
+(add-to-list 'load-path (concat user-emacs-directory "config" "/languages"))
+(add-to-list 'load-path (concat user-emacs-directory "packages"))
+
 (setq package-archives '(("melpa" . "http://melpa.milkbox.net/packages/")
 			 ("org" . "http://orgmode.org/elpa/")
 			 ("gnu" . "http://elpa.gnu.org/packages/")))
@@ -20,7 +23,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (magit dired-x evil-leader elisp-slime-nav linum-relative evil))))
+    (flyspell-correct-popup markdown-mode auto-dictionary auto-dictionary-mode magit dired-x evil-leader elisp-slime-nav linum-relative evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -34,6 +37,10 @@
 (require 'my-ibuffer)
 (require 'my-lookfeel)
 (require 'my-magit)
+(require 'my-spellchecking)
+
+;; Language Support
+(require 'my-markdown)
 
 ;; Better Eisp
 (require 'elisp-slime-nav)
