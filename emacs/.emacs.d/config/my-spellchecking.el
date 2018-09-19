@@ -4,7 +4,8 @@
 (use-package flyspell
   :ensure flyspell
   :config
-  (add-hook 'markdown-mode-hook 'flyspell-mode))
+  (add-hook 'markdown-mode-hook 'flyspell-mode)
+  (add-hook 'org-mode-hook 'flyspell-mode))
 
 ;; popop - Visual Popup Interface Library for Emacs
 ;; https://github.com/auto-complete/popup-el
