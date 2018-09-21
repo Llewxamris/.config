@@ -17,7 +17,9 @@
     (evil-leader/set-key "e" 'pp-eval-last-sexp)
     (evil-leader/set-key "," 'other-window)
     (evil-leader/set-key "b" 'ibuffer)
-    (evil-leader/set-key "x" 'helm-M-x)))
+    (evil-leader/set-key "x" 'helm-M-x)
+    (evil-leader/set-key "a" 'org-agenda)
+    (evil-leader/set-key "c" 'org-capture)))
 
 ;; evil - The extensible vi layer for Emacs.
 ;; https://github.com/emacs-evil/evil
