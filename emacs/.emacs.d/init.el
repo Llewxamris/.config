@@ -23,7 +23,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (org-bullets evil-org flycheck flyspell-correct-popup markdown-mode auto-dictionary auto-dictionary-mode magit dired-x evil-leader elisp-slime-nav linum-relative evil))))
+    (elfeed-org org-bullets evil-org flycheck flyspell-correct-popup markdown-mode auto-dictionary auto-dictionary-mode magit dired-x evil-leader elisp-slime-nav linum-relative evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -40,6 +40,7 @@
 (require 'my-spellchecking)
 (require 'my-flycheck)
 (require 'my-org)
+(require 'my-elfeed)
 
 ;; Language Support
 (require 'my-markdown)
