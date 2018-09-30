@@ -1,3 +1,5 @@
+;;; org: Your life in plain text
+;;; https://orgmode.org/
 (use-package org
   :ensure org
   :commands (org-mode org-capture org-agenda orgtbl-mode)
@@ -16,8 +18,12 @@
     (setq org-modules '(org-habit))
     ;; Set keywords and quick access keys
     (setq org-todo-keywords
-	  (quote ((sequence "APPOINTMENT(a)" "TODO(t)" "WIP(p)" "|" "DONE(d)")
-		  (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)"))))
+	  ;; Generic task sequence, including appointment keyword
+	  (quote ((sequence "TODO(t)" "WIP(p)" "APPOINTMENT(a)" "|" "DONE(d)")
+		  ;; Sequence for blocked tasks
+		  (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)")
+		  ;; Sequence for financial tasks
+		  (sequence "EXPENSE(e)" "OVERDUE(o@/!)" "|" "PAID(p)"))))
     ;; Enable fast todo selection
     (setq org-use-fast-todo-selection t)
     ;; Define org-capture templates
@@ -33,6 +39,8 @@
 		 ("n" "note" entry (file (concat org-directory "/inbox.org"))
 		  "* %?\n%U\n"))))))
 
+;;; evil-org: Supplemental evil-mode keybindings to emacs org-mode
+;;; https://github.com/Somelauw/evil-org-mode
 (use-package evil-org
   :ensure t
   :after org
@@ -45,10 +53,11 @@
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys)))
 
+;;; org-bullets: utf-8 bullets for org-mode
+;;; https://github.com/sabof/org-bullets
 (use-package org-bullets
   :ensure org-bullets
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
 (provide 'my-org)
-
