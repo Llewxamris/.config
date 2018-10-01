@@ -4,7 +4,10 @@
   :ensure t
   :config
   (progn
-    (add-hook 'after-init-hook 'global-company-mode)))
+    (add-hook 'after-init-hook 'global-company-mode)
+    (evil-define-key 'insert 'company-active-map
+      (kbd "C-j") 'company-select-next
+      (kbd "C-k") 'company-select-previous)))
 
 ;;; yasnippet: A template system for Emacs
 ;;; https://github.com/joaotavora/yasnippet
