@@ -13,7 +13,7 @@
 (use-package popup
   :ensure popup
   :config
-  (evil-define-key 'normal popup-menu-keymap
+  (evil-define-key 'nil popup-menu-keymap
     (kbd "j") 'popup-next
     (kbd "k") 'popup-previous))
 
