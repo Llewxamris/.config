@@ -8,7 +8,7 @@
     ;; Auto-enter org-mode on files matching *.org
     (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
     ;; Set the org-agenda to read from the follow directory
-    (setq org-agenda-files (list "~/nc/doc/org"))
+    (setq org-agenda-files (list "~/nc/doc/org/agenda"))
     (setq org-directory "~/nc/doc/org")
     ;; Add a timestamp whenever a task is set to done
     (setq org-log-done 'time)
