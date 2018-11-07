@@ -1,0 +1,65 @@
+--- config.def.h	2015-11-08 17:39:37.000000000 -0500
++++ config.h	2018-11-06 23:26:56.808165549 -0500
+@@ -1,5 +1,5 @@
+ /* See LICENSE file for copyright and license details. */
+-
++#include <X11/XF86keysym.h>
+ /* appearance */
+ static const char *fonts[] = {
+ 	"monospace:size=10"
+@@ -17,16 +17,18 @@
+ static const int topbar             = 1;        /* 0 means bottom bar */
+ 
+ /* tagging */
+-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
++static const char *tags[] = { "1 firefox", "2 emacs", "3 tmux", "4 discord", "5", "6", "7", "8", "9 nextcloud" };
+ 
+ static const Rule rules[] = {
+ 	/* xprop(1):
+ 	 *	WM_CLASS(STRING) = instance, class
+ 	 *	WM_NAME(STRING) = title
+ 	 */
+-	/* class      instance    title       tags mask     isfloating   monitor */
+-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
+-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
++	/* class        instance    title     tags mask     isfloating   monitor */
++	{ "Firefox",    NULL,       NULL,     1 << 0,       0,           -1 },
++	{ "Emacs",      NULL,       NULL,     1 << 1,       0,           -1 },
++	{ "Discord",    NULL,       NULL,     1 << 3,       0,           -1 },
++	{ "Nextcloud",  NULL,       NULL,     1 << 8,       0,           -1 },
+ };
+ 
+ /* layout(s) */
+@@ -56,6 +58,13 @@
+ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
+ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
+ static const char *termcmd[]  = { "st", NULL };
++static const char *brightnessup[] = { "/home/max/bin/brightness.sh", "-i", "300", NULL };
++static const char *brightnessdown[] = { "/home/max/bin/brightness.sh", "-d", "300", NULL };
++static const char *volumeup[] = { "amixer", "-D", "pulse", "sset", "Master", "5%+", NULL };
++static const char *volumedown[] = { "amixer", "-D", "pulse", "sset", "Master", "5%-", NULL };
++static const char *volumemute[] = { "amixer", "-D", "pulse", "sset", "Master", "toggle", NULL };
++static const char *emacsclient[] = { "emacsclient", "-c", "#$@#", NULL };
++static const char *lock[] = { "slock", NULL };
+ 
+ static Key keys[] = {
+ 	/* modifier                     key        function        argument */
+@@ -82,6 +91,13 @@
+ 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
+ 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
+ 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
++	{ MODKEY,             XK_e, spawn,         {.v = emacsclient } },
++	{ MODKEY,             XK_x, spawn,         {.v = lock } },
++	{ 0,             XF86XK_MonBrightnessUp, spawn,         {.v = brightnessup } },
++	{ 0,             XF86XK_MonBrightnessDown, spawn,         {.v = brightnessdown } },
++	{ 0,             XF86XK_AudioRaiseVolume, spawn,         {.v = volumeup } },
++	{ 0,             XF86XK_AudioLowerVolume, spawn,         {.v = volumedown } },
++	{ 0,             XF86XK_AudioMute, spawn,         {.v = volumemute } },
+ 	TAGKEYS(                        XK_1,                      0)
+ 	TAGKEYS(                        XK_2,                      1)
+ 	TAGKEYS(                        XK_3,                      2)
+@@ -110,4 +126,3 @@
+ 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
+ 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
+ };
+-
