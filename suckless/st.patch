@@ -1,0 +1,81 @@
+--- config.def.h	2018-03-20 16:29:59.000000000 -0400
++++ config.h	2018-11-07 17:09:40.109382669 -0500
+@@ -5,7 +5,7 @@
+  *
+  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
+  */
+-static char *font = "Liberation Mono:pixelsize=12:antialias=true:autohint=true";
++static char *font = "Hack:pixelsize=12;antialias=true";
+ static int borderpx = 2;
+ 
+ /*
+@@ -84,31 +84,29 @@
+ 
+ /* Terminal colors (16 first used in escape sequence) */
+ static const char *colorname[] = {
+-	/* 8 normal colors */
+-	"black",
+-	"red3",
+-	"green3",
+-	"yellow3",
+-	"blue2",
+-	"magenta3",
+-	"cyan3",
+-	"gray90",
+-
+-	/* 8 bright colors */
+-	"gray50",
+-	"red",
+-	"green",
+-	"yellow",
+-	"#5c5cff",
+-	"magenta",
+-	"cyan",
+-	"white",
+-
+-	[255] = 0,
+-
+-	/* more colors can be added after 255 to use with DefaultXX */
+-	"#cccccc",
+-	"#555555",
++        /* 8 normal colors */
++        [0] = "#c5c1b4", /* black   */
++        [1] = "#e75c58", /* red     */
++        [2] = "#00a250", /* green   */
++        [3] = "#a08a00", /* yellow  */
++        [4] = "#208ffb", /* blue    */
++        [5] = "#d160c4", /* magenta */
++        [6] = "#00a4c1", /* cyan    */
++        [7] = "#3e424d", /* white   */
++
++        /* 8 bright colors */
++        [8]  = "#a1a6b2", /* black   */
++        [9]  = "#b22b31", /* red     */
++        [10] = "#007427", /* green   */
++        [11] = "#715f00", /* yellow  */
++        [12] = "#0065ca", /* blue    */
++        [13] = "#a03196", /* magenta */
++        [14] = "#007693", /* cyan    */
++        [15] = "#282c36", /* white   */
++
++        /* special colors */
++        [256] = "#f8f8ff", /* background */
++        [257] = "#000000", /* foreground */
+ };
+ 
+ 
+@@ -116,10 +114,10 @@
+  * Default colors (colorname index)
+  * foreground, background, cursor, reverse cursor
+  */
+-unsigned int defaultfg = 7;
+-unsigned int defaultbg = 0;
+-static unsigned int defaultcs = 256;
+-static unsigned int defaultrcs = 257;
++unsigned int defaultfg = 257;
++unsigned int defaultbg = 256;
++static unsigned int defaultcs = 257;
++static unsigned int defaultrcs = 256;
+ 
+ /*
+  * Default shape of cursor
