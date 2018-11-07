@@ -10,7 +10,7 @@
   (progn
     (evil-leader/set-leader ",")
     (evil-leader/set-key "w" 'save-buffer)
-    (evil-leader/set-key "q" 'kill-buffer-and-window)
+    (evil-leader/set-key "q" 'delete-window)
     (evil-leader/set-key "h" 'dired-jump)
     (evil-leader/set-key "t" 'dired)
     (evil-leader/set-key "v" 'split-window-right)
