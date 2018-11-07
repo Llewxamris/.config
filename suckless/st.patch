@@ -1,11 +1,11 @@
---- config.def.h	2018-03-20 16:29:59.000000000 -0400
-+++ config.h	2018-11-07 17:09:40.109382669 -0500
+--- /home/max/src/st-0.8.1/config.def.h	2018-03-20 16:29:59.000000000 -0400
++++ /home/max/src/st-0.8.1/config.h	2018-11-07 17:24:11.073316311 -0500
 @@ -5,7 +5,7 @@
   *
   * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
   */
 -static char *font = "Liberation Mono:pixelsize=12:antialias=true:autohint=true";
-+static char *font = "Hack:pixelsize=12;antialias=true";
++static char *font = "Hack:pixelsize=13;antialias=true";
  static int borderpx = 2;
  
  /*
