@@ -21,9 +21,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("9fcac3986e3550baac55dc6175195a4c7537e8aa082043dcbe3f93f548a3a1e0" default)))
  '(package-selected-packages
    (quote
-    (yasnippets elfeed-org org-bullets evil-org flycheck flyspell-correct-popup markdown-mode auto-dictionary auto-dictionary-mode magit dired-x evil-leader elisp-slime-nav linum-relative evil))))
+    (go-errcheck zenburn-theme slime hydandata-light-theme eziam-theme atom-one-light-theme yasnippets elfeed-org org-bullets evil-org flycheck flyspell-correct-popup markdown-mode auto-dictionary auto-dictionary-mode magit dired-x evil-leader elisp-slime-nav linum-relative evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -45,6 +48,8 @@
 
 ;; Language Support
 (require 'my-markdown)
+(require 'my-golang)
+(require 'my-lisp)
 
 ;; Better Eisp
 (require 'elisp-slime-nav)
