@@ -8,15 +8,6 @@ improvements comes from Mattia Tezzele's _bash-sensible_: https://github.com/mrz
 Includes better tab-completion, better history, and anti-clobbering. PS1 prompt includes the current
 directory, and shows the `git` branch if applicable.
 
-## emacs/
-Emacs configuration, centered around `evil-mode`. Borrowing most packages from Spacemacs, but
-implementing them on my own for a deeper understanding of my setup. `org-mode` configuration
-inspired by Brent Hansen's fabulous `org-mode` document: http://doc.norang.ca/org-mode.html
-
-`config/` contains configuration for the packages, which are grouped together by purpose.
-`config/languages/` contains configuration for packages concerning a specific programming
-language.
-
 ## scripts/bin/
 Contains various shell scripts that are used within my environment.
 
