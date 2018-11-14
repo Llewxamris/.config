@@ -4,10 +4,20 @@
 # Special thanks to the following guide:
 # - Mattia Tezzele's "bash-sensible": https://github.com/mrzool/bash-sensible/
 
-PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/bin:/usr/games:/home/max/.local/bin:/usr/sbin:/sbin
+GOPATH=/home/max/go
+PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/bin:/usr/games:/home/max/.local/bin:/usr/sbin:/sbin:$GOPATH/bin:/home/max/bin
 SHELL=/bin/bash
 EDITOR=/usr/bin/vim
 JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64/
+TERM=xterm-256color
+ANT_HOME=/.ant
+
+export JAVA_HOME
+export SHELL
+export EDITOR
+export TERM
+export ANT_HOME
+
 
 # If not running interactively, don't do anything
 case $- in
@@ -116,6 +126,11 @@ alias q='exit'
 
 # Full system upgrade Debian
 alias uu='sudo apt update && sudo apt upgrade && sudo apt autoremove'
+
+# Create patch files for suckless programs
+alias mkpatch-dwm='diff -u ~/src/dwm-6.1/config.def.h ~/src/dwm-6.1/config.h >| ~/git/dotfiles/suckless/dwm.patch'
+alias mkpatch-slstatus='diff -u ~/src/slstatus/config.def.h ~/src/slstatus/config.h >| ~/git/dotfiles/suckless/slstatus.patch'
+alias mkpatch-st='diff -u ~/src/st-0.8.1/config.def.h ~/src/st-0.8.1/config.h >| ~/git/dotfiles/suckless/st.patch'
 # }}}
 
 # make less more friendly for non-text input files, see lesspipe(1)
