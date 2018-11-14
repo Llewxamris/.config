@@ -40,12 +40,8 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'           " Vundle manages itself
 Plugin 'vim-airline/vim-airline'        " Airline Statusbar
 Plugin 'vim-airline/vim-airline-themes' " Airline Statusbar Themes
-Plugin 'xolox/vim-easytags'             " Automatic tag generation
-Plugin 'xolox/vim-misc'                 " Misc tools for vim-easytags
-Plugin 'majutsushi/tagbar'              " Sidebar for tags
 Plugin 'Raimondi/delimitMate'           " Autoclosing \"([{
 Plugin 'tpope/vim-surround'             " Easially surround text
-Plugin 'ctrlpvim/ctrlp.vim'             " Fuzzy finder
 Plugin 'airblade/vim-gitgutter'         " Add Git glyphs
 Plugin 'rakr/vim-one'                   " One theme
 Plugin 'sheerun/vim-polyglot'           " Mass-lanuage pack
@@ -74,8 +70,8 @@ set termguicolors
 " Enable colourscheme 'OneDark'
 let g:onedark_termcolors=256        " Fallback to 256 if TrueColour is not enabled.
 let g:onedark_terminal_italics=1    " Enable italics for comments.
-colorscheme one                 " Atom-like colourscheme.
-set background=dark
+    colorscheme one                 " Atom-like colourscheme.
+set background=light
 
 "}}}
 
