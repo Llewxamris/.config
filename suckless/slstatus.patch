@@ -1,5 +1,5 @@
---- config.def.h	2018-11-06 22:08:48.426134895 -0500
-+++ config.h	2018-11-06 23:29:13.360076859 -0500
+--- /home/max/src/slstatus/config.def.h	2018-11-06 22:08:48.426134895 -0500
++++ /home/max/src/slstatus/config.h	2018-11-17 14:21:55.515974186 -0500
 @@ -60,6 +60,12 @@
   * wifi_essid          WiFi ESSID                      interface name (wlan0)
   */
@@ -7,11 +7,11 @@
 -	/* function format          argument */
 -	{ datetime, "%s",           "%F %T" },
 +	/* function            format           argument */
-+	{ run_command,         "VOL %s |",      "amixer -D pulse get Master | grep -m 1 \"[[:digit:]]%\" | cut -f 7- -d ' '" },
-+	{ wifi_essid,          " WIFI %s ",     "wlp3s0" },
++	{ run_command,         " %s |",      "amixer -D pulse get Master | grep -m 1 \"[[:digit:]]%\" | cut -f 7- -d ' '" },
++	{ wifi_essid,          "  %s ",     "wlp3s0" },
 +	{ wifi_perc,           "%s%% |",        "wlp3s0" },
-+	{ keyboard_indicators, " %s |",         "cn" },
-+	{ battery_state,       " BAT %s",       "BAT0" },
++	{ keyboard_indicators, "  %s |",         "cn" },
++	{ battery_state,       "  %s",       "BAT0" },
 +	{ battery_perc,        "%s%% |",        "BAT0" },
-+	{ datetime,            " %s",           "%F %T" },
++	{ datetime,            "  %s",           "%F %T" },
  };
