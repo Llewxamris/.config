@@ -28,6 +28,28 @@ Just sets `tmux` to use true-colour.
 ## vim/
 Vim configuration. Slowly being deprecated for Emacs. Will eventually be replaced by `microvimrc`.
 
+## xorg/
+Configuration related to X. Contains `.Xmodmap` to handle swapping the Control Key with Escape,
+and my `.xinitrc` that handles applications that are launched whenever the X Server is started,
+as well as executing the `dwm` window manager.
+
+My current startup software is:
+
+- Nextcloud :: Self-hosted cloud storage solution
+- An Emacs daemon :: Run Emacs as a daemon for better workspace management/loadtimes
+- Xmodmap :: Key mapping
+- `slstatus` :: Sets status bar for `dwm`
+- Compton :: Compositor for X11
+- `feh` :: Sets desktop wallpaper
+- Dunst :: Daemon for displaying notifications
+- Xautolock :: Autolock the screen after a period of time
+
+# Fonts
+The current setup uses [Google Noto Fonts][0] and [Font Awesome 5.5][1].
+
 # License
 All files are free to use regardless of purpose. See UNLICENSE for more
 information.
+
+[0]: https://www.google.com/get/noto/
+[1]: http://fontawesome.io/
