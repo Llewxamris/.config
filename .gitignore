@@ -1,5 +1,9 @@
 /vim/.vim/*/
 scripts/bin/*/
+scripts/bin/android-studio
+scripts/bin/create-death-droplet.sh
+scripts/bin/eclipse
+scripts/bin/netbeans
 tags
 .netrwhist
 *~
