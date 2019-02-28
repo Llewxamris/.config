@@ -35,7 +35,7 @@ call vundle#begin()
 " }}}
 
 " Plugins {{{
-" List of pluggins managed by Vundle.vim
+" List of plugins managed by Vundle.vim
 
 Plugin 'VundleVim/Vundle.vim'           " Vundle manages itself
 Plugin 'vim-airline/vim-airline'        " Airline Statusbar
@@ -43,15 +43,15 @@ Plugin 'vim-airline/vim-airline-themes' " Airline Statusbar Themes
 Plugin 'Raimondi/delimitMate'           " Autoclosing \"([{
 Plugin 'tpope/vim-surround'             " Easially surround text
 Plugin 'airblade/vim-gitgutter'         " Add Git glyphs
-Plugin 'rakr/vim-one'                   " One theme
-Plugin 'sheerun/vim-polyglot'           " Mass-lanuage pack
+Plugin 'joshdick/onedark.vim'                   " One theme
+Plugin 'sheerun/vim-polyglot'           " Mass-language pack
 Plugin 'Shougo/deoplete.nvim'           " Autocomplete engine
 Plugin 'roxma/nvim-yarp'
 Plugin 'roxma/vim-hug-neovim-rpc'
 Plugin 'SirVer/ultisnips'               " Snippet Engine
 Plugin 'honza/vim-snippets'             " Snippets
 Plugin 'cympfh/vim-hy'                  " Support for the Hylang
-Plugin 'ntpeters/vim-better-whitespace' " Show inproper whitespace
+Plugin 'ntpeters/vim-better-whitespace' " Show improper whitespace
 Plugin 'w0rp/ale'
 
 " End Vundle loading
@@ -70,8 +70,8 @@ set termguicolors
 " Enable colourscheme 'OneDark'
 let g:onedark_termcolors=256        " Fallback to 256 if TrueColour is not enabled.
 let g:onedark_terminal_italics=1    " Enable italics for comments.
-    colorscheme one                 " Atom-like colourscheme.
-set background=light
+    colorscheme onedark                 " Atom-like colourscheme.
+set background=dark
 
 "}}}
 
@@ -99,13 +99,14 @@ set mousehide                           " Hide the mouse while typing
 set hidden                              " Allow unsaved buffers
 let g:deoplete#enable_at_startup = 1 " Always enable deoplete
 runtime macros/matchit.vim
+set spell spelllang=en_ca
 
 " Airline {{{
 set laststatus=2                                 " Always show status line
 let g:airline_detect_paste = 1                   " Detect if in Paste mode
 let g:airline#extensions#tabline#enabled = 1     " Enable tabline extention
-let g:airline_theme = 'one'                  " Use 'onedark' colour theme
-let g:airline_powerline_fonts = 1                " Enable use of patch fonts
+let g:airline_theme = 'onedark'                  " Use 'onedark' colour theme
+let g:airline_powerline_fonts = 0                " Enable use of patch fonts
 let g:airline#extentions#hunks#non_zero_only = 1 " No Hunks plz
 " }}}
 
@@ -116,12 +117,6 @@ let g:netrw_browse_split = 4
 let g:netrw_altv = 1
 let g:netrw_winsize = 25
 nnoremap <leader>t :Vexplore<CR>
-" }}}
-
-" Syntastic {{{
-highlight clear SignColumn                             " Clear SignColumn
-let g:syntastic_error_symbol='✘'                " Use custom error symbol
-let g:syntastic_warning_symbol = "▲"            " Use custom warning symbol
 " }}}
 
 " Easytags/Tagbar {{{
@@ -192,9 +187,6 @@ nnoremap k gk
 " Highlight the last inserted text
 nnoremap gV `[v`]
 
-" Toggle Gundo undo tree
-noremap <leader>u :GundoToggle<CR>
-
 " Enable autoread and autosave
 set autoread
 augroup autoSaveAndRead
@@ -206,5 +198,21 @@ augroup END
 " 0 goes to first non-blank character
 map 0 ^
 
+" Saving
+nnoremap <silent> <leader>w :write<CR>
+
+" Quit
+nnoremap <leader>q :quit<CR>
+
+" Vertical Split
+nnoremap <leader>v :vsplit<CR>
+
+" Horizontal Split
+nnoremap <leader>h :split<CR>
+
+" Next window
+nnoremap <leader>, <c-w>w
+
 " }}}
+
 " vim:foldmethod=marker:foldlevel=0
