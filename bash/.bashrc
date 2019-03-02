@@ -117,15 +117,11 @@ alias egrep='egrep --color=auto'
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # ls
-# alias ls='ls --color=auto --group-directories-first'
-# alias l='ls -C --ignore-backups'
-# alias ll='ls -alF'
-# alias la='ls -A'
-alias ls='exa --colour=automatic --colour-scale --group-directories-first'
-alias l='ls --git-ignore --ignore-glob=*~'
-alias la='l --all'
-alias ll='ls --long --modified --git --time-style=long-iso --header'
-alias lla='ll --all'
+alias ls='ls --color=auto --group-directories-first --dereference --human-readable'
+alias l='ls -C --ignore-backups'
+alias la='l --almost-all'
+alias ll='ls -l --classify'
+alias lla='ll --almost-all'
 
 # Alert alias for long running commands
 # q to close terminal
@@ -255,6 +251,7 @@ generate_ps1() {
     local yellow='\e[0;33m\]'
     local blue='\e[0;34m\]'
     local purple='\e[0;35m\]'
+    local white='\e[0;39m\]'
     local bright_black='\e[1;30m\]'
     local clear='\e[0m\]'
 
@@ -265,9 +262,9 @@ generate_ps1() {
 
     # Set prompt colour to red if the last ran command failed
     if [[ "$ec" -eq 0 ]]; then
-        prompt="$greenλ$clear"
+        prompt="$greenλ$white"
     else
-        prompt="$redλ$clear"
+        prompt="$redλ$white"
     fi
 
     # Make username red if running as root
