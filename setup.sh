@@ -1,14 +1,19 @@
 #!/bin/sh
 
-# TITLE: Config File Setup Script
-# AUTHOR: Maxwell Haley
-# DESCRIPTION: Small script that symbolically links configuration files.
-# This file is license under UNLICENSE, see UNLICENSE for more details or vist
-# http://unlicense.org
-
-if [ "$1" = "-D" ]; then
-    for D in *; do [ -d "${D}" ] && stow -D "${D}" -t "$HOME"; done
-else
-    for D in *; do [ -d "${D}" ] && stow "${D}" -t "$HOME"; done
-fi
-
+# Friendly Interactive SHell {{{
+pacman -Sy fish
+echo '/usr/bin/fish' | sudo tee -a /etc/shells
+chsh -s /usr/bin/fish
+mkdir -p ~/.config/fish/
+ln -s ~/git/dotfiles/fish.config ~/.config/fish/config.fish
+# }}}
+# Neovim {{{
+pacman -Sy neovim
+update-alternatives --set /usr/bin/nvim
+mkdir -p ~/.config/nvim/
+mkdir -p ~/.local/share/nvim/plugged/
+mkdir -p ~/.local/share/nvim/undo/
+ln -s ~/git/dotfiles/nvim.config ~/.config/nvim/init.vim
+vim +PlugInstall +quitall
+vim +UpdateRemotePlugins +quitall
+#}}}
