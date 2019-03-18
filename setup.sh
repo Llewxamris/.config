@@ -17,3 +17,10 @@ ln -s ~/git/dotfiles/nvim.config ~/.config/nvim/init.vim
 vim +PlugInstall +quitall
 vim +UpdateRemotePlugins +quitall
 #}}}
+# tmux {{{
+pacman -Sy tmux
+mkdir -p ~/.config/tmux/
+ln -s ~/git/dotfiles/tmux.config ~/.config/tmux/tmux.config
+# }}}
+
+# vim:foldmethod=marker:foldlevel=0
