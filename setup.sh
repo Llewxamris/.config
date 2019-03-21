@@ -1,14 +1,14 @@
 #!/bin/sh
 
 # Friendly Interactive SHell {{{
-pacman -Sy fish
+sudo pacman -Sy fish
 echo '/usr/bin/fish' | sudo tee -a /etc/shells
 chsh -s /usr/bin/fish
 mkdir -p ~/.config/fish/
 ln -s ~/git/dotfiles/fish.config ~/.config/fish/config.fish
 # }}}
 # Neovim {{{
-pacman -Sy neovim
+sudo pacman -Sy neovim
 update-alternatives --set /usr/bin/nvim
 mkdir -p ~/.config/nvim/
 mkdir -p ~/.local/share/nvim/plugged/
@@ -18,7 +18,7 @@ vim +PlugInstall +quitall
 vim +UpdateRemotePlugins +quitall
 #}}}
 # tmux {{{
-pacman -Sy tmux
+sudo pacman -Sy tmux
 mkdir -p ~/.config/tmux/
 ln -s ~/git/dotfiles/tmux.config ~/.config/tmux/tmux.config
 # }}}
