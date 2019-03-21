@@ -14,8 +14,8 @@ mkdir -p ~/.config/nvim/
 mkdir -p ~/.local/share/nvim/plugged/
 mkdir -p ~/.local/share/nvim/undo/
 ln -s ~/git/dotfiles/nvim.config ~/.config/nvim/init.vim
-vim +PlugInstall +quitall
-vim +UpdateRemotePlugins +quitall
+nvim +PlugInstall +quitall
+nvim +UpdateRemotePlugins +quitall
 #}}}
 # tmux {{{
 sudo pacman -Sy tmux
