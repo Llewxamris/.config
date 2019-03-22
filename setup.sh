@@ -1,12 +1,5 @@
 #!/bin/sh
 
-# Create user {{{
-
-useradd -m -G wheel -s /bin/bash max
-passwd max
-su - max
-
-#}}}
 # Friendly Interactive SHell {{{
 
 sudo pacman -Sy fish python pkgfile
