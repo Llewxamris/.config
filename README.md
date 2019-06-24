@@ -1,3 +1,4 @@
+# $HOME/.config/
 Configuration files and scripts. Goals include keeping a common look
 and feel within both the applications in question, but also within
 their configuration files. This means that:
