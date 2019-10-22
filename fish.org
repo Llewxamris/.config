@@ -5,7 +5,7 @@
 #+DATE: 2019-10-22
 
 * Preface
-#+BEGIN_SRC fish :tangle yes
+	#+BEGIN_SRC fish :tangle yes
 	# ______ _____ _____ _   _
 	# |  ___|_   _/  ___| | | |
 	# | |_    | | \ `--.| |_| |
@@ -18,5 +18,81 @@
 	# | |   | | | | . ` |  _|   | | | | __ 
 	# | \__/\ \_/ / |\  | |    _| |_| |_\ \
 	#  \____/\___/\_| \_|_|    \___/ \____/
-#+END_SRC
+	#+END_SRC
 
+* Environment Variables
+** Fish Greeting
+	 Disable the fish intro message. I don't particularly like the idea of having
+	 text dumped out each time I open a terminal. Maybe if it was a once a day
+	 situation, but anything else is too much.
+
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config.new
+		 set fish_greeting
+	 #+END_SRC
+
+** Path 
+	 Populate the ~PATH~. The ~PATH~ contains a colon delimited list of paths.
+	 Whenever an command is evoked within fish, the ~PATH~ is searched to
+	 find the related binary. Any binaries not on the ~PATH~ would have to be
+	 called directly with their respective path.
+
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config.new
+		 set --global --export PATH /usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/bin:/usr/games:/home/max/.local/bin:/usr/sbin:/sbin:/home/max/go/bin:/home/max/bin:/snap/bin:/home/max/.cargo/bin:/home/max/.yarn/bin
+	 #+END_SRC
+
+** Text Editors
+	 Set the ~EDITOR~ and ~VISUAL~ environment variables to use Emacs. ~EDITOR~ is
+	 the text editor used in a terminal environment (e.g. Git CLI commit editing,
+	 ~kubectl edit~). ~VISUAL~ is the text editor used in a graphical environment.
+
+	 In the case of ~EDITOR~, I specify that Emacs is running in a non-graphical
+	 environment by passing in the ~--no-window-system~ flag.
+
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config.new
+		 set --global --export EDITOR /usr/bin/emacs --no-window-system
+		 set --global --export VISUAL /usr/bin/emacs
+	 #+END_SRC
+
+** Terminal & Shell
+	 Applications that run in a terminal environment commonly need to know what
+	 shell you use, and what capabilities are available within your terminal.
+	 
+	 ~SHELL~ is the absolute path to your chosen shell. In my case (as you can
+	 tell by the name if this file), I want to set this to fish.
+	 
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config.new
+		 set --global --export SHELL /usr/bin/fish
+	 #+END_SRC
+	 
+	 ~TERM~ is used by CLI and TUI applications to determine the capabilities
+	 available. For example, the range of colours that can be used. I currently
+	 use ~xterm-256color~. Not because I use XTerm, but because many applications
+	 (~tmux~ in particular) understand that to mean all the capabilities in Xterm
+	 as well as the ability to output true colours.
+	 
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config.new
+		 set --global --export TERM xterm-256color
+	 #+END_SRC
+	 
+** Programming Homes/Paths
+	 Many programming languages and/or frameworks look for specific environment
+	 variables to determine your environment. This could be the location of 
+	 libraries, binaries, or project work spaces.
+	 
+	 ~JAVA_HOME~ is the location of the Java Development Kit binaries needed to
+	 compile Java applications. Since one may have more than one version of the
+	 JDK installed, it's best practice to define the active version as
+	 ~JAVA_HOME~
+	 
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config.new
+		 set --global --export JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
+	 #+END_SRC
+	 
+	 ~GOPATH~ is a colon delimited list of paths for finding both user created
+	 Go source code, as well as downloaded Go libraries (e.g. when getting an
+	 application via ~go get~).
+	 
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config.new
+		 set --global --export GOPATH /home/max/go/
+	 #+END_SRC
+	 
