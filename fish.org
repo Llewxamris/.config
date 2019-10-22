@@ -1,0 +1,22 @@
+#+TITLE: Fish Configuration
+#+SUBTITLE: Configuration file for the friendly interactive shell 
+#+AUTHOR: Maxwell Haley
+#+EMAIL: maxwell.r.haley@gmail.com
+#+DATE: 2019-10-22
+
+* Preface
+#+BEGIN_SRC fish :tangle yes
+	# ______ _____ _____ _   _
+	# |  ___|_   _/  ___| | | |
+	# | |_    | | \ `--.| |_| |
+	# |  _|   | |  `--. \  _  |
+	# | |    _| |_/\__/ / | | |
+	# \_|    \___/\____/\_| |_/
+	#  _____ _____ _   _______ _____ _____ 
+	# /  __ \  _  | \ | |  ___|_   _|  __ \
+	# | /  \/ | | |  \| | |_    | | | |  \/
+	# | |   | | | | . ` |  _|   | | | | __ 
+	# | \__/\ \_/ / |\  | |    _| |_| |_\ \
+	#  \____/\___/\_| \_|_|    \___/ \____/
+#+END_SRC
+
