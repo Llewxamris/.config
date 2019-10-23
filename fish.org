@@ -1,0 +1,1261 @@
+#+TITLE: Fish Configuration
+#+SUBTITLE: Configuration file for the friendly interactive shell 
+#+AUTHOR: Maxwell Haley
+#+EMAIL: maxwell.r.haley@gmail.com
+#+DATE: 2019-10-22
+#  LocalWords:  Kubernetes Autoscale Rollout
+
+* Preface
+	#+BEGIN_SRC fish :tangle yes
+	# ______ _____ _____ _   _
+	# |  ___|_   _/  ___| | | |
+	# | |_    | | \ `--.| |_| |
+	# |  _|   | |  `--. \  _  |
+	# | |    _| |_/\__/ / | | |
+	# \_|    \___/\____/\_| |_/
+	#  _____ _____ _   _______ _____ _____ 
+	# /  __ \  _  | \ | |  ___|_   _|  __ \
+	# | /  \/ | | |  \| | |_    | | | |  \/
+	# | |   | | | | . ` |  _|   | | | | __ 
+	# | \__/\ \_/ / |\  | |    _| |_| |_\ \
+	#  \____/\___/\_| \_|_|    \___/ \____/
+	#+END_SRC
+
+* Environment Variables
+** Fish Greeting
+	 Disable the fish intro message. I don't particularly like the idea of having
+	 text dumped out each time I open a terminal. Maybe if it was a once a day
+	 situation, but anything else is too much.
+
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 set fish_greeting
+	 #+END_SRC
+
+** Path 
+	 Populate the ~PATH~. The ~PATH~ contains a colon delimited list of paths.
+	 Whenever an command is evoked within fish, the ~PATH~ is searched to
+	 find the related binary. Any binaries not on the ~PATH~ would have to be
+	 called directly with their respective path.
+
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 set --global --export PATH /usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/bin:/usr/games:/home/max/.local/bin:/usr/sbin:/sbin:/home/max/go/bin:/home/max/bin:/snap/bin:/home/max/.cargo/bin:/home/max/.yarn/bin
+	 #+END_SRC
+
+** Text Editors
+	 Set the ~EDITOR~ and ~VISUAL~ environment variables to use Emacs. ~EDITOR~ is
+	 the text editor used in a terminal environment (e.g. Git CLI commit editing,
+	 ~kubectl edit~). ~VISUAL~ is the text editor used in a graphical environment.
+
+	 In the case of ~EDITOR~, I specify that Emacs is running in a non-graphical
+	 environment by passing in the ~--no-window-system~ flag.
+
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 set --global --export EDITOR /usr/bin/emacs --no-window-system
+		 set --global --export VISUAL /usr/bin/emacs
+	 #+END_SRC
+
+** Terminal & Shell
+	 Applications that run in a terminal environment commonly need to know what
+	 shell you use, and what capabilities are available within your terminal.
+	 
+	 ~SHELL~ is the absolute path to your chosen shell. In my case (as you can
+	 tell by the name if this file), I want to set this to fish.
+	 
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 set --global --export SHELL /usr/bin/fish
+	 #+END_SRC
+	 
+	 ~TERM~ is used by CLI and TUI applications to determine the capabilities
+	 available. For example, the range of colours that can be used. I currently
+	 use ~xterm-256color~. Not because I use XTerm, but because many applications
+	 (~tmux~ in particular) understand that to mean all the capabilities in Xterm
+	 as well as the ability to output true colours.
+	 
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 set --global --export TERM xterm-256color
+	 #+END_SRC
+	 
+** Programming Homes/Paths
+	 Many programming languages and/or frameworks look for specific environment
+	 variables to determine your environment. This could be the location of 
+	 libraries, binaries, or project work spaces.
+	 
+	 ~JAVA_HOME~ is the location of the Java Development Kit binaries needed to
+	 compile Java applications. Since one may have more than one version of the
+	 JDK installed, it's best practice to define the active version as
+	 ~JAVA_HOME~
+	 
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 set --global --export JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
+	 #+END_SRC
+	 
+	 ~GOPATH~ is a colon delimited list of paths for finding both user created
+	 Go source code, as well as downloaded Go libraries (e.g. when getting an
+	 application via ~go get~).
+	 
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 set --global --export GOPATH /home/max/go/
+	 #+END_SRC
+
+* The Prompt
+	/Ah/, the custom shell prompt. Like most things, you can really get a view
+	into who a person is based on how they like their prompt. Are they a
+	minimalist with nothing but a dollar sign to indicate the prompt is ready
+	to accept input? Are they someone more visual with Unicode and Powerline
+	symbols reflecting the intricate state of their entire machine? Are they just
+	using the default?
+	
+	The best part is, there is no right or wrong answer +except for keeping it
+	the default+. Hopefully my prompt gives viewers a positive impression of who
+	I am. If it doesn't, then tough. I like it.
+
+	My prompt shows the current user and host name, followed by the current
+	working directory. The current working directory is truncated so that all
+	parent directories only display their first character to prevent it from
+	growing large and unwieldy. If the current working directory is a ~git~
+	repository, then the current branch name is displayed. On the next line,
+	the prompt symbol (a lambda) is displayed. The lambda changes colour based
+	on the exit code of the previously ran command. Green if the exit code is 0,
+	and red on all other codes.
+	
+	I chose this prompt, because I feel that it displays all the information I
+	regularly need. The truncated current working directory is great for glancing
+	at a terminal and understanding my location on my file system. The ~git~
+	branch status helps bring context into what I was previously doing within a
+	repository (and has many times stopped me from running potentially
+	destructive commands within the wrong branch). And the lambda is a nice
+	piece of visual flare that reveals important information that is sometimes
+	hidden from sight. The only thing in the prompt that is not truly needed
+	is the user and host name. Personally though, I feel that a prompt without
+	~user@host~ is incomplete.
+
+	#+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 function fish_prompt
+			 set -l lastexit $status
+			 set -l userhost (set_color yellow)$USER@(hostname):
+			 set -l workingdir (set_color blue)(prompt_pwd)
+			 set -l gitprompt (set_color --dim --italics white)(__fish_git_prompt)
+
+			 if test $lastexit -eq 0
+				 set symbol (set_color --bold green)λ\ 
+			 else
+				 set symbol (set_color --bold red)λ\ 
+			 end
+
+			 echo
+			 echo "$userhost""$workingdir""$gitprompt"
+			 echo "$symbol"(set_color white)
+		 end
+	#+END_SRC
+
+* Aliases
+	An alias is essentially a wrapper around an existing command. Calling the
+	alias calls an existing command with predefined flags already set. This
+	abstracts away the need to include, or even see these flags when entering
+	in the command. 
+
+** 	~ls~
+	 I use an inheritance style system to define my ~ls~ aliases. I have a base
+	 alias that is then modified further by additional alias, and those are used
+	 again, etc.
+	 
+	 The base ~ls~ alias defines:
+	 - Automatically displaying the output in colour if available in the terminal
+	 - Grouping directories before other files
+	 - Dereferencing symbolic links, so the output displays information about the
+		 target and not the link. This helps group linked directories with the rest
+		 of the directories
+	 - Displaying file sizes as human readable (13K instead of 13000)
+
+	#+BEGIN_SRC fish :tangle yes :tangle fish.config
+		alias ls="ls --color=auto 
+		--group-directories-first \
+		--dereference \
+		--human-readable"
+	#+END_SRC
+
+	~l~ is my "quick key" for listing the contents of a directory. It builds on
+	~ls~ by listing by column, and ignoring backup files (any file that ends with
+	~~~).
+
+	#+BEGIN_SRC fish :tangle yes :tangle fish.config
+		alias l="ls -C --ignore-backups"
+	#+END_SRC
+
+	~la~ displays /almost/ all hidden content. It shows hidden files and
+	directories, but does not display the ~.~ and ~..~ directories.
+
+	#+BEGIN_SRC fish :tangle yes :tangle fish.config
+		alias la="l --almost-all"
+	#+END_SRC
+
+	~ll~ displays the directory in the detailed list format. It also classifies
+	the entities to give some more visual representation ( e.g ~/~ after 
+	directories, ~*~ after executable files, etc).
+
+	#+BEGIN_SRC fish :tangle yes :tangle fish.config
+		alias ll="l -l --classify"
+	#+END_SRC
+	
+	And lastly, ~lla~ is the same as ~ll~, but shows /almost/ all hidden content
+	in the same fashion as ~la~.
+	
+	#+BEGIN_SRC fish :tangle yes :tangle fish.config
+		alias lla="ll --almost-all"
+	#+END_SRC
+
+** ~grep~
+	 My ~grep~ alias simply automatically enables colour on terminals that will
+	 support using colour.
+	 
+	#+BEGIN_SRC fish :tangle yes :tangle fish.config
+		alias grep="grep --color=auto"
+	#+END_SRC
+
+** ~tmux~
+	This alias ensures that ~tmux~ always loads my configuration file from the
+	custom directory inside the ~XDG_CONFIG_HOME~.
+	
+	#+BEGIN_SRC fish :tangle yes :tangle fish.config
+		alias tmux="tmux -f $HOME/.config/tmux/tmux.config"
+	#+END_SRC
+
+** ~exit~ 
+	For rapid fire shell exiting, I alias ~q~ to ~exit~. Honestly, this is a
+	bigger quality of life improvement than it deserves to be. If I'm on a
+	shell that doesn't have ~q~ to exit, then I am not in a shell that I want
+	to be in. Hitting ~q~ then enter while a coworker is watching over my shoulder
+	is one of the greatest shames.
+	
+	#+BEGIN_SRC fish :tangle yes :tangle fish.config
+		alias q="exit"
+	#+END_SRC
+
+** Bookmarks
+	 Bookmarks are aliases for changing to a commonly used directory. They start
+	 with ~bk_~ for easy tab-completion cycling.
+
+	#+BEGIN_SRC fish :tangle yes :tangle fish.config
+		alias bk_config="cd $HOME/git/dotfiles"
+		alias bk_go="cd $GOPATH"
+	#+END_SRC
+
+* Abbreviations
+	While aliases abstract away default flags and arguments, abbreviations
+	expose flags and arguments to be pondered on and manipulated. Entering an
+	abbreviation followed by space or enter will expand that abbreviation to its
+	full form. In the case of pressing space, this means one would be met with
+	all of the flags and arguments prior to evoking the command.
+
+	This is very practical for CLI tools that have many commands and flags, as
+	well as just being able to have a near ready to run command without having
+	to memorize the arguments needed or open the manpage.
+	
+	For example, the abbreviation ~gcheckb~ expands to ~git checkout -b~. Never
+	again to I need to remember the flag to automatically create the branch on
+	checkout. I prefer using long-form flags when possible, and abbreviations
+	make is very easy to use them in my commands without having to type them in
+	manually. An example of this benefit would be ~kcreate-cm-file~ expanding
+	to ~kubectl create configmap --from-file=~. Lastly, in some cases I may
+	want to put a placeholder in the command to remind me to enter in something
+	that isn't marked with a flag. I can add these to the abbreviation, and after
+	expanding it open the contents in my ~EDITOR~ with ~Alt+V~ to fill in what
+	is needed. Very handy in my opinion.
+
+** Git Abbreviations
+	 Git is a fantastic source code management solution with a sometimes
+	 annoying, sometimes awful, interface. Little inconsistencies here and there
+	 mixed with an awkward combination of sub-commands and flags can make working
+	 with Git on the CLI a hassle. You'll notice that none of these abbreviations
+	 help with the interface issues, because I am a baddie.
+	 
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 abbr --add --global gstat git status
+		 abbr --add --global gcomm git commit
+		 abbr --add --global gpush git push
+		 abbr --add --global gpull git pull
+		 abbr --add --global gfetch git fetch
+		 abbr --add --global gadd git add
+		 abbr --add --global gdiff git diff
+		 abbr --add --global glog git log
+		 abbr --add --global gcheck git checkout
+		 abbr --add --global gcheckb git checkout -b
+		 abbr --add --global gbranch git branch
+	 #+END_SRC
+
+** Docker Abbreviations
+	As with the Git abbreviations, I haven't really taken full advantage of the
+	expansion properties to make working with Docker easier. These are mostly
+	just shortcuts.
+	
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 abbr --add --global dattach docker attach
+		 abbr --add --global dbuild docker build
+		 abbr --add --global dcont docker container
+		 abbr --add --global dexec docker exec
+		 abbr --add --global dexb docker exec 
+		 abbr --add --global dimg docker image
+		 abbr --add --global dimgls docker images 
+		 abbr --add --global dinsp docker inspect 
+		 abbr --add --global dlogin docker login 
+		 abbr --add --global dlogs docker logs 
+		 abbr --add --global dps docker ps
+		 abbr --add --global dpush docker push
+		 abbr --add --global drun docker run
+		 abbr --add --global dsec docker secret
+		 abbr --add --global dserv docker service
+		 abbr --add --global dstack docker stack
+		 abbr --add --global dstart docker start
+		 abbr --add --global dstop docker stop
+		 abbr --add --global dswarm docker swarm
+		 abbr --add --global dtag docker tag
+		 abbr --add --global dtop docker top
+		 abbr --add --global dvol docker volume
+	 #+END_SRC
+
+** Kubernetes Abbreviations
+	 Now here is where I abuse abbreviations. Most of the K8 abbreviations
+	 follow a common pattern:
+
+	 - The letter ~k~
+	 - The sub-command, or a short form version of the sub-command
+	 - A hyphen
+	 - The ~api-resource~, or the short form of the ~api-resource~
+	 
+	There is also often a base command that does not include the target resource,
+	and a ~-file~ of the base command that is looking for a resource YAML
+	template. I use this pattern to make it easy to tab-complete through possible
+	abbreviations using the build in fish auto-complete interface, which gives
+	an interactive menu and context.
+
+*** Create
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 abbr --add --global kcreate kubectl create
+		 abbr --add --global kcreate-file kubectl create --filename
+
+		 abbr --add --global kcreate-cj kubectl create cronjob --image= --schedule=
+		 abbr --add --global kcreate-clusterrolebindings kubectl clusterrolebinding
+		 abbr --add --global kcreate-clusterroles kubectl clusterrole
+		 abbr --add --global kcreate-cm kubectl create configmap
+		 abbr --add --global kcreate-cm-file kubectl create configmap --from-file=
+		 abbr --add --global kcreate-cm-literal kubectl create configmap --from-literal=
+		 abbr --add --global kcreate-deploy kubectl create deployment --image=
+		 abbr --add --global kcreate-ns kubectl create namespace
+		 abbr --add --global kcreate-pc kubectl create priorityclass --value=
+		 abbr --add --global kcreate-pdb kubectl create poddisruptionbudget --selector= --min-available=
+		 abbr --add --global kcreate-quota kubectl create quota --hard=
+		 abbr --add --global kcreate-role kubectl create role --verb= --resource=
+		 abbr --add --global kcreate-rolebinding-clusterrole kubectl create rolebinding --clusterrole=
+		 abbr --add --global kcreate-rolebinding-role kubectl create rolebinding --role=
+		 abbr --add --global kcreate-secret-dr kubectl create secret docker-registry --docker-username= --docker-password= --docker-email= --docker-server=
+		 abbr --add --global kcreate-secret-generic-file kubectl create secret generic --from-file=
+		 abbr --add --global kcreate-secret-generic-literal kubectl create secret generic --from-literal=
+		 abbr --add --global kcreate-secret-tls kubectl create secret tls --cert= --key=
+		 abbr --add --global kcreate-svc-clusterip kubectl create service clusterip
+		 abbr --add --global kcreate-svc-externalname kubectl create service externalname --external-name
+		 abbr --add --global kcreate-svc-loadbalancer kubectl create service loadbalancer --tcp
+		 abbr --add --global kcreate-svc-nodeport kubectl create service nodeport --tcp
+		 abbr --add --global kcreate-svc-serviceaccount kubectl create service serviceaccount
+	 #+END_SRC
+
+*** Get
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 abbr --add --global kls kubectl get
+		 abbr --add --global kls-file kubectl get --filename
+
+		 abbr --add --global kls-apisvc kubectl get apiservices
+		 abbr --add --global kls-cj kubectl get cronjobs
+		 abbr --add --global kls-clusterrolebindings kubectl get clusterrolebindings
+		 abbr --add --global kls-clusterroles kubectl get clusterroles
+		 abbr --add --global kls-cm kubectl get configmaps
+		 abbr --add --global kls-controllerrevisions kubectl get controllerrevisions
+		 abbr --add --global kls-crd kubectl get customresourcedefinitions
+		 abbr --add --global kls-cs kubectl get componentstatuses
+		 abbr --add --global kls-csr kubectl get certificatesigningrequests
+		 abbr --add --global kls-deploy kubectl get deployments
+		 abbr --add --global kls-ds kubectl get daemonsets
+		 abbr --add --global kls-ep kubectl get endpoints
+		 abbr --add --global kls-ev kubectl get events
+		 abbr --add --global kls-hpa kubectl get horizontalpodautoscalers
+		 abbr --add --global kls-ing kubectl get ingresses
+		 abbr --add --global kls-jobs kubectl get jobs
+		 abbr --add --global kls-leases kubectl get leases
+		 abbr --add --global kls-limits kubectl get limitranges
+		 abbr --add --global kls-lsar kubectl get localsubjectaccessreviews
+		 abbr --add --global kls-mwhc svc kubectl get mutatingwebhookconfigurations
+		 abbr --add --global kls-netpol kubectl get networkpolicies
+		 abbr --add --global kls-no kubectl get nodes
+		 abbr --add --global kls-ns kubectl get namespaces
+		 abbr --add --global kls-pc kubectl get priorityclasses
+		 abbr --add --global kls-pdb kubectl get poddisruptionbudgets
+		 abbr --add --global kls-po kubectl get pods
+		 abbr --add --global kls-podtemplates kubectl get podtemplates
+		 abbr --add --global kls-psp kubectl get podsecuritypolicies
+		 abbr --add --global kls-pv kubectl get persistentvolumes
+		 abbr --add --global kls-pvc kubectl get persistentvolumeclaims
+		 abbr --add --global kls-quotas kubectl get resourcequotas
+		 abbr --add --global kls-rc kubectl get replicationcontrollers
+		 abbr --add --global kls-rolebindings kubectl get rolebindings
+		 abbr --add --global kls-roles kubectl get roles
+		 abbr --add --global kls-rs kubectl get replicasets
+		 abbr --add --global kls-sa kubectl get serviceaccounts
+		 abbr --add --global kls-sar kubectl get subjectaccessreviews
+		 abbr --add --global kls-sc kubectl get storageclasses
+		 abbr --add --global kls-secrets kubectl get secrets
+		 abbr --add --global kls-ssac kubectl get selfsubjectaccessreviews
+		 abbr --add --global kls-ssrr kubectl get selfsubjectrulesreviews
+		 abbr --add --global kls-sts kubectl get statefulsets
+		 abbr --add --global kls-volumeattachements kubectl get volumeattachments
+		 abbr --add --global kls-vwhc kubectl get validatingwebhookconfigurations
+	 #+END_SRC
+*** Run
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 abbr --add --global krun kubectl run --image=
+		 abbr --add --global krun-port kubectl run --image= --port=
+	 #+END_SRC
+*** Expose
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 abbr --add --global kexp kubectl expose --port= --target-port= \# Target is host
+		 abbr --add --global kexp-file kubectl expose --filename --port= --target-port= \# Target is host
+
+		 abbr --add --global kexp-po kubectl expose pod --port= --target-port= \# Target is host
+		 abbr --add --global kexp-svc kubectl expose service --port= --target-port= \# Target is host
+		 abbr --add --global kexp-rc kubectl expose replicationcontroller --port= --target-port= \# Target is host
+		 abbr --add --global kexp-deploy kubectl expose deployment --port= --target-port= \# Target is host
+		 abbr --add --global kexp-rs kubectl expose replicaset --port= --target-port= \# Target is host
+	 #+END_SRC
+*** Delete
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 abbr --add --global krm kubectl delete
+		 abbr --add --global krm-file kubectl delete --filename
+
+		 abbr --add --global krm-apisvc kubectl delete apiservice
+		 abbr --add --global krm-cj kubectl delete cronjob
+		 abbr --add --global krm-clusterrolebinding kubectl delete clusterrolebinding
+		 abbr --add --global krm-clusterrole kubectl delete clusterrole
+		 abbr --add --global krm-cm kubectl delete configmap
+		 abbr --add --global krm-controllerrevision kubectl delete controllerrevision
+		 abbr --add --global krm-crd kubectl delete customresourcedefinition
+		 abbr --add --global krm-cs kubectl delete componentstatuse
+		 abbr --add --global krm-csr kubectl delete certificatesigningrequest
+		 abbr --add --global krm-deploy kubectl delete deployment
+		 abbr --add --global krm-ds kubectl delete daemonset
+		 abbr --add --global krm-ep kubectl delete endpoint
+		 abbr --add --global krm-ev kubectl delete event
+		 abbr --add --global krm-hpa kubectl delete horizontalpodautoscaler
+		 abbr --add --global krm-ing kubectl delete ingresse
+		 abbr --add --global krm-jobs kubectl delete job
+		 abbr --add --global krm-lease kubectl delete lease
+		 abbr --add --global krm-limit kubectl delete limitrange
+		 abbr --add --global krm-lsar kubectl delete localsubjectaccessreview
+		 abbr --add --global krm-mwhc svc kubectl delete mutatingwebhookconfiguration
+		 abbr --add --global krm-netpol kubectl delete networkpolicie
+		 abbr --add --global krm-no kubectl delete node
+		 abbr --add --global krm-ns kubectl delete namespace
+		 abbr --add --global krm-pc kubectl delete priorityclasse
+		 abbr --add --global krm-pdb kubectl delete poddisruptionbuddelete
+		 abbr --add --global krm-po kubectl delete pod
+		 abbr --add --global krm-podtemplate kubectl delete podtemplate
+		 abbr --add --global krm-psp kubectl delete podsecuritypolicie
+		 abbr --add --global krm-pv kubectl delete persistentvolume
+		 abbr --add --global krm-pvc kubectl delete persistentvolumeclaim
+		 abbr --add --global krm-quota kubectl delete resourcequota
+		 abbr --add --global krm-rc kubectl delete replicationcontroller
+		 abbr --add --global krm-rolebinding kubectl delete rolebinding
+		 abbr --add --global krm-role kubectl delete role
+		 abbr --add --global krm-rs kubectl delete replicaset
+		 abbr --add --global krm-sa kubectl delete serviceaccount
+		 abbr --add --global krm-sar kubectl delete subjectaccessreview
+		 abbr --add --global krm-sc kubectl delete storageclasse
+		 abbr --add --global krm-secret kubectl delete secret
+		 abbr --add --global krm-ssac kubectl delete selfsubjectaccessreview
+		 abbr --add --global krm-ssrr kubectl delete selfsubjectrulesreview
+		 abbr --add --global krm-sts kubectl delete statefulset
+		 abbr --add --global krm-volumeattachement kubectl delete volumeattachment
+		 abbr --add --global krm-vwhc kubectl delete validatingwebhookconfiguration
+
+	 #+END_SRC
+*** Apply
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 abbr --add --global kapply kubectl apply -f
+		 abbr --add --global kapply-edit-last kubectl apply edit-last-applied
+		 abbr --add --global kapply-set-last kubectl apply set-last-applied
+		 abbr --add --global kapply-view-last kubectl apply view-last-applied
+	 #+END_SRC
+*** Annotate
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 abbr --add --global kann kubectl annotate
+		 abbr --add --global kann-file kubectl annotate --filename
+
+		 abbr --add --global kann-apisvc kubectl annotate apiservices
+		 abbr --add --global kann-cj kubectl annotate cronjobs
+		 abbr --add --global kann-clusterrolebindings kubectl annotate clusterrolebindings
+		 abbr --add --global kann-clusterroles kubectl annotate clusterroles
+		 abbr --add --global kann-cm kubectl annotate configmaps
+		 abbr --add --global kann-controllerrevisions kubectl annotate controllerrevisions
+		 abbr --add --global kann-crd kubectl annotate customresourcedefinitions
+		 abbr --add --global kann-cs kubectl annotate componentstatuses
+		 abbr --add --global kann-csr kubectl annotate certificatesigningrequests
+		 abbr --add --global kann-deploy kubectl annotate deployments
+		 abbr --add --global kann-ds kubectl annotate daemonsets
+		 abbr --add --global kann-ep kubectl annotate endpoints
+		 abbr --add --global kann-ev kubectl annotate events
+		 abbr --add --global kann-hpa kubectl annotate horizontalpodautoscalers
+		 abbr --add --global kann-ing kubectl annotate ingresses
+		 abbr --add --global kann-jobs kubectl annotate jobs
+		 abbr --add --global kann-leases kubectl annotate leases
+		 abbr --add --global kann-limits kubectl annotate limitranges
+		 abbr --add --global kann-lsar kubectl annotate localsubjectaccessreviews
+		 abbr --add --global kann-mwhc svc kubectl annotate mutatingwebhookconfigurations
+		 abbr --add --global kann-netpol kubectl annotate networkpolicies
+		 abbr --add --global kann-no kubectl annotate nodes
+		 abbr --add --global kann-ns kubectl annotate namespaces
+		 abbr --add --global kann-pc kubectl annotate priorityclasses
+		 abbr --add --global kann-pdb kubectl annotate poddisruptionbudannotates
+		 abbr --add --global kann-po kubectl annotate pods
+		 abbr --add --global kann-podtemplates kubectl annotate podtemplates
+		 abbr --add --global kann-psp kubectl annotate podsecuritypolicies
+		 abbr --add --global kann-pv kubectl annotate persistentvolumes
+		 abbr --add --global kann-pvc kubectl annotate persistentvolumeclaims
+		 abbr --add --global kann-quotas kubectl annotate resourcequotas
+		 abbr --add --global kann-rc kubectl annotate replicationcontrollers
+		 abbr --add --global kann-rolebindings kubectl annotate rolebindings
+		 abbr --add --global kann-roles kubectl annotate roles
+		 abbr --add --global kann-rs kubectl annotate replicasets
+		 abbr --add --global kann-sa kubectl annotate serviceaccounts
+		 abbr --add --global kann-sar kubectl annotate subjectaccessreviews
+		 abbr --add --global kann-sc kubectl annotate storageclasses
+		 abbr --add --global kann-secrets kubectl annotate secrets
+		 abbr --add --global kann-ssac kubectl annotate selfsubjectaccessreviews
+		 abbr --add --global kann-ssrr kubectl annotate selfsubjectrulesreviews
+		 abbr --add --global kann-sts kubectl annotate statefulsets
+		 abbr --add --global kann-volumeattachements kubectl annotate volumeattachments
+		 abbr --add --global kann-vwhc kubectl annotate validatingwebhookconfigurations
+
+	 #+END_SRC
+*** Autoscale
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 abbr --add --global kauto kubectl autoscale --max=
+		 abbr --add --global kauto-file kubectl autoscale --filename --max=
+	 #+END_SRC
+*** Autoscale
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 abbr --add --global kauto kubectl autoscale --max=
+		 abbr --add --global kauto-file kubectl autoscale --filename --max=
+
+		 abbr --add --global kauto-deploy kubectl autoscale deployment --max=
+		 abbr --add --global kauto-rc kubectl autoscale replicationcontroller --max=
+		 abbr --add --global kauto-rs kubectl autoscale replicaset --max=
+		 abbr --add --global kauto-sts kubectl autoscale statefulset --max=
+	 #+END_SRC
+*** Convert
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 abbr --add --global kconvert kubectl convert --filename
+	 #+END_SRC
+*** Diff
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 abbr --add --global kdiff kubectl diff --filename
+	 #+END_SRC
+*** Edit
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 abbr --add --global ked kubectl edit
+
+		 abbr --add --global ked-apisvc kubectl edit apiservice
+		 abbr --add --global ked-cj kubectl edit cronjob
+		 abbr --add --global ked-clusterrolebinding kubectl edit clusterrolebinding
+		 abbr --add --global ked-clusterrole kubectl edit clusterrole
+		 abbr --add --global ked-cm kubectl edit configmap
+		 abbr --add --global ked-controllerrevision kubectl edit controllerrevision
+		 abbr --add --global ked-crd kubectl edit customresourcedefinition
+		 abbr --add --global ked-cs kubectl edit componentstatuse
+		 abbr --add --global ked-csr kubectl edit certificatesigningrequest
+		 abbr --add --global ked-deploy kubectl edit deployment
+		 abbr --add --global ked-ds kubectl edit daemonset
+		 abbr --add --global ked-ep kubectl edit endpoint
+		 abbr --add --global ked-ev kubectl edit event
+		 abbr --add --global ked-hpa kubectl edit horizontalpodautoscaler
+		 abbr --add --global ked-ing kubectl edit ingresse
+		 abbr --add --global ked-jobs kubectl edit job
+		 abbr --add --global ked-lease kubectl edit lease
+		 abbr --add --global ked-limit kubectl edit limitrange
+		 abbr --add --global ked-lsar kubectl edit localsubjectaccessreview
+		 abbr --add --global ked-mwhc svc kubectl edit mutatingwebhookconfiguration
+		 abbr --add --global ked-netpol kubectl edit networkpolicie
+		 abbr --add --global ked-no kubectl edit node
+		 abbr --add --global ked-ns kubectl edit namespace
+		 abbr --add --global ked-pc kubectl edit priorityclasse
+		 abbr --add --global ked-pdb kubectl edit poddisruptionbudedit
+		 abbr --add --global ked-po kubectl edit pod
+		 abbr --add --global ked-podtemplate kubectl edit podtemplate
+		 abbr --add --global ked-psp kubectl edit podsecuritypolicie
+		 abbr --add --global ked-pv kubectl edit persistentvolume
+		 abbr --add --global ked-pvc kubectl edit persistentvolumeclaim
+		 abbr --add --global ked-quota kubectl edit resourcequota
+		 abbr --add --global ked-rc kubectl edit replicationcontroller
+		 abbr --add --global ked-rolebinding kubectl edit rolebinding
+		 abbr --add --global ked-role kubectl edit role
+		 abbr --add --global ked-rs kubectl edit replicaset
+		 abbr --add --global ked-sa kubectl edit serviceaccount
+		 abbr --add --global ked-sar kubectl edit subjectaccessreview
+		 abbr --add --global ked-sc kubectl edit storageclasse
+		 abbr --add --global ked-secret kubectl edit secret
+		 abbr --add --global ked-ssac kubectl edit selfsubjectaccessreview
+		 abbr --add --global ked-ssrr kubectl edit selfsubjectrulesreview
+		 abbr --add --global ked-sts kubectl edit statefulset
+		 abbr --add --global ked-volumeattachement kubectl edit volumeattachment
+		 abbr --add --global ked-vwhc kubectl edit validatingwebhookconfiguration
+
+	 #+END_SRC
+*** Label
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 abbr --add --global klabel kubectl label
+		 abbr --add --global klabel-file kubectl label --filename
+
+		 abbr --add --global klabel-apisvc kubectl label apiservices
+		 abbr --add --global klabel-cj kubectl label cronjobs
+		 abbr --add --global klabel-clusterrolebindings kubectl label clusterrolebindings
+		 abbr --add --global klabel-clusterroles kubectl label clusterroles
+		 abbr --add --global klabel-cm kubectl label configmaps
+		 abbr --add --global klabel-controllerrevisions kubectl label controllerrevisions
+		 abbr --add --global klabel-crd kubectl label customresourcedefinitions
+		 abbr --add --global klabel-cs kubectl label componentstatuses
+		 abbr --add --global klabel-csr kubectl label certificatesigningrequests
+		 abbr --add --global klabel-deploy kubectl label deployments
+		 abbr --add --global klabel-ds kubectl label daemonsets
+		 abbr --add --global klabel-ep kubectl label endpoints
+		 abbr --add --global klabel-ev kubectl label events
+		 abbr --add --global klabel-hpa kubectl label horizontalpodautoscalers
+		 abbr --add --global klabel-ing kubectl label ingresses
+		 abbr --add --global klabel-jobs kubectl label jobs
+		 abbr --add --global klabel-leases kubectl label leases
+		 abbr --add --global klabel-limits kubectl label limitranges
+		 abbr --add --global klabel-lsar kubectl label localsubjectaccessreviews
+		 abbr --add --global klabel-mwhc svc kubectl label mutatingwebhookconfigurations
+		 abbr --add --global klabel-netpol kubectl label networkpolicies
+		 abbr --add --global klabel-no kubectl label nodes
+		 abbr --add --global klabel-ns kubectl label namespaces
+		 abbr --add --global klabel-pc kubectl label priorityclasses
+		 abbr --add --global klabel-pdb kubectl label poddisruptionbudlabels
+		 abbr --add --global klabel-po kubectl label pods
+		 abbr --add --global klabel-podtemplates kubectl label podtemplates
+		 abbr --add --global klabel-psp kubectl label podsecuritypolicies
+		 abbr --add --global klabel-pv kubectl label persistentvolumes
+		 abbr --add --global klabel-pvc kubectl label persistentvolumeclaims
+		 abbr --add --global klabel-quotas kubectl label resourcequotas
+		 abbr --add --global klabel-rc kubectl label replicationcontrollers
+		 abbr --add --global klabel-rolebindings kubectl label rolebindings
+		 abbr --add --global klabel-roles kubectl label roles
+		 abbr --add --global klabel-rs kubectl label replicasets
+		 abbr --add --global klabel-sa kubectl label serviceaccounts
+		 abbr --add --global klabel-sar kubectl label subjectaccessreviews
+		 abbr --add --global klabel-sc kubectl label storageclasses
+		 abbr --add --global klabel-secrets kubectl label secrets
+		 abbr --add --global klabel-ssac kubectl label selfsubjectaccessreviews
+		 abbr --add --global klabel-ssrr kubectl label selfsubjectrulesreviews
+		 abbr --add --global klabel-sts kubectl label statefulsets
+		 abbr --add --global klabel-volumeattachements kubectl label volumeattachments
+		 abbr --add --global klabel-vwhc kubectl label validatingwebhookconfigurations
+
+	 #+END_SRC
+*** Patch
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 abbr --add --global kpatch kubectl patch --patch
+		 abbr --add --global kpatch-file kubectl patch --filename --patch
+
+		 abbr --add --global kpatch-apisvc kubectl patch apiservice --patch
+		 abbr --add --global kpatch-cj kubectl patch cronjob --patch
+		 abbr --add --global kpatch-clusterrolebinding kubectl patch clusterrolebinding --patch
+		 abbr --add --global kpatch-clusterrole kubectl patch clusterrole --patch
+		 abbr --add --global kpatch-cm kubectl patch configmap --patch
+		 abbr --add --global kpatch-controllerrevision kubectl patch controllerrevision --patch
+		 abbr --add --global kpatch-crd kubectl patch customresourcedefinition --patch
+		 abbr --add --global kpatch-cs kubectl patch componentstatuse --patch
+		 abbr --add --global kpatch-csr kubectl patch certificatesigningrequest --patch
+		 abbr --add --global kpatch-deploy kubectl patch deployment --patch
+		 abbr --add --global kpatch-ds kubectl patch daemonset --patch
+		 abbr --add --global kpatch-ep kubectl patch endpoint --patch
+		 abbr --add --global kpatch-ev kubectl patch event --patch
+		 abbr --add --global kpatch-hpa kubectl patch horizontalpodautoscaler --patch
+		 abbr --add --global kpatch-ing kubectl patch ingresse --patch
+		 abbr --add --global kpatch-jobs kubectl patch job --patch
+		 abbr --add --global kpatch-lease kubectl patch lease --patch
+		 abbr --add --global kpatch-limit kubectl patch limitrange --patch
+		 abbr --add --global kpatch-lsar kubectl patch localsubjectaccessreview --patch
+		 abbr --add --global kpatch-mwhc svc kubectl patch mutatingwebhookconfiguration --patch
+		 abbr --add --global kpatch-netpol kubectl patch networkpolicie --patch
+		 abbr --add --global kpatch-no kubectl patch node --patch
+		 abbr --add --global kpatch-ns kubectl patch namespace --patch
+		 abbr --add --global kpatch-pc kubectl patch priorityclasse --patch
+		 abbr --add --global kpatch-pdb kubectl patch poddisruptionbudpatch --patch
+		 abbr --add --global kpatch-po kubectl patch pod --patch
+		 abbr --add --global kpatch-podtemplate kubectl patch podtemplate --patch
+		 abbr --add --global kpatch-psp kubectl patch podsecuritypolicie --patch
+		 abbr --add --global kpatch-pv kubectl patch persistentvolume --patch
+		 abbr --add --global kpatch-pvc kubectl patch persistentvolumeclaim --patch
+		 abbr --add --global kpatch-quota kubectl patch resourcequota --patch
+		 abbr --add --global kpatch-rc kubectl patch replicationcontroller --patch
+		 abbr --add --global kpatch-rolebinding kubectl patch rolebinding --patch
+		 abbr --add --global kpatch-role kubectl patch role --patch
+		 abbr --add --global kpatch-rs kubectl patch replicaset --patch
+		 abbr --add --global kpatch-sa kubectl patch serviceaccount --patch
+		 abbr --add --global kpatch-sar kubectl patch subjectaccessreview --patch
+		 abbr --add --global kpatch-sc kubectl patch storageclasse --patch
+		 abbr --add --global kpatch-secret kubectl patch secret --patch
+		 abbr --add --global kpatch-ssac kubectl patch selfsubjectaccessreview --patch
+		 abbr --add --global kpatch-ssrr kubectl patch selfsubjectrulesreview --patch
+		 abbr --add --global kpatch-sts kubectl patch statefulset --patch
+		 abbr --add --global kpatch-volumeattachement kubectl patch volumeattachment --patch
+		 abbr --add --global kpatch-vwhc kubectl patch validatingwebhookconfiguration --patch
+
+	 #+END_SRC
+*** Replace
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 abbr --add --global kreplace kubectl replace --filename
+	 #+END_SRC
+*** Rollout
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 abbr --add --global kroll kubectl rollout
+		 abbr --add --global kroll-file kubectl rollout history --filename
+
+		 abbr --add --global kroll-hist-deploy kubectl rollout history deployment
+		 abbr --add --global kroll-hist-ds kubectl rollout history daemonset
+		 abbr --add --global kroll-hist-sts kubectl rollout history statefulset
+
+		 abbr --add --global kroll-pause-deploy kubectl rollout pause deployment
+		 abbr --add --global kroll-pause-ds kubectl rollout pause daemonset
+		 abbr --add --global kroll-pause-sts kubectl rollout pause statefulset
+
+		 abbr --add --global kroll-restart-deploy kubectl rollout restart deployment
+		 abbr --add --global kroll-restart-ds kubectl rollout restart daemonset
+		 abbr --add --global kroll-restart-sts kubectl rollout restart statefulset
+
+		 abbr --add --global kroll-resume-deploy kubectl rollout resume deployment
+		 abbr --add --global kroll-resume-ds kubectl rollout resume daemonset
+		 abbr --add --global kroll-resume-sts kubectl rollout resume statefulset
+
+		 abbr --add --global kroll-status-deploy kubectl rollout status deployment
+		 abbr --add --global kroll-status-ds kubectl rollout status daemonset
+		 abbr --add --global kroll-status-sts kubectl rollout status statefulset
+
+		 abbr --add --global kroll-undo-deploy kubectl rollout undo deployment
+		 abbr --add --global kroll-undo-ds kubectl rollout undo daemonset
+		 abbr --add --global kroll-undo-sts kubectl rollout undo statefulset
+
+	 #+END_SRC
+*** Scale
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 abbr --add --global kscale kubectl scale --replicas=
+		 abbr --add --global kscale-file kubectl scale --filename --replicas=
+
+		 abbr --add --global kscale-deploy kubectl scale deployment --replicas=
+		 abbr --add --global kscale-rc kubectl scale replicationcontroller --replicas=
+		 abbr --add --global kscale-rs kubectl scale replicaset --replicas=
+		 abbr --add --global kscale-sts kubectl scale statefulset --replicas=
+
+	 #+END_SRC
+*** Set
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 abbr --add --global kset kubectl set
+		 abbr --add --global kset-file kubectl set --filename
+
+		 abbr --add --global kset-env-ds kubectl set env daemonset
+		 abbr --add --global kset-env-deploy kubectl set env deployment
+		 abbr --add --global kset-env-job kubectl set env job
+		 abbr --add --global kset-env-po kubectl set env pod
+		 abbr --add --global kset-env-rc kubectl set env replicationcontroller
+		 abbr --add --global kset-env-rs kubectl set env replicaset
+
+		 abbr --add --global kset-image-ds kubectl set image daemonset
+		 abbr --add --global kset-image-deploy kubectl set image deployment
+		 abbr --add --global kset-image-job kubectl set image job
+		 abbr --add --global kset-image-po kubectl set image pod
+		 abbr --add --global kset-image-rc kubectl set image replicationcontroller
+		 abbr --add --global kset-image-rs kubectl set image replicaset
+
+		 abbr --add --global kset-resources-apisvc kubectl set resources apiservice 
+		 abbr --add --global kset-resources-cj kubectl set resources cronjob 
+		 abbr --add --global kset-resources-clusterrolebinding kubectl set resources clusterrolebinding 
+		 abbr --add --global kset-resources-clusterrole kubectl set resources clusterrole 
+		 abbr --add --global kset-resources-cm kubectl set resources configmap 
+		 abbr --add --global kset-resources-controllerrevision kubectl set resources controllerrevision 
+		 abbr --add --global kset-resources-crd kubectl set resources customresourcedefinition 
+		 abbr --add --global kset-resources-cs kubectl set resources componentstatuse 
+		 abbr --add --global kset-resources-csr kubectl set resources certificatesigningrequest 
+		 abbr --add --global kset-resources-deploy kubectl set resources deployment 
+		 abbr --add --global kset-resources-ds kubectl set resources daemonset 
+		 abbr --add --global kset-resources-ep kubectl set resources endpoint 
+		 abbr --add --global kset-resources-ev kubectl set resources event 
+		 abbr --add --global kset-resources-hpa kubectl set resources horizontalpodautoscaler 
+		 abbr --add --global kset-resources-ing kubectl set resources ingresse 
+		 abbr --add --global kset-resources-jobs kubectl set resources job 
+		 abbr --add --global kset-resources-lease kubectl set resources lease 
+		 abbr --add --global kset-resources-limit kubectl set resources limitrange 
+		 abbr --add --global kset-resources-lsar kubectl set resources localsubjectaccessreview 
+		 abbr --add --global kset-resources-mwhc svc kubectl set resources mutatingwebhookconfiguration 
+		 abbr --add --global kset-resources-netpol kubectl set resources networkpolicie 
+		 abbr --add --global kset-resources-no kubectl set resources node 
+		 abbr --add --global kset-resources-ns kubectl set resources namespace 
+		 abbr --add --global kset-resources-pc kubectl set resources priorityclasse 
+		 abbr --add --global kset-resources-pdb kubectl set resources poddisruptionbudset resources 
+		 abbr --add --global kset-resources-po kubectl set resources pod 
+		 abbr --add --global kset-resources-podtemplate kubectl set resources podtemplate 
+		 abbr --add --global kset-resources-psp kubectl set resources podsecuritypolicie 
+		 abbr --add --global kset-resources-pv kubectl set resources persistentvolume 
+		 abbr --add --global kset-resources-pvc kubectl set resources persistentvolumeclaim 
+		 abbr --add --global kset-resources-quota kubectl set resources resourcequota 
+		 abbr --add --global kset-resources-rc kubectl set resources replicationcontroller 
+		 abbr --add --global kset-resources-rolebinding kubectl set resources rolebinding 
+		 abbr --add --global kset-resources-role kubectl set resources role 
+		 abbr --add --global kset-resources-rs kubectl set resources replicaset 
+		 abbr --add --global kset-resources-sa kubectl set resources serviceaccount 
+		 abbr --add --global kset-resources-sar kubectl set resources subjectaccessreview 
+		 abbr --add --global kset-resources-sc kubectl set resources storageclasse 
+		 abbr --add --global kset-resources-secret kubectl set resources secret 
+		 abbr --add --global kset-resources-ssac kubectl set resources selfsubjectaccessreview 
+		 abbr --add --global kset-resources-ssrr kubectl set resources selfsubjectrulesreview 
+		 abbr --add --global kset-resources-sts kubectl set resources statefulset 
+		 abbr --add --global kset-resources-volumeattachement kubectl set resources volumeattachment 
+		 abbr --add --global kset-resources-vwhc kubectl set resources validatingwebhookconfiguration 
+
+		 abbr --add --global kset-selector-apisvc kubectl set selector apiservice 
+		 abbr --add --global kset-selector-cj kubectl set selector cronjob 
+		 abbr --add --global kset-selector-clusterrolebinding kubectl set selector clusterrolebinding 
+		 abbr --add --global kset-selector-clusterrole kubectl set selector clusterrole 
+		 abbr --add --global kset-selector-cm kubectl set selector configmap 
+		 abbr --add --global kset-selector-controllerrevision kubectl set selector controllerrevision 
+		 abbr --add --global kset-selector-crd kubectl set selector customresourcedefinition 
+		 abbr --add --global kset-selector-cs kubectl set selector componentstatuse 
+		 abbr --add --global kset-selector-csr kubectl set selector certificatesigningrequest 
+		 abbr --add --global kset-selector-deploy kubectl set selector deployment 
+		 abbr --add --global kset-selector-ds kubectl set selector daemonset 
+		 abbr --add --global kset-selector-ep kubectl set selector endpoint 
+		 abbr --add --global kset-selector-ev kubectl set selector event 
+		 abbr --add --global kset-selector-hpa kubectl set selector horizontalpodautoscaler 
+		 abbr --add --global kset-selector-ing kubectl set selector ingresse 
+		 abbr --add --global kset-selector-jobs kubectl set selector job 
+		 abbr --add --global kset-selector-lease kubectl set selector lease 
+		 abbr --add --global kset-selector-limit kubectl set selector limitrange 
+		 abbr --add --global kset-selector-lsar kubectl set selector localsubjectaccessreview 
+		 abbr --add --global kset-selector-mwhc svc kubectl set selector mutatingwebhookconfiguration 
+		 abbr --add --global kset-selector-netpol kubectl set selector networkpolicie 
+		 abbr --add --global kset-selector-no kubectl set selector node 
+		 abbr --add --global kset-selector-ns kubectl set selector namespace 
+		 abbr --add --global kset-selector-pc kubectl set selector priorityclasse 
+		 abbr --add --global kset-selector-pdb kubectl set selector poddisruptionbudset selector 
+		 abbr --add --global kset-selector-po kubectl set selector pod 
+		 abbr --add --global kset-selector-podtemplate kubectl set selector podtemplate 
+		 abbr --add --global kset-selector-psp kubectl set selector podsecuritypolicie 
+		 abbr --add --global kset-selector-pv kubectl set selector persistentvolume 
+		 abbr --add --global kset-selector-pvc kubectl set selector persistentvolumeclaim 
+		 abbr --add --global kset-selector-quota kubectl set selector resourcequota 
+		 abbr --add --global kset-selector-rc kubectl set selector replicationcontroller 
+		 abbr --add --global kset-selector-rolebinding kubectl set selector rolebinding 
+		 abbr --add --global kset-selector-role kubectl set selector role 
+		 abbr --add --global kset-selector-rs kubectl set selector replicaset 
+		 abbr --add --global kset-selector-sa kubectl set selector serviceaccount 
+		 abbr --add --global kset-selector-sar kubectl set selector subjectaccessreview 
+		 abbr --add --global kset-selector-sc kubectl set selector storageclasse 
+		 abbr --add --global kset-selector-secret kubectl set selector secret 
+		 abbr --add --global kset-selector-ssac kubectl set selector selfsubjectaccessreview 
+		 abbr --add --global kset-selector-ssrr kubectl set selector selfsubjectrulesreview 
+		 abbr --add --global kset-selector-sts kubectl set selector statefulset 
+		 abbr --add --global kset-selector-volumeattachement kubectl set selector volumeattachment 
+		 abbr --add --global kset-selector-vwhc kubectl set selector validatingwebhookconfiguration 
+
+		 abbr --add --global kset-sa-ds kubectl set serviceaccount daemonset
+		 abbr --add --global kset-sa-deploy kubectl set serviceaccount deployment
+		 abbr --add --global kset-sa-job kubectl set serviceaccount job
+		 abbr --add --global kset-sa-po kubectl set serviceaccount pod
+		 abbr --add --global kset-sa-rc kubectl set serviceaccount replicationcontroller
+		 abbr --add --global kset-sa-rs kubectl set serviceaccount replicaset
+
+		 abbr --add --global kset-subject-clusterrolebinding kubectl set subject clusterrolebinding
+		 abbr --add --global kset-subject-rolebinding kubectl set subject rolebinding
+
+	 #+END_SRC
+*** Wait
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 abbr --add --global kwait kubectl wait --for
+		 abbr --add --global kwait-file kubectl wait apiservice --filename --for
+
+		 abbr --add --global kwait-apisvc kubectl wait apiservice --for
+		 abbr --add --global kwait-cj kubectl wait cronjob --for
+		 abbr --add --global kwait-clusterrolebinding kubectl wait clusterrolebinding 
+		 abbr --add --global kwait-clusterrole kubectl wait clusterrole --for
+		 abbr --add --global kwait-cm kubectl wait configmap --for
+		 abbr --add --global kwait-controllerrevision kubectl wait controllerrevision --for
+		 abbr --add --global kwait-crd kubectl wait customresourcedefinition --for
+		 abbr --add --global kwait-cs kubectl wait componentstatuse --for
+		 abbr --add --global kwait-csr kubectl wait certificatesigningrequest --for
+		 abbr --add --global kwait-deploy kubectl wait deployment --for
+		 abbr --add --global kwait-ds kubectl wait daemonset --for
+		 abbr --add --global kwait-ep kubectl wait endpoint --for
+		 abbr --add --global kwait-ev kubectl wait event --for
+		 abbr --add --global kwait-hpa kubectl wait horizontalpodautoscaler --for
+		 abbr --add --global kwait-ing kubectl wait ingresse --for
+		 abbr --add --global kwait-jobs kubectl wait job --for
+		 abbr --add --global kwait-lease kubectl wait lease --for
+		 abbr --add --global kwait-limit kubectl wait limitrange --for
+		 abbr --add --global kwait-lsar kubectl wait localsubjectaccessreview --for
+		 abbr --add --global kwait-mwhc svc kubectl wait mutatingwebhookconfiguration --for
+		 abbr --add --global kwait-netpol kubectl wait networkpolicie --for
+		 abbr --add --global kwait-no kubectl wait node --for
+		 abbr --add --global kwait-ns kubectl wait namespace --for
+		 abbr --add --global kwait-pc kubectl wait priorityclasse --for
+		 abbr --add --global kwait-pdb kubectl wait poddisruptionbudwait --for
+		 abbr --add --global kwait-po kubectl wait pod --for
+		 abbr --add --global kwait-podtemplate kubectl wait podtemplate --for
+		 abbr --add --global kwait-psp kubectl wait podsecuritypolicie --for
+		 abbr --add --global kwait-pv kubectl wait persistentvolume --for
+		 abbr --add --global kwait-pvc kubectl wait persistentvolumeclaim --for
+		 abbr --add --global kwait-quota kubectl wait resourcequota --for
+		 abbr --add --global kwait-rc kubectl wait replicationcontroller --for
+		 abbr --add --global kwait-rolebinding kubectl wait rolebinding --for
+		 abbr --add --global kwait-role kubectl wait role --for
+		 abbr --add --global kwait-rs kubectl wait replicaset --for
+		 abbr --add --global kwait-sa kubectl wait serviceaccount --for
+		 abbr --add --global kwait-sar kubectl wait subjectaccessreview --for
+		 abbr --add --global kwait-sc kubectl wait storageclasse --for
+		 abbr --add --global kwait-secret kubectl wait secret --for
+		 abbr --add --global kwait-ssac kubectl wait selfsubjectaccessreview --for
+		 abbr --add --global kwait-ssrr kubectl wait selfsubjectrulesreview --for
+		 abbr --add --global kwait-sts kubectl wait statefulset --for
+		 abbr --add --global kwait-volumeattachement kubectl wait volumeattachment --for
+		 abbr --add --global kwait-vwhc kubectl wait validatingwebhookconfiguration --for
+
+	 #+END_SRC
+*** Describe
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 abbr --add --global kdesc kubectl describe
+		 abbr --add --global kdesc-file kubectl describe --filename
+
+		 abbr --add --global kdesc-apisvc kubectl describe apiservices
+		 abbr --add --global kdesc-cj kubectl describe cronjobs
+		 abbr --add --global kdesc-clusterrolebindings kubectl describe clusterrolebindings
+		 abbr --add --global kdesc-clusterroles kubectl describe clusterroles
+		 abbr --add --global kdesc-cm kubectl describe configmaps
+		 abbr --add --global kdesc-controllerrevisions kubectl describe controllerrevisions
+		 abbr --add --global kdesc-crd kubectl describe customresourcedefinitions
+		 abbr --add --global kdesc-cs kubectl describe componentstatuses
+		 abbr --add --global kdesc-csr kubectl describe certificatesigningrequests
+		 abbr --add --global kdesc-deploy kubectl describe deployments
+		 abbr --add --global kdesc-ds kubectl describe daemonsets
+		 abbr --add --global kdesc-ep kubectl describe endpoints
+		 abbr --add --global kdesc-ev kubectl describe events
+		 abbr --add --global kdesc-hpa kubectl describe horizontalpodautoscalers
+		 abbr --add --global kdesc-ing kubectl describe ingresses
+		 abbr --add --global kdesc-jobs kubectl describe jobs
+		 abbr --add --global kdesc-leases kubectl describe leases
+		 abbr --add --global kdesc-limits kubectl describe limitranges
+		 abbr --add --global kdesc-lsar kubectl describe localsubjectaccessreviews
+		 abbr --add --global kdesc-mwhc svc kubectl describe mutatingwebhookconfigurations
+		 abbr --add --global kdesc-netpol kubectl describe networkpolicies
+		 abbr --add --global kdesc-no kubectl describe nodes
+		 abbr --add --global kdesc-ns kubectl describe namespaces
+		 abbr --add --global kdesc-pc kubectl describe priorityclasses
+		 abbr --add --global kdesc-pdb kubectl describe poddisruptionbuddescribes
+		 abbr --add --global kdesc-po kubectl describe pods
+		 abbr --add --global kdesc-podtemplates kubectl describe podtemplates
+		 abbr --add --global kdesc-psp kubectl describe podsecuritypolicies
+		 abbr --add --global kdesc-pv kubectl describe persistentvolumes
+		 abbr --add --global kdesc-pvc kubectl describe persistentvolumeclaims
+		 abbr --add --global kdesc-quotas kubectl describe resourcequotas
+		 abbr --add --global kdesc-rc kubectl describe replicationcontrollers
+		 abbr --add --global kdesc-rolebindings kubectl describe rolebindings
+		 abbr --add --global kdesc-roles kubectl describe roles
+		 abbr --add --global kdesc-rs kubectl describe replicasets
+		 abbr --add --global kdesc-sa kubectl describe serviceaccounts
+		 abbr --add --global kdesc-sar kubectl describe subjectaccessreviews
+		 abbr --add --global kdesc-sc kubectl describe storageclasses
+		 abbr --add --global kdesc-secrets kubectl describe secrets
+		 abbr --add --global kdesc-ssac kubectl describe selfsubjectaccessreviews
+		 abbr --add --global kdesc-ssrr kubectl describe selfsubjectrulesreviews
+		 abbr --add --global kdesc-sts kubectl describe statefulsets
+		 abbr --add --global kdesc-volumeattachements kubectl describe volumeattachments
+		 abbr --add --global kdesc-vwhc kubectl describe validatingwebhookconfigurations
+
+		 abbr --add --global kdesc-apisvc-all kubectl describe apiservices --all-namespaces
+		 abbr --add --global kdesc-cj-all kubectl describe cronjobs --all-namespaces
+		 abbr --add --global kdesc-clusterrolebindings-all kubectl describe clusterrolebindings --all-namespaces
+		 abbr --add --global kdesc-clusterroles-all kubectl describe clusterroles --all-namespaces
+		 abbr --add --global kdesc-cm-all kubectl describe configmaps --all-namespaces
+		 abbr --add --global kdesc-controllerrevisions-all kubectl describe controllerrevisions --all-namespaces
+		 abbr --add --global kdesc-crd-all kubectl describe customresourcedefinitions --all-namespaces
+		 abbr --add --global kdesc-cs-all kubectl describe componentstatuses --all-namespaces
+		 abbr --add --global kdesc-csr-all kubectl describe certificatesigningrequests --all-namespaces
+		 abbr --add --global kdesc-deploy-all kubectl describe deployments --all-namespaces
+		 abbr --add --global kdesc-ds-all kubectl describe daemonsets --all-namespaces
+		 abbr --add --global kdesc-ep-all kubectl describe endpoints --all-namespaces
+		 abbr --add --global kdesc-ev-all kubectl describe events --all-namespaces
+		 abbr --add --global kdesc-hpa-all kubectl describe horizontalpodautoscalers --all-namespaces
+		 abbr --add --global kdesc-ing-all kubectl describe ingresses --all-namespaces
+		 abbr --add --global kdesc-jobs-all kubectl describe jobs --all-namespaces
+		 abbr --add --global kdesc-leases-all kubectl describe leases --all-namespaces
+		 abbr --add --global kdesc-limits-all kubectl describe limitranges --all-namespaces
+		 abbr --add --global kdesc-lsar-all kubectl describe localsubjectaccessreviews --all-namespaces
+		 abbr --add --global kdesc-mwhc-all svc kubectl describe mutatingwebhookconfigurations --all-namespaces
+		 abbr --add --global kdesc-netpol-all kubectl describe networkpolicies --all-namespaces
+		 abbr --add --global kdesc-no-all kubectl describe nodes --all-namespaces
+		 abbr --add --global kdesc-ns-all kubectl describe namespaces --all-namespaces
+		 abbr --add --global kdesc-pc-all kubectl describe priorityclasses --all-namespaces
+		 abbr --add --global kdesc-pdb-all kubectl describe poddisruptionbuddescribes --all-namespaces
+		 abbr --add --global kdesc-po-all kubectl describe pods --all-namespaces
+		 abbr --add --global kdesc-podtemplates-all kubectl describe podtemplates --all-namespaces
+		 abbr --add --global kdesc-psp-all kubectl describe podsecuritypolicies --all-namespaces
+		 abbr --add --global kdesc-pv-all kubectl describe persistentvolumes --all-namespaces
+		 abbr --add --global kdesc-pvc-all kubectl describe persistentvolumeclaims --all-namespaces
+		 abbr --add --global kdesc-quotas-all kubectl describe resourcequotas --all-namespaces
+		 abbr --add --global kdesc-rc-all kubectl describe replicationcontrollers --all-namespaces
+		 abbr --add --global kdesc-rolebindings-all kubectl describe rolebindings --all-namespaces
+		 abbr --add --global kdesc-roles-all kubectl describe roles --all-namespaces
+		 abbr --add --global kdesc-rs-all kubectl describe replicasets --all-namespaces
+		 abbr --add --global kdesc-sa-all kubectl describe serviceaccounts --all-namespaces
+		 abbr --add --global kdesc-sar-all kubectl describe subjectaccessreviews --all-namespaces
+		 abbr --add --global kdesc-sc-all kubectl describe storageclasses --all-namespaces
+		 abbr --add --global kdesc-secrets-all kubectl describe secrets --all-namespaces
+		 abbr --add --global kdesc-ssac-all kubectl describe selfsubjectaccessreviews --all-namespaces
+		 abbr --add --global kdesc-ssrr-all kubectl describe selfsubjectrulesreviews --all-namespaces
+		 abbr --add --global kdesc-sts-all kubectl describe statefulsets --all-namespaces
+		 abbr --add --global kdesc-volumeattachements-all kubectl describe volumeattachments --all-namespaces
+		 abbr --add --global kdesc-vwhc-all kubectl describe validatingwebhookconfigurations --all-namespaces
+
+	 #+END_SRC
+*** Execute
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 abbr --add --global kexec kubectl exec
+		 abbr --add --global kexec-term kubectl exec --stdin --tty --
+	 #+END_SRC
+*** Logs
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 abbr --add --global klogs kubectl logs 
+		 abbr --add --global klogs-file kubectl logs --filename 
+
+		 abbr --add --global klogs-apisvc kubectl logs apiservice 
+		 abbr --add --global klogs-cj kubectl logs cronjob 
+		 abbr --add --global klogs-clusterrolebinding kubectl logs clusterrolebinding 
+		 abbr --add --global klogs-clusterrole kubectl logs clusterrole 
+		 abbr --add --global klogs-cm kubectl logs configmap 
+		 abbr --add --global klogs-controllerrevision kubectl logs controllerrevision 
+		 abbr --add --global klogs-crd kubectl logs customresourcedefinition 
+		 abbr --add --global klogs-cs kubectl logs componentstatuse 
+		 abbr --add --global klogs-csr kubectl logs certificatesigningrequest 
+		 abbr --add --global klogs-deploy kubectl logs deployment 
+		 abbr --add --global klogs-ds kubectl logs daemonset 
+		 abbr --add --global klogs-ep kubectl logs endpoint 
+		 abbr --add --global klogs-ev kubectl logs event 
+		 abbr --add --global klogs-hpa kubectl logs horizontalpodautoscaler 
+		 abbr --add --global klogs-ing kubectl logs ingresse 
+		 abbr --add --global klogs-jobs kubectl logs job 
+		 abbr --add --global klogs-lease kubectl logs lease 
+		 abbr --add --global klogs-limit kubectl logs limitrange 
+		 abbr --add --global klogs-lsar kubectl logs localsubjectaccessreview 
+		 abbr --add --global klogs-mwhc svc kubectl logs mutatingwebhookconfiguration 
+		 abbr --add --global klogs-netpol kubectl logs networkpolicie 
+		 abbr --add --global klogs-no kubectl logs node 
+		 abbr --add --global klogs-ns kubectl logs namespace 
+		 abbr --add --global klogs-pc kubectl logs priorityclasse 
+		 abbr --add --global klogs-pdb kubectl logs poddisruptionbudlogs 
+		 abbr --add --global klogs-po kubectl logs 
+		 abbr --add --global klogs-podtemplate kubectl logs podtemplate 
+		 abbr --add --global klogs-psp kubectl logs podsecuritypolicie 
+		 abbr --add --global klogs-pv kubectl logs persistentvolume 
+		 abbr --add --global klogs-pvc kubectl logs persistentvolumeclaim 
+		 abbr --add --global klogs-quota kubectl logs resourcequota 
+		 abbr --add --global klogs-rc kubectl logs replicationcontroller 
+		 abbr --add --global klogs-rolebinding kubectl logs rolebinding 
+		 abbr --add --global klogs-role kubectl logs role 
+		 abbr --add --global klogs-rs kubectl logs replicaset 
+		 abbr --add --global klogs-sa kubectl logs serviceaccount 
+		 abbr --add --global klogs-sar kubectl logs subjectaccessreview 
+		 abbr --add --global klogs-sc kubectl logs storageclasse 
+		 abbr --add --global klogs-secret kubectl logs secret 
+		 abbr --add --global klogs-ssac kubectl logs selfsubjectaccessreview 
+		 abbr --add --global klogs-ssrr kubectl logs selfsubjectrulesreview 
+		 abbr --add --global klogs-sts kubectl logs statefulset 
+		 abbr --add --global klogs-volumeattachement kubectl logs volumeattachment 
+		 abbr --add --global klogs-vwhc kubectl logs validatingwebhookconfiguration 
+
+		 abbr --add --global ktail kubectl logs  --follow
+		 abbr --add --global ktail-file kubectl logs --filename --follow
+
+		 abbr --add --global ktail-apisvc kubectl logs apiservice --follow
+		 abbr --add --global ktail-cj kubectl logs cronjob --follow
+		 abbr --add --global ktail-clusterrolebinding kubectl logs clusterrolebinding --follow
+		 abbr --add --global ktail-clusterrole kubectl logs clusterrole --follow
+		 abbr --add --global ktail-cm kubectl logs configmap --follow
+		 abbr --add --global ktail-controllerrevision kubectl logs controllerrevision --follow
+		 abbr --add --global ktail-crd kubectl logs customresourcedefinition --follow
+		 abbr --add --global ktail-cs kubectl logs componentstatuse --follow
+		 abbr --add --global ktail-csr kubectl logs certificatesigningrequest --follow
+		 abbr --add --global ktail-deploy kubectl logs deployment --follow
+		 abbr --add --global ktail-ds kubectl logs daemonset --follow
+		 abbr --add --global ktail-ep kubectl logs endpoint --follow
+		 abbr --add --global ktail-ev kubectl logs event --follow
+		 abbr --add --global ktail-hpa kubectl logs horizontalpodautoscaler --follow
+		 abbr --add --global ktail-ing kubectl logs ingresse --follow
+		 abbr --add --global ktail-jobs kubectl logs job --follow
+		 abbr --add --global ktail-lease kubectl logs lease --follow
+		 abbr --add --global ktail-limit kubectl logs limitrange --follow
+		 abbr --add --global ktail-lsar kubectl logs localsubjectaccessreview --follow
+		 abbr --add --global ktail-mwhc svc kubectl logs mutatingwebhookconfiguration --follow
+		 abbr --add --global ktail-netpol kubectl logs networkpolicie --follow
+		 abbr --add --global ktail-no kubectl logs node --follow
+		 abbr --add --global ktail-ns kubectl logs namespace --follow
+		 abbr --add --global ktail-pc kubectl logs priorityclasse --follow
+		 abbr --add --global ktail-pdb kubectl logs poddisruptionbudlogs --follow
+		 abbr --add --global ktail-po kubectl logs --follow
+		 abbr --add --global ktail-podtemplate kubectl logs podtemplate --follow
+		 abbr --add --global ktail-psp kubectl logs podsecuritypolicie --follow
+		 abbr --add --global ktail-pv kubectl logs persistentvolume --follow
+		 abbr --add --global ktail-pvc kubectl logs persistentvolumeclaim --follow
+		 abbr --add --global ktail-quota kubectl logs resourcequota --follow
+		 abbr --add --global ktail-rc kubectl logs replicationcontroller --follow
+		 abbr --add --global ktail-rolebinding kubectl logs rolebinding --follow
+		 abbr --add --global ktail-role kubectl logs role --follow
+		 abbr --add --global ktail-rs kubectl logs replicaset --follow
+		 abbr --add --global ktail-sa kubectl logs serviceaccount --follow
+		 abbr --add --global ktail-sar kubectl logs subjectaccessreview --follow
+		 abbr --add --global ktail-sc kubectl logs storageclasse --follow
+		 abbr --add --global ktail-secret kubectl logs secret --follow
+		 abbr --add --global ktail-ssac kubectl logs selfsubjectaccessreview --follow
+		 abbr --add --global ktail-ssrr kubectl logs selfsubjectrulesreview --follow
+		 abbr --add --global ktail-sts kubectl logs statefulset --follow
+		 abbr --add --global ktail-volumeattachement kubectl logs volumeattachment --follow
+		 abbr --add --global ktail-vwhc kubectl logs validatingwebhookconfiguration --follow
+	 #+END_SRC
+*** Ports
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 abbr --add --global kports kubectl port-forward 
+		 abbr --add --global kports-file kubectl port-forward --filename 
+
+		 abbr --add --global kports-apisvc kubectl port-forward apiservice 
+		 abbr --add --global kports-cj kubectl port-forward cronjob 
+		 abbr --add --global kports-clusterrolebinding kubectl port-forward clusterrolebinding 
+		 abbr --add --global kports-clusterrole kubectl port-forward clusterrole 
+		 abbr --add --global kports-cm kubectl port-forward configmap 
+		 abbr --add --global kports-controllerrevision kubectl port-forward controllerrevision 
+		 abbr --add --global kports-crd kubectl port-forward customresourcedefinition 
+		 abbr --add --global kports-cs kubectl port-forward componentstatuse 
+		 abbr --add --global kports-csr kubectl port-forward certificatesigningrequest 
+		 abbr --add --global kports-deploy kubectl port-forward deployment 
+		 abbr --add --global kports-ds kubectl port-forward daemonset 
+		 abbr --add --global kports-ep kubectl port-forward endpoint 
+		 abbr --add --global kports-ev kubectl port-forward event 
+		 abbr --add --global kports-hpa kubectl port-forward horizontalpodautoscaler 
+		 abbr --add --global kports-ing kubectl port-forward ingresse 
+		 abbr --add --global kports-jobs kubectl port-forward job 
+		 abbr --add --global kports-lease kubectl port-forward lease 
+		 abbr --add --global kports-limit kubectl port-forward limitrange 
+		 abbr --add --global kports-lsar kubectl port-forward localsubjectaccessreview 
+		 abbr --add --global kports-mwhc svc kubectl port-forward mutatingwebhookconfiguration 
+		 abbr --add --global kports-netpol kubectl port-forward networkpolicie 
+		 abbr --add --global kports-no kubectl port-forward node 
+		 abbr --add --global kports-ns kubectl port-forward namespace 
+		 abbr --add --global kports-pc kubectl port-forward priorityclasse 
+		 abbr --add --global kports-pdb kubectl port-forward poddisruptionbudport-forward 
+		 abbr --add --global kports-po kubectl port-forward 
+		 abbr --add --global kports-podtemplate kubectl port-forward podtemplate 
+		 abbr --add --global kports-psp kubectl port-forward podsecuritypolicie 
+		 abbr --add --global kports-pv kubectl port-forward persistentvolume 
+		 abbr --add --global kports-pvc kubectl port-forward persistentvolumeclaim 
+		 abbr --add --global kports-quota kubectl port-forward resourcequota 
+		 abbr --add --global kports-rc kubectl port-forward replicationcontroller 
+		 abbr --add --global kports-rolebinding kubectl port-forward rolebinding 
+		 abbr --add --global kports-role kubectl port-forward role 
+		 abbr --add --global kports-rs kubectl port-forward replicaset 
+		 abbr --add --global kports-sa kubectl port-forward serviceaccount 
+		 abbr --add --global kports-sar kubectl port-forward subjectaccessreview 
+		 abbr --add --global kports-sc kubectl port-forward storageclasse 
+		 abbr --add --global kports-secret kubectl port-forward secret 
+		 abbr --add --global kports-ssac kubectl port-forward selfsubjectaccessreview 
+		 abbr --add --global kports-ssrr kubectl port-forward selfsubjectrulesreview 
+		 abbr --add --global kports-sts kubectl port-forward statefulset 
+		 abbr --add --global kports-volumeattachement kubectl port-forward volumeattachment 
+		 abbr --add --global kports-vwhc kubectl port-forward validatingwebhookconfiguration 
+
+	 #+END_SRC
+*** Proxy
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 abbr --add --global kproxy kubectl proxy
+	 #+END_SRC
+*** Top
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 abbr --add --global ktop-no kubectl top node
+		 abbr --add --global ktop-po kubectl top pod
+	 #+END_SRC
+*** API Version
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 abbr --add --global kapi-version kubectl api-versions
+	 #+END_SRC
+*** Certificate
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 abbr --add --global kcert-approve kubectl certificate approve
+		 abbr --add --global kcert-approve-file kubectl certificate approve --filename
+		 abbr --add --global kcert-deny kubectl certificate deny
+		 abbr --add --global kcert-deny-file kubectl certificate deny --filename
+	 #+END_SRC
+*** Cluster Management
+	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+		 abbr --add --global kcinfo kubectl cluster-info
+		 abbr --add --global kcdump kubectl cluster-info dump
+		 abbr --add --global kcordon kubectl cordon
+		 abbr --add --global kdrain kubectl drain
+		 abbr --add --global ktaint kubectl taint
+		 abbr --add --global kuncordon kubectl uncordon
+		 abbr --add --global kapi-resources kubectl api-versions
+		 abbr --add --global kcd-ctx kubectl config use-context
+		 abbr --add --global kcd-ns kubectl config set-context --current --namespace=
+	 #+END_SRC
+	 
+* Functions
+	I treat functions similarly to aliases. The key difference is a function
+	involves multiple commands ran in succession, a pipeline, or some sort of
+	trivial flow control. Functions defined in the fish scripting language are
+	specifically for my own system. If the functionality is intended to be portable,
+	or is non-trivial, then I would rather use a standalone shell script instead.
+	
+	~uu~ runs a full non-dist upgrade on Debian/Ubuntu, followed by auto-removing
+	orphaned packages.
+	
+	#+BEGIN_SRC fish :tangle yes :tangle fish.config
+		function uu
+			sudo apt update; and sudo apt upgrade; and sudo apt autoremove
+		end
+	#+END_SRC
+	
+	~uuu~ is the same as ~uu~, except with a full upgrade.
+ 
+	#+BEGIN_SRC fish :tangle yes :tangle fish.config
+		function uuu
+			sudo apt update; and sudo apt full-upgrade; and sudo apt autoremove
+		end
+	#+END_SRC
+	
+	When waking from sleep, my mouse driver will sometimes fail. This
+	renders me unable to use my mouse. The ~fix-mouse~ function removes then installs
+	the ~psmouse~ module, which fixes my issue.
+	
+	#+BEGIN_SRC fish :tangle yes :tangle fish.config
+		function fix-mouse
+				sudo modprobe --remove psmouse; and sudo modprobe psmouse
+		end
+	#+END_SRC
+	
+	One bit of functionality I miss from ~bash~ is ~sudo !!~ to re-run the last 
+	command with ~sudo~. I understand that there are alternative ways to achieve
+	this with fish, but old habit die hard. Especially since I work often with
+	non-fish shells that do support ~sudo !!~. So I stole this function from a
+	[[https://github.com/fish-shell/fish-shell/issues/288#issuecomment-22762823][gentleman off of GitHub]].
+	
+	#+BEGIN_SRC fish :tangle yes :tangle fish.config
+		function sudo
+				if test "$argv" = !!
+						eval command sudo $history[1]
+				else
+						command sudo $argv
+				end
+		end
+	#+END_SRC
+	
+	
+
