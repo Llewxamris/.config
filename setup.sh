@@ -47,7 +47,7 @@ done
 # extention.
 for config_file in *.config; do
 		# Ensure at least one configuration file exists. If not, raise an error.
-		[ -e "$org_file" ] || error 'No config files found' 3
+		[ -e "$config_file" ] || error 'No config files found' 3
 
 		# Set the target directory based on the pattern mentioned above. To get the
 		# user configuration directory, first check the standard XDG_CONFIG_HOME
