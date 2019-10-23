@@ -47,7 +47,7 @@ done
 # extention.
 for config_file in *.config; do
 		# Ensure at least one configuration file exists. If not, raise an error.
-		[ -e "$org_file" ] || error 'No config files found' 3
+		[ -e "$config_file" ] || error 'No config files found' 3
 
 		# Set the target directory based on the pattern mentioned above. To get the
 		# user configuration directory, first check the standard XDG_CONFIG_HOME
@@ -58,7 +58,7 @@ for config_file in *.config; do
 		#
 		# To get the application name from the filename, we evoke basename with the
 		# filename and the extention we want truncated.
-		target_dir="${XDG_CONFIG_HOME-HOME/.config}/$(basename "$config_file" .config)"
+		target_dir="${XDG_CONFIG_HOME-$HOME/.config}/$(basename "$config_file" .config)"
 
 		# Create the _entire_ directory tree. If any of the directories already
 		# exist, then they are ignored.
