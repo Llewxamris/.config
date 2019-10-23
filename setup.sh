@@ -58,7 +58,7 @@ for config_file in *.config; do
 		#
 		# To get the application name from the filename, we evoke basename with the
 		# filename and the extention we want truncated.
-		target_dir="${XDG_CONFIG_HOME-HOME/.config}/$(basename "$config_file" .config)"
+		target_dir="${XDG_CONFIG_HOME-$HOME/.config}/$(basename "$config_file" .config)"
 
 		# Create the _entire_ directory tree. If any of the directories already
 		# exist, then they are ignored.
