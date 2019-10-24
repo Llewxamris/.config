@@ -6,7 +6,7 @@
 #  LocalWords:  Kubernetes Autoscale Rollout
 
 * Preface
-	#+BEGIN_SRC fish :tangle yes
+	#+BEGIN_SRC fish :tangle yes :tangle config.fish
 	# ______ _____ _____ _   _
 	# |  ___|_   _/  ___| | | |
 	# | |_    | | \ `--.| |_| |
