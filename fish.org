@@ -231,6 +231,16 @@
 		alias q="exit"
 	#+END_SRC
 
+** ~vim~
+	 While I use Emacs as my day-to-day editor. There are some situations where I
+	 do use Vim. Mostly if I need to make a quick edit in place while in the
+	 terminal, or if I am on a remote machine where Emacs use isn't appropriate.
+	 See my Micro-Vim Configuration file for more information.
+
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
+		alias vim="vim -u $HOME/.config/vim/config.vim"
+	 #+END_SRC
+
 ** Bookmarks
 	 Bookmarks are aliases for changing to a commonly used directory. They start
 	 with ~bk_~ for easy tab-completion cycling.

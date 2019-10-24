@@ -1,0 +1,114 @@
+#+TITLE: µVim Configuration
+#+SUBTITLE: A minimal Vim configuration for use on remote servers
+#+AUTHOR: Maxwell Haley
+#+EMAIL: maxwell.r.haley@gmail.com
+#  LocalWords: whitespace filetype Elisp Vimscript
+
+* Preface
+	#+BEGIN_SRC vim :tangle yes :tangle config.vim
+		"        _   _ ________  ___
+		"       | | | |_   _|  \/  |
+		"  _   _| | | | | | | .  . |
+		" | | | | | | | | | | |\/| |
+		" | |_| \ \_/ /_| |_| |  | |
+		" | .___|\___/ \___/\_|  |_/
+		" | |                       
+		" |_|                       
+	#+END_SRC
+
+	Vim was my first love, but I have moved over to Emacs pretty much entirely. I
+	just prefer Emacs plugin ecosystem, self-extensible nature, and to be honest
+	Elisp is a thousands times more enjoyable to write than Vimscript. However,
+	there are still situations where I use Vim. Mostly at work, if I am on a
+	remote server where:
+
+	- I do not have the ability to install Emacs or remotely edit files
+	- The server is resource sensitive and the overhead of Emacs is too great
+	- The server is network sensitive and constantly performing remote changes
+		would cause network performance issues
+	
+	
+	To make using vanilla Vim a bit more manageable, I use a handful of settings.
+	These are based on personal preference, and inspired by [[https://github.com/romainl/microvimrc][Microvimrc by Romain
+  Lafourcade]].
+
+* The Configuration
+	Firstly, we enable filetype detection and syntax highlighting. Together, this
+	results in Vim indenting and highlighting text files based on their filetype.
+	
+	#+BEGIN_SRC vim :tangle yes :tangle config.vim
+		filetype plugin indent on
+		syntax on
+	#+END_SRC
+
+	We include the ~machit~ macro for more advanced ~%~ (jumping between
+	opening/closing elements) usage.
+
+	#+BEGIN_SRC vim :tangle yes :tangle config.vim
+		runtime macros/matchit.vim
+	#+END_SRC
+	
+	Automatically indent new lines based on the previous line. Not as good as
+	smart indent, but smart indent only works for C-like languages out of the
+	box.
+
+	#+BEGIN_SRC vim :tangle yes :tangle config.vim
+		set autoindent
+	#+END_SRC
+	
+	When hitting backspace, treat the following white spaces as single characters.
+
+	#+BEGIN_SRC vim :tangle yes :tangle config.vim
+		set backspace=indent,eol,start
+	#+END_SRC
+	
+	Enable hidden buffers. Hidden buffers allow buffers with unsaved changes to be
+	put into the background. Without hidden buffers, these buffers would have to
+	be saved or changes discarded.
+
+	#+BEGIN_SRC vim :tangle yes :tangle config.vim
+		set hidden
+	#+END_SRC
+	
+	Incremental search begins searching on each character entered. It highlights
+	all matches in the buffer, and moves the display over the next closest match.
+	If the search is invalid, nothing is shown.
+
+	#+BEGIN_SRC vim :tangle yes :tangle config.vim
+		set incsearch
+	#+END_SRC
+	
+	Show the current line and column number, as well as the percentage towards
+	the end of the buffer the cursor is on.
+
+	#+BEGIN_SRC vim :tangle yes :tangle config.vim
+		set ruler
+	#+END_SRC
+	
+	Intelligently indent based on the whitespace already on the line.
+
+	#+BEGIN_SRC vim :tangle yes :tangle config.vim
+		set smarttab
+	#+END_SRC
+	
+	Better tab completion on the command line. Cycle through possible options,
+	and navigate through directories if in filename/menu completion.
+
+	#+BEGIN_SRC vim :tangle yes :tangle config.vim
+		set wildmenu
+	#+END_SRC
+
+	Show the relative line numbers. This works by displaying the actual line
+	number of the line the cursor is on, and showing the rest of the line numbers
+	relative to their distance from the cursor.
+	
+	#+BEGIN_SRC vim :tangle yes :tangle config.vim
+		set relativenumber
+	#+END_SRC
+
+	Always show the status line and the current mode.
+
+	#+BEGIN_SRC vim :tangle yes :tangle config.vim
+		set laststatus=2
+		set showmode
+	#+END_SRC

@@ -11,3 +11,4 @@ tags
 /emacs/.emacs.d/elpa/
 /emacs/.emacs.d/packages/
 config.fish
+/config.vim
