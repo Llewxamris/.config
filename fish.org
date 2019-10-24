@@ -27,7 +27,7 @@
 	 text dumped out each time I open a terminal. Maybe if it was a once a day
 	 situation, but anything else is too much.
 
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 set fish_greeting
 	 #+END_SRC
 
@@ -37,7 +37,7 @@
 	 find the related binary. Any binaries not on the ~PATH~ would have to be
 	 called directly with their respective path.
 
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 set --global --export PATH /usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/bin:/usr/games:/home/max/.local/bin:/usr/sbin:/sbin:/home/max/go/bin:/home/max/bin:/snap/bin:/home/max/.cargo/bin:/home/max/.yarn/bin
 	 #+END_SRC
 
@@ -49,7 +49,7 @@
 	 In the case of ~EDITOR~, I specify that Emacs is running in a non-graphical
 	 environment by passing in the ~--no-window-system~ flag.
 
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 set --global --export EDITOR /usr/bin/emacs --no-window-system
 		 set --global --export VISUAL /usr/bin/emacs
 	 #+END_SRC
@@ -61,7 +61,7 @@
 	 ~SHELL~ is the absolute path to your chosen shell. In my case (as you can
 	 tell by the name if this file), I want to set this to fish.
 	 
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 set --global --export SHELL /usr/bin/fish
 	 #+END_SRC
 	 
@@ -71,7 +71,7 @@
 	 (~tmux~ in particular) understand that to mean all the capabilities in Xterm
 	 as well as the ability to output true colours.
 	 
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 set --global --export TERM xterm-256color
 	 #+END_SRC
 	 
@@ -85,7 +85,7 @@
 	 JDK installed, it's best practice to define the active version as
 	 ~JAVA_HOME~
 	 
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 set --global --export JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
 	 #+END_SRC
 	 
@@ -93,7 +93,7 @@
 	 Go source code, as well as downloaded Go libraries (e.g. when getting an
 	 application via ~go get~).
 	 
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 set --global --export GOPATH /home/max/go/
 	 #+END_SRC
 
@@ -129,7 +129,7 @@
 	is the user and host name. Personally though, I feel that a prompt without
 	~user@host~ is incomplete.
 
-	#+BEGIN_SRC fish :tangle yes :tangle fish.config
+	#+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 function fish_prompt
 			 set -l lastexit $status
 			 set -l userhost (set_color yellow)$USER@(hostname):
@@ -167,7 +167,7 @@
 		 of the directories
 	 - Displaying file sizes as human readable (13K instead of 13000)
 
-	#+BEGIN_SRC fish :tangle yes :tangle fish.config
+	#+BEGIN_SRC fish :tangle yes :tangle config.fish
 		alias ls="ls --color=auto 
 		--group-directories-first \
 		--dereference \
@@ -178,14 +178,14 @@
 	~ls~ by listing by column, and ignoring backup files (any file that ends with
 	~~~).
 
-	#+BEGIN_SRC fish :tangle yes :tangle fish.config
+	#+BEGIN_SRC fish :tangle yes :tangle config.fish
 		alias l="ls -C --ignore-backups"
 	#+END_SRC
 
 	~la~ displays /almost/ all hidden content. It shows hidden files and
 	directories, but does not display the ~.~ and ~..~ directories.
 
-	#+BEGIN_SRC fish :tangle yes :tangle fish.config
+	#+BEGIN_SRC fish :tangle yes :tangle config.fish
 		alias la="l --almost-all"
 	#+END_SRC
 
@@ -193,14 +193,14 @@
 	the entities to give some more visual representation ( e.g ~/~ after 
 	directories, ~*~ after executable files, etc).
 
-	#+BEGIN_SRC fish :tangle yes :tangle fish.config
+	#+BEGIN_SRC fish :tangle yes :tangle config.fish
 		alias ll="l -l --classify"
 	#+END_SRC
 	
 	And lastly, ~lla~ is the same as ~ll~, but shows /almost/ all hidden content
 	in the same fashion as ~la~.
 	
-	#+BEGIN_SRC fish :tangle yes :tangle fish.config
+	#+BEGIN_SRC fish :tangle yes :tangle config.fish
 		alias lla="ll --almost-all"
 	#+END_SRC
 
@@ -208,7 +208,7 @@
 	 My ~grep~ alias simply automatically enables colour on terminals that will
 	 support using colour.
 	 
-	#+BEGIN_SRC fish :tangle yes :tangle fish.config
+	#+BEGIN_SRC fish :tangle yes :tangle config.fish
 		alias grep="grep --color=auto"
 	#+END_SRC
 
@@ -216,7 +216,7 @@
 	This alias ensures that ~tmux~ always loads my configuration file from the
 	custom directory inside the ~XDG_CONFIG_HOME~.
 	
-	#+BEGIN_SRC fish :tangle yes :tangle fish.config
+	#+BEGIN_SRC fish :tangle yes :tangle config.fish
 		alias tmux="tmux -f $HOME/.config/tmux/tmux.config"
 	#+END_SRC
 
@@ -227,7 +227,7 @@
 	to be in. Hitting ~q~ then enter while a coworker is watching over my shoulder
 	is one of the greatest shames.
 	
-	#+BEGIN_SRC fish :tangle yes :tangle fish.config
+	#+BEGIN_SRC fish :tangle yes :tangle config.fish
 		alias q="exit"
 	#+END_SRC
 
@@ -235,7 +235,7 @@
 	 Bookmarks are aliases for changing to a commonly used directory. They start
 	 with ~bk_~ for easy tab-completion cycling.
 
-	#+BEGIN_SRC fish :tangle yes :tangle fish.config
+	#+BEGIN_SRC fish :tangle yes :tangle config.fish
 		alias bk_config="cd $HOME/git/dotfiles"
 		alias bk_go="cd $GOPATH"
 	#+END_SRC
@@ -269,7 +269,7 @@
 	 with Git on the CLI a hassle. You'll notice that none of these abbreviations
 	 help with the interface issues, because I am a baddie.
 	 
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 abbr --add --global gstat git status
 		 abbr --add --global gcomm git commit
 		 abbr --add --global gpush git push
@@ -288,7 +288,7 @@
 	expansion properties to make working with Docker easier. These are mostly
 	just shortcuts.
 	
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 abbr --add --global dattach docker attach
 		 abbr --add --global dbuild docker build
 		 abbr --add --global dcont docker container
@@ -329,7 +329,7 @@
 	an interactive menu and context.
 
 *** Create
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 abbr --add --global kcreate kubectl create
 		 abbr --add --global kcreate-file kubectl create --filename
 
@@ -359,7 +359,7 @@
 	 #+END_SRC
 
 *** Get
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 abbr --add --global kls kubectl get
 		 abbr --add --global kls-file kubectl get --filename
 
@@ -409,12 +409,12 @@
 		 abbr --add --global kls-vwhc kubectl get validatingwebhookconfigurations
 	 #+END_SRC
 *** Run
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 abbr --add --global krun kubectl run --image=
 		 abbr --add --global krun-port kubectl run --image= --port=
 	 #+END_SRC
 *** Expose
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 abbr --add --global kexp kubectl expose --port= --target-port= \# Target is host
 		 abbr --add --global kexp-file kubectl expose --filename --port= --target-port= \# Target is host
 
@@ -425,7 +425,7 @@
 		 abbr --add --global kexp-rs kubectl expose replicaset --port= --target-port= \# Target is host
 	 #+END_SRC
 *** Delete
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 abbr --add --global krm kubectl delete
 		 abbr --add --global krm-file kubectl delete --filename
 
@@ -476,14 +476,14 @@
 
 	 #+END_SRC
 *** Apply
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 abbr --add --global kapply kubectl apply -f
 		 abbr --add --global kapply-edit-last kubectl apply edit-last-applied
 		 abbr --add --global kapply-set-last kubectl apply set-last-applied
 		 abbr --add --global kapply-view-last kubectl apply view-last-applied
 	 #+END_SRC
 *** Annotate
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 abbr --add --global kann kubectl annotate
 		 abbr --add --global kann-file kubectl annotate --filename
 
@@ -534,12 +534,12 @@
 
 	 #+END_SRC
 *** Autoscale
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 abbr --add --global kauto kubectl autoscale --max=
 		 abbr --add --global kauto-file kubectl autoscale --filename --max=
 	 #+END_SRC
 *** Autoscale
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 abbr --add --global kauto kubectl autoscale --max=
 		 abbr --add --global kauto-file kubectl autoscale --filename --max=
 
@@ -549,15 +549,15 @@
 		 abbr --add --global kauto-sts kubectl autoscale statefulset --max=
 	 #+END_SRC
 *** Convert
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 abbr --add --global kconvert kubectl convert --filename
 	 #+END_SRC
 *** Diff
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 abbr --add --global kdiff kubectl diff --filename
 	 #+END_SRC
 *** Edit
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 abbr --add --global ked kubectl edit
 
 		 abbr --add --global ked-apisvc kubectl edit apiservice
@@ -607,7 +607,7 @@
 
 	 #+END_SRC
 *** Label
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 abbr --add --global klabel kubectl label
 		 abbr --add --global klabel-file kubectl label --filename
 
@@ -658,7 +658,7 @@
 
 	 #+END_SRC
 *** Patch
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 abbr --add --global kpatch kubectl patch --patch
 		 abbr --add --global kpatch-file kubectl patch --filename --patch
 
@@ -709,11 +709,11 @@
 
 	 #+END_SRC
 *** Replace
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 abbr --add --global kreplace kubectl replace --filename
 	 #+END_SRC
 *** Rollout
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 abbr --add --global kroll kubectl rollout
 		 abbr --add --global kroll-file kubectl rollout history --filename
 
@@ -743,7 +743,7 @@
 
 	 #+END_SRC
 *** Scale
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 abbr --add --global kscale kubectl scale --replicas=
 		 abbr --add --global kscale-file kubectl scale --filename --replicas=
 
@@ -754,7 +754,7 @@
 
 	 #+END_SRC
 *** Set
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 abbr --add --global kset kubectl set
 		 abbr --add --global kset-file kubectl set --filename
 
@@ -874,7 +874,7 @@
 
 	 #+END_SRC
 *** Wait
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 abbr --add --global kwait kubectl wait --for
 		 abbr --add --global kwait-file kubectl wait apiservice --filename --for
 
@@ -925,7 +925,7 @@
 
 	 #+END_SRC
 *** Describe
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 abbr --add --global kdesc kubectl describe
 		 abbr --add --global kdesc-file kubectl describe --filename
 
@@ -1021,12 +1021,12 @@
 
 	 #+END_SRC
 *** Execute
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 abbr --add --global kexec kubectl exec
 		 abbr --add --global kexec-term kubectl exec --stdin --tty --
 	 #+END_SRC
 *** Logs
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 abbr --add --global klogs kubectl logs 
 		 abbr --add --global klogs-file kubectl logs --filename 
 
@@ -1124,7 +1124,7 @@
 		 abbr --add --global ktail-vwhc kubectl logs validatingwebhookconfiguration --follow
 	 #+END_SRC
 *** Ports
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 abbr --add --global kports kubectl port-forward 
 		 abbr --add --global kports-file kubectl port-forward --filename 
 
@@ -1175,27 +1175,27 @@
 
 	 #+END_SRC
 *** Proxy
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 abbr --add --global kproxy kubectl proxy
 	 #+END_SRC
 *** Top
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 abbr --add --global ktop-no kubectl top node
 		 abbr --add --global ktop-po kubectl top pod
 	 #+END_SRC
 *** API Version
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 abbr --add --global kapi-version kubectl api-versions
 	 #+END_SRC
 *** Certificate
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 abbr --add --global kcert-approve kubectl certificate approve
 		 abbr --add --global kcert-approve-file kubectl certificate approve --filename
 		 abbr --add --global kcert-deny kubectl certificate deny
 		 abbr --add --global kcert-deny-file kubectl certificate deny --filename
 	 #+END_SRC
 *** Cluster Management
-	 #+BEGIN_SRC fish :tangle yes :tangle fish.config
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
 		 abbr --add --global kcinfo kubectl cluster-info
 		 abbr --add --global kcdump kubectl cluster-info dump
 		 abbr --add --global kcordon kubectl cordon
@@ -1217,7 +1217,7 @@
 	~uu~ runs a full non-dist upgrade on Debian/Ubuntu, followed by auto-removing
 	orphaned packages.
 	
-	#+BEGIN_SRC fish :tangle yes :tangle fish.config
+	#+BEGIN_SRC fish :tangle yes :tangle config.fish
 		function uu
 			sudo apt update; and sudo apt upgrade; and sudo apt autoremove
 		end
@@ -1225,7 +1225,7 @@
 	
 	~uuu~ is the same as ~uu~, except with a full upgrade.
  
-	#+BEGIN_SRC fish :tangle yes :tangle fish.config
+	#+BEGIN_SRC fish :tangle yes :tangle config.fish
 		function uuu
 			sudo apt update; and sudo apt full-upgrade; and sudo apt autoremove
 		end
@@ -1235,7 +1235,7 @@
 	renders me unable to use my mouse. The ~fix-mouse~ function removes then installs
 	the ~psmouse~ module, which fixes my issue.
 	
-	#+BEGIN_SRC fish :tangle yes :tangle fish.config
+	#+BEGIN_SRC fish :tangle yes :tangle config.fish
 		function fix-mouse
 				sudo modprobe --remove psmouse; and sudo modprobe psmouse
 		end
@@ -1247,7 +1247,7 @@
 	non-fish shells that do support ~sudo !!~. So I stole this function from a
 	[[https://github.com/fish-shell/fish-shell/issues/288#issuecomment-22762823][gentleman off of GitHub]].
 	
-	#+BEGIN_SRC fish :tangle yes :tangle fish.config
+	#+BEGIN_SRC fish :tangle yes :tangle config.fish
 		function sudo
 				if test "$argv" = !!
 						eval command sudo $history[1]
