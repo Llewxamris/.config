@@ -17,7 +17,7 @@ main() {
 		tangle_org_files
 		link_config_file fish config.fish
 		link_config_file tmux tmux.config
-		link_config_file nvim nvim.config
+		link_config_file nvim init.vim
 }
 
 # Print arg1 to the screen, and exit with a code defined in arg2.
