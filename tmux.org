@@ -1,0 +1,159 @@
+#+TITLE: tmux Configuration
+#+SUBTITLE: Configuration file for tmux
+#+AUTHOR: Maxwell Haley
+#+EMAIL: maxwell.r.haley@gmail.com
+#  LocalWords:  tmux
+
+* Preface
+#+BEGIN_SRC fundamental :tangle yes :tangle config.tmux
+	#  ________  ____   ___   __
+	# |_   _|  \/  | | | \ \ / /
+	#   | | | .  . | | | |\ V / 
+	#   | | | |\/| | | | |/   \ 
+	#   | | | |  | | |_| / /^\ \
+	#   \_/ \_|  |_/\___/\/   \/
+#+END_SRC
+
+tmux is a terminal multiplexer. That is, it allows a single terminal to have
+many virtual terminal sessions. These sessions run asynchronously, meaning
+long running commands or applications that control the terminal can continue
+to exist while you switch over to another terminal.
+
+tmux also has the ability to arrange terminal sessions in a window manager-like
+system. You can have several applications running in a single window, building
+a dashboard of system monitors, or your editor next to a window to run your
+compiler. My favourite feature are the sessions. I can start tmux with a
+defined session name, then create sessions and arrange them as I see fit.
+If a new context arises that doesn't fit with the current session, I can
+detach from the session and create a brand new session with all the new
+applications I need running.
+
+tmux is essential on remote machines. I can create a session, then detach the
+session before disconnecting. Once I reconnect, I can reattach the same
+session as before and be greeted where-ever I left off.
+
+* Colour Theme
+	I use the Nord colour theme as I do in my terminal and in Emacs. To make
+	setting up the theme simpler, I use ~tpm~ to install ~nord-tmux~ as a plugin.
+
+	I need to set plugins using this syntax because my config is loaded using the
+	~-f~ flag (custom init file location).
+
+	#+BEGIN_SRC fundamental :tangle yes :tangle config.tmux
+		set -g @tpm_plugins '\
+				tmux-plugins/tpm \
+				arcticicestudio/nord-tmux \
+		'
+	#+END_SRC
+
+* Settings
+	To ensure tmux will load its support for 256 truecolour, I set the default
+	terminal and override the resulting terminal value.
+
+	#+BEGIN_SRC fundamental :tangle yes :tangle config.tmux
+		set -g default-terminal "xterm-256color"
+		set -g terminal-overrides ',xterm-256color:Tc'
+	#+END_SRC
+	
+	There is noticeable delay in Vim when switching between modes if Vim is
+	running inside tmux. In order to fix this issue, I need to set the key escape
+	time to 0 ([[https://superuser.com/questions/252214/slight-delay-when-switching-modes-in-vim-using-tmux-or-screen/252717#252717][See this Super User question]].
+	
+	#+BEGIN_SRC fundamental :tangle yes :tangle config.tmux
+		set -sg escape-time 0
+	#+END_SRC
+	
+	Increase scrollback buffer size. The amount of times the buffer size has made
+	me have to pipe output to `less` hurts my soul.
+	
+	#+BEGIN_SRC fundamental :tangle yes :tangle config.tmux
+		set -g history-limit 50000
+	#+END_SRC
+
+	Display messages for much longer (a whole four seconds!!)
+	#+BEGIN_SRC fundamental :tangle yes :tangle config.tmux
+		set -g display-time 4000
+	#+END_SRC
+
+	Use vi-like keybindings when in copy mode.
+	#+BEGIN_SRC fundamental :tangle yes :tangle config.tmux
+		setw -g mode-keys vi
+	#+END_SRC
+
+	Allow the use of the mouse to manipulate panes, copy text, etc.
+	#+BEGIN_SRC fundamental :tangle yes :tangle config.tmux
+		setw -g mouse on
+	#+END_SRC
+
+* Key Binds
+	tmux uses a prefix key-combination to start off any commands. I switch the
+	prefix from ~C-b~ to ~C-a~. I find ~C-a~ much more comfortable for my resting
+	hand position.
+
+	#+BEGIN_SRC fundamental :tangle yes :tangle config.tmux
+		set -g prefix C-a
+		unbind-key C-b
+	#+END_SRC
+	
+
+	Vim-like keys for traversing tmux panes. Much more comfortable and familiar
+	than using the arrow keys.
+
+	#+BEGIN_SRC fundamental :tangle yes :tangle config.tmux
+		bind h select-pane -L
+		bind j select-pane -D
+		bind k select-pane -U
+		bind l select-pane -R
+	#+END_SRC
+
+	Vim-like keys for resizing. Uses Alt+Shift instead of the tmux prefix for 
+	rapid resizing.
+
+	#+BEGIN_SRC fundamental :tangle yes :tangle config.tmux
+		bind -n M-H resize-pane -L 5
+		bind -n M-J resize-pane -D 5
+		bind -n M-K resize-pane -U 5
+		bind -n M-L resize-pane -R 5
+	#+END_SRC
+
+	Binds for quick window splitting.
+
+	#+BEGIN_SRC fundamental :tangle yes :tangle config.tmux
+		bind-key v split-window -h
+		bind-key b split-window
+	#+END_SRC
+
+	Quick reload of the tmux configuration file.
+
+	#+BEGIN_SRC fundamental :tangle yes :tangle config.tmux
+		bind r source-file ~/.config/tmux/tmux.config
+	#+END_SRC
+	
+* Visuals
+	Start counting windows from 1 instead of 0. Mostly personal preference,
+	0 isn't any harder to hit than 1 when touch typing.
+
+	#+BEGIN_SRC fundamental :tangle yes :tangle config.tmux
+		set -g base-index 1
+	#+END_SRC
+
+	Update the window (desktop window, not tmux window) title to match the active
+	application in the active window and/or pane.
+
+	#+BEGIN_SRC fundamental :tangle yes :tangle config.tmux
+		set-window-option -g automatic-rename on
+		set-option -g set-titles on
+	#+END_SRC
+
+	Invert the tab of windows that have had an activity change.
+
+	#+BEGIN_SRC fundamental :tangle yes :tangle config.tmux
+		setw -g monitor-activity on
+	#+END_SRC
+
+	Disable using the powerline patched font as part of the Nord theme.
+
+	#+BEGIN_SRC fundamental :tangle yes :tangle config.tmux
+		set -g @nord_tmux_no_patched_font "1"
+		run '~/.tmux/plugins/tpm/tpm'
+	#+END_SRC

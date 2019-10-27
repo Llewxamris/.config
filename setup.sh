@@ -16,7 +16,7 @@ main() {
 
 		tangle_org_files
 		link_config_file fish config.fish
-		link_config_file tmux tmux.config
+		link_config_file tmux config.tmux
 		link_config_file vim config.vim
 }
 
