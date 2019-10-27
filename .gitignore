@@ -12,3 +12,4 @@ tags
 /emacs/.emacs.d/packages/
 config.fish
 /config.vim
+/config.tmux

@@ -217,7 +217,7 @@
 	custom directory inside the ~XDG_CONFIG_HOME~.
 	
 	#+BEGIN_SRC fish :tangle yes :tangle config.fish
-		alias tmux="tmux -f $HOME/.config/tmux/tmux.config"
+		alias tmux="tmux -f $HOME/.config/tmux/config.tmux"
 	#+END_SRC
 
 ** ~exit~ 
