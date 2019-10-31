@@ -97,6 +97,18 @@
 		 set --global --export GOPATH /home/max/go/
 	 #+END_SRC
 
+	 ~CARGO_HOME~ specifies the location of cached registry indexes, Git
+	 checkouts, and compiled binaries. By default, the location is ~$HOME/.cargo~.
+	 To match the Freedesktop standard, I change this location to
+	 ~$HOME/.local/share/cargo~. I would prefer to point the cached items to
+	 ~$HOME/.cache/cargo~ and the binaries to ~$HOME/.local/bin~, but there
+	 isn't a good way to split these up. Instead, I use ~lndir~ to link
+	 ~$HOME/.local/share/cargo/bin~ to ~/$HOME/.local/bin~.
+
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
+		 set --global --export CARGO_HOME $HOME/.local/share/cargo
+	 #+END_SRC
+
 * The Prompt
 	/Ah/, the custom shell prompt. Like most things, you can really get a view
 	into who a person is based on how they like their prompt. Are they a
@@ -130,22 +142,24 @@
 	~user@host~ is incomplete.
 
 	#+BEGIN_SRC fish :tangle yes :tangle config.fish
-		 function fish_prompt
-			 set -l lastexit $status
-			 set -l userhost (set_color yellow)$USER@(hostname):
-			 set -l workingdir (set_color blue)(prompt_pwd)
-			 set -l gitprompt (set_color --dim --italics white)(__fish_git_prompt)
+		set __fish_git_prompt_show_informative_status 'yes'
 
-			 if test $lastexit -eq 0
-				 set symbol (set_color --bold green)λ\ 
-			 else
-				 set symbol (set_color --bold red)λ\ 
-			 end
+		function fish_prompt
+				set -l lastexit $status
+				set -l userhost (set_color black)$USER@(hostname):
+				set -l workingdir (set_color blue)(prompt_pwd)
+				set -l gitprompt (set_color --dim --italics white)(__fish_git_prompt)
 
-			 echo
-			 echo "$userhost""$workingdir""$gitprompt"
-			 echo "$symbol"(set_color white)
-		 end
+				if test $lastexit -eq 0
+						set symbol (set_color --bold green)λ\ 
+				else
+						set symbol (set_color --bold red)λ\ 
+				end
+
+				echo
+				echo "$userhost""$workingdir""$gitprompt"
+				echo "$symbol"(set_color normal)
+		end
 	#+END_SRC
 
 * Aliases
