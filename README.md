@@ -1,86 +1,72 @@
-# $HOME/.config/
-Configuration files and scripts. Goals include keeping a common look
-and feel within both the applications in question, but also within
-their configuration files. This means that:
+# Llewxamris' Configuration
+A computer you do not enjoy using is not a good computer. If that computer is
+too slow, if the attached screen is too small, if the keyboard is not
+comfortable, then that computer has failed at being a useful tool. Software, as
+an extension of the computer, falls under this same rule. Fortunately, changing
+software to fit your needs is much cheaper than changing your hardware. Free &
+open source software in particular has built a culture of allowing end-users to
+endlessly customize their software to their liking (to the benefit of
+usability, and to the detriment of all the time I've spent on tweaking editors
+instead of working on the rest of the projects I have on my list). Both in the
+ability to modify the source-code of the application itself, but also in
+exposing non-source-code oriented ways. Non-technical individuals (or those who
+are, but simply lack the time/knowledge to tweak) are not bared from building
+their perfect system.
 
-- Applications should share a common colour scheme, font, key binds,
-etc.
-  - Colour scheme is [Nord][0]
-  - Font is currently determined by the terminal application. Right
-  now I am using the [Gnome Terminal][1] and the [Go Mono][2] font
-- Configuration files share a common layout
-  - Large header on top
-  - Common lines grouped together inside clearly defined sections
-  - Sections use `vim` markers for easy folding
+That said, there is nothing wrong with being content with what is provided to
+you out-of-the-box. There's a reason _defaults_ are called _defaults_. If you
+find those defaults: visually pleasing, ergonomically pleasing, and let you take
+full advantage of your system, why spend the time tweaking?
 
-Comments are used both to explain what the results are of a line or
-a series of lines, and to explain why that result is desired.
+This repository contains my ever evolving configuration files. Built on,
+inspired by, and stolen from the backs of giants. I hope to one day reach the
+point where I have crafted my perfect system. Probably sometime in the far
+future, when our machines will be interlocked with our minds, scanning our very
+souls to determine the best font & colour combination for the day. Until such a
+time, I guess I'll continue to waste my lunch breaks thinking about hexadecimal
+colour codes.
 
-All configuration files are meant to be stored within the default
-[Freedesktop.org][3] configuration directory of `$HOME/.config/` under a
-sub-directory of the applications name.
+I try to strive for some consistency in how the software on my system looks and
+operates. Keeping a primary font throughout, similar colour themes, and similar
+key binds for similar operations (if possible). My current font choice is
+[Iosveka Term SS04][1]. I appreciate the slender characters compared to other
+fonts, and the ability to use [ligatures][2] is nice even if I don't use them
+much (mostly because the support in Emacs is awful). I am currently basing my
+colours off of the [Leuven theme][0] for Emacs. I switch back and forth between
+dark and light schemes, but at this moment I've settled on light schemes. I keep
+the brightness of my screens relatively low (~40% depending on the other light
+sources around me), so dark themes tend to result in a really low contrast
+ratio that can become uncomfortable after extended use.
 
-## ./fish/fish.config
-The [Friendly Interactive Shell][4]--or fish--is a shell for Unix-like
-operating systems that comes out-of-the-box with sane, 21st century
-defaults. Unlike Bash, one does not require a [complex shell script][5]
-to show Git information. Unlike Zsh, one does not need a [large
-framework of plugins][6] just to be usable.
+I try to keep my system organized and compliant with freedesktop.org's
+[Base Directory Specification][3]. That is: configuration files within
+`$HOME/.config`, binaries/executable scripts within `$HOME/.local/bin`, and
+other application data within `$HOME/.local/shared`.
 
-So far, moving from Bash to Fish has only improved my workflow.
-However, I still write any shell scripts in `sh` or Bash. I would
-not install Fish on any server. Lighter shells do fine in that
-scenario.
+All of my fundamental configuration files are written in [Org][4]. I use
+Org-mode almost exclusively for my organizational and productivity tasks, both
+in my personal life and at work. I find it's outline focused structure and
+syntax make it  the most comfortable plain-text format for me to write in.
 
-The `fish.config` contains my environment variables, as well as `git`
-abbreviations, file system bookmarks, and custom functions (mostly
-used as aliases). It also contains a customized shell prompt.
+Please don't look at the file type of this `README`.
 
+I wrap all of my configuration around Org files, as it lets me both organize the
+configurations in a way I find comfortable, but also opens up more advanced text
+formatting that is not available when using comments.
 
-## ./nvim/init.vim
-[Neovim][7] is an attempt at modernizing the extremely popular text editor
-, Vim. As long as Neovim continues to innovate without straying away
-from the core of what makes Vim great, I don't see a reason to go
-back to Vim.
-
-I try to limit the amount of plugins I rely on for day-to-day use.
-That said, [`coc.nvim`][8] is the opposite of _minimal_ and drastically
-shifts Neovim towards being an IDE instead of just a text editor.
-
-The `neovim.config` file contains some general settings based on
-my personal preference, mappings & remappings, and visual changes.
-
-## ./tmux/tmux.conf 
-`tmux` is a terminal multiplexer. It is an essential part of my
-workflow. The ability to manage several terminal instances within
-one terminal application has become essential for me. Having every
-project within it's own `tmux` session--containing workspaces, 
-running containers, running servers--makes managing context an
-absolute breeze.
-
-Only two plugins are used at this moment. The package manager itself,
-and the Nord theme plugin.
-
-The `tmux.config` file contains several general, personal preference,
-settings and key binds.
-
-# $HOME/bin/setup.sh
-A shell script to recreate my environment from a fresh Arch Linux
-installation. It was being created to help manage moving from
-Ubuntu to Arch Linux. However, I have abandoned that transition
-simply due to time.
+# Installation
+The `setup.sh` script handles setting up the configuration files on my machines.
+The script checks if you have Emacs available on the `PATH`, but assumes that
+Org-mode is already installed and configured. It untangles the Org files into
+just the configuration sources, then symbolically links them to the appropriate
+locations.
 
 # License
-All files are free to use regardless of purpose. See UNLICENSE for more
-information.
+All files, scripts, prose, and the concept of the English language included in this
+repository are free for all to use. See `UNLICENSE` for more information.
 
-[0]:https://www.nordtheme.com/
-[1]:https://wiki.gnome.org/Apps/Terminal
-[2]:https://blog.golang.org/go-fonts
-[3]:https://www.freedesktop.org/wiki/
-[4]:https://fishshell.com/
-[4]:https://fishshell.com/
-[5]:https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
-[6]:https://ohmyz.sh/
-[7]:https://neovim.io/
-[8]:https://github.com/neoclide/coc.nvim
+[0]:https://github.com/fniessen/emacs-leuven-theme
+[1]:https://typeof.net/Iosevka/
+[2]:https://www.hanselman.com/blog/MonospacedProgrammingFontsWithLigatures.aspx
+[3]:https://specifications.freedesktop.org/basedir-spec/latest
+[4]:https://orgmode.org
