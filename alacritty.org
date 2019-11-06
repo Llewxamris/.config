@@ -1,0 +1,19 @@
+# -*- org-src-preserve-indentation: t; org-edit-src-content-indentation: 0; -*-
+#+TITLE: Alacritty Configuration
+#+SUBTITLE: Configuration file for the Alacritty terminal emulator
+#+AUTHOR: Maxwell Haley
+#+EMAIL: maxwell.r.haley@gmail.com
+#+DATE: 2019-10-22
+#  LocalWords:  Alacritty
+
+* Preface
+	#+BEGIN_SRC yaml :tangle yes :tangle alacritty.yml
+#   ___  _                 _ _   _         
+#  / _ \| |               (_) | | |        
+# / /_\ \ | __ _  ___ _ __ _| |_| |_ _   _ 
+# |  _  | |/ _` |/ __| '__| | __| __| | | |
+# | | | | | (_| | (__| |  | | |_| |_| |_| |
+# \_| |_/_|\__,_|\___|_|  |_|\__|\__|\__, |
+#                                     __/ |
+#                                    |___/ 
+	#+END_SRC

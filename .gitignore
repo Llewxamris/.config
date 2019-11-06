@@ -14,3 +14,4 @@ config.fish
 /config.vim
 /config.tmux
 /README.html
+/alacritty.yml

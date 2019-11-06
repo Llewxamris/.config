@@ -18,6 +18,7 @@ main() {
 		link_config_file fish config.fish
 		link_config_file tmux config.tmux
 		link_config_file vim config.vim
+		link_config_file alacritty alacritty.yml
 }
 
 # Print arg1 to the screen, and exit with a code defined in arg2.
