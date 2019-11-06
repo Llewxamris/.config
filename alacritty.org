@@ -7,7 +7,7 @@
 #  LocalWords:  Alacritty
 
 * Preface
-	#+BEGIN_SRC yaml :tangle yes :tangle alacritty.yml
+#+BEGIN_SRC yaml :tangle yes :tangle alacritty.yml
 #   ___  _                 _ _   _         
 #  / _ \| |               (_) | | |        
 # / /_\ \ | __ _  ___ _ __ _| |_| |_ _   _ 
@@ -16,4 +16,51 @@
 # \_| |_/_|\__,_|\___|_|  |_|\__|\__|\__, |
 #                                     __/ |
 #                                    |___/ 
-	#+END_SRC
+window:
+  padding:
+    x: 5
+
+colors:
+  primary:
+    background: '0xFFFFFF'
+    foreground: '0x333333'
+
+  cursor:
+    text: '0x333333'
+    cursor: '0x21BDFF'
+
+  normal:
+    black:   '0x000000'
+    red:     '0xFF0000'
+    green:   '0x008000'
+    yellow:  '0xFFD700'
+    blue:    '0x335EA8'
+    magenta: '0x6434A3'
+    cyan:    '0x88C0D0'
+    white:   '0xA7A7A7'
+
+  bright:
+    black:   '0x8D8D8D'
+    red:     '0xFFB400'
+    green:   '0x00FF00'
+    yellow:  '0xF6FECD'
+    blue:    '0x008ED1'
+    magenta: '0xBA36A5'
+    cyan:    '0xE5F4FB'
+    white:   '0x9A9A9A'
+
+              # Font configuration (changes require restart)
+font:
+  size: 13
+  normal:
+    family: Iosevka Term SS04
+    style: Medium
+
+    bold:
+      family: Iosevka Term SS04
+      style: Bold
+
+      italic:
+        family: Iosevka Term SS04
+        style: Oblique, Medium
+#+END_SRC
