@@ -3,8 +3,7 @@
 #+SUBTITLE: Configuration file for the Alacritty terminal emulator
 #+AUTHOR: Maxwell Haley
 #+EMAIL: maxwell.r.haley@gmail.com
-#+DATE: 2019-10-22
-#  LocalWords:  Alacritty
+#  LocalWords:  Alacritty Iosevka Leuven
 
 * Preface
 #+BEGIN_SRC yaml :tangle yes :tangle alacritty.yml
@@ -16,51 +15,95 @@
 # \_| |_/_|\__,_|\___|_|  |_|\__|\__|\__, |
 #                                     __/ |
 #                                    |___/ 
+#+END_SRC
+
+* The Window
+	The ~window~ collection defines how Alacritty is drawn to the screen. I add a
+	bit of padding between the sides of the window and the terminal. Without it,
+	the text is uncomfortably close to the edge of the monitor.
+
+#+BEGIN_SRC yaml :tangle yes :tangle alacritty.yml
 window:
   padding:
     x: 5
+  dynamic_padding: true # Adds a bit more space in some situations
+  startup_mode: Maximized
+#+END_SRC
 
-colors:
-  primary:
-    background: '0xFFFFFF'
-    foreground: '0x333333'
+* Fonts
+	Configure the use of the Iosevka font. As well, disable converting all bold
+	text to use the bright colours.
 
-  cursor:
-    text: '0x333333'
-    cursor: '0x21BDFF'
-
-  normal:
-    black:   '0x000000'
-    red:     '0xFF0000'
-    green:   '0x008000'
-    yellow:  '0xFFD700'
-    blue:    '0x335EA8'
-    magenta: '0x6434A3'
-    cyan:    '0x88C0D0'
-    white:   '0xA7A7A7'
-
-  bright:
-    black:   '0x8D8D8D'
-    red:     '0xFFB400'
-    green:   '0x00FF00'
-    yellow:  '0xF6FECD'
-    blue:    '0x008ED1'
-    magenta: '0xBA36A5'
-    cyan:    '0xE5F4FB'
-    white:   '0x9A9A9A'
-
-              # Font configuration (changes require restart)
+#+BEGIN_SRC yaml :tangle yes :tangle alacritty.yml
 font:
-  size: 13
   normal:
     family: Iosevka Term SS04
     style: Medium
 
-    bold:
-      family: Iosevka Term SS04
-      style: Bold
+  bold:
+    family: Iosevka Term SS04
+    style: Bold
 
-      italic:
-        family: Iosevka Term SS04
-        style: Oblique, Medium
+  italic:
+    family: Iosevka Term SS04
+    style: Oblique, Medium
+
+  size: 13
+
+draw_bold_text_with_bright_colors: false
+#+END_SRC
+
+* Colours
+	My colours scheme is derived from the [[https://github.com/fniessen/emacs-leuven-theme][Leuven Theme]]
+	for Emacs. For some elements (e.g. primary background and foreground colours)
+	it was obvious which Leuven face was needed. Other colours were not as simple.
+	Brighter colours, like cyan or yellow, are used mostly by Leuven as background
+	or highlight faces. This makes them unusable for text colour, especially
+	if it is directly against the pure white background.
+	
+	I have annotated each colour in this configuration with a comment declaring
+	which Leuven color class or custom face I lifted the value from.
+
+ #+BEGIN_SRC yaml :tangle yes :tangle alacritty.yml
+colors:
+  primary:
+    background: '0xFFFFFF' # default :background
+    foreground: '0x333333' # default :foreground
+
+  cursor:
+    text: '0x333333' # default :foreground
+    cursor: '0x21BDFF' # cursor :background
+
+  selection:
+    background: '0x8ED3FF' # region :background
+
+  normal:
+    black:   '0x000000'
+    red:     '0xFE251E' # flycheck-error :underline :color
+    green:   '0x008000' # string :foreground
+    yellow:  '0xFFA500' # warning :foreground
+    blue:    '0x000088' # code-block :foreground
+    magenta: '0x6434A3' # font-lock-type-face :foreground
+    cyan:    '0x123555' # ol2 :overline
+    white:   '0x8D8D84' # font-lock-comment-face :foreground
+
+  bright:
+    black:   '0x555555' # org-block-begin-line :foreground
+    red:     '0xFF0000' # gnus-group-news-4 :foreground
+    green:   '0x158A15' # flycheck-fringe-info :foreground
+    yellow:  '0xF4B400' # ???
+    blue:    '0x335EA8' # mode-line :box :background
+    magenta: '0xBA36A5' # font-lock-variable-name-face :foreground
+    cyan:    '0x008ED1' # org-meta-line :foreground
+    white:   '0x9A9A9A' # linum :foreground
+#+END_SRC
+
+* Mouse
+	The only mouse setting I change is to copy selected text to the primary
+	clipboard. This way I can select output and quickly paste it elsewhere.
+	For example, throwing errors into a search engine.
+
+#+BEGIN_SRC yaml :tangle yes :tangle alacritty.yml
+selection:
+  save_to_clipboard: true
 #+END_SRC
