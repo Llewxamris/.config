@@ -243,7 +243,22 @@
 
 	 1. Given the current directory is part if a Git repo, when I am inside a
 			directory, then display the name of the currently checked-out branch,
-			and display the branch name in green.
+			and display the branch name in magenta.
+
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
+		 function __prompt_git_branch
+				 # Show the Git branch if the current directory is part of a Git repo.
+				 # The native Git prompt functionality of Fish does display the repo,
+				 # but not quite in the way I want, so I handle this myself.
+				 set -l is_git_repo (git rev-parse --is-inside-working-tree \
+				 >/dev/null 2>&1; echo $status)
+
+				 if test $is_git_repo -eq 0
+						 set_color normal; echo -n "on "
+						 set_color magenta; echo -n " "(git symbolic-ref --short HEAD)
+				 end
+		 end
+	 #+END_SRC
 
 ** The Git Status & State
 	 While not as useful as seeing the branch information, it is still
