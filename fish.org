@@ -278,6 +278,42 @@
 			and display the status and/or state in grey, and display the status
 			and/or state in italics.
 
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
+		 # Set the symbols and information shown in the prompt. I enable the built-in
+		 # informative state, which sets some nicer symbols as well as a total count
+		 # for each file in the given status. I also replace some symbols to match
+		 # what is used by the Starship prompt.
+		 set __fish_git_prompt_show_informative_status 'yes'
+		 set __fish_git_prompt_char_upstream_diverged '⇕'
+		 set __fish_git_prompt_char_untrackedfiles '?'
+		 set __fish_git_prompt_char_dirtystate '!'
+		 set __fish_git_prompt_char_statgedstate '+'
+
+		 function __prompt_git_status_state
+				 set -l is_git_repo (git rev-parse --is-inside-working-tree \
+				 >/dev/null 2>&1; echo $status)
+
+				 if test $is_git_repo -eq 0
+						 # This is a hack and I hate it. I want to leverage the native Git prompt
+						 # function from Fish, but there is not way to exclude the current branch
+						 # from being displayed.
+						 # So what I do is grab the current branches name and strip it from the
+						 # results of the `__fish_git_prompt` function. It works, but it feels
+						 # so hamfisted.
+						 set current_branch (git symbolic-ref --short HEAD)
+						 set -l prompt_result (__fish_git_prompt)
+						 set -l prompt_result \
+						 (string replace "$current_branch""|" "" "$prompt_result")
+
+						 # This is equally terrible.
+						 set -l prompt_result (string replace "(" "[" "$prompt_result")
+						 set -l prompt_result (string replace ")" "]" "$prompt_result")
+
+						 set_color --dim --italics white; echo "$prompt_result"
+				 end
+		 end
+	 #+END_SRC
+
 ** The Status Indicator
 	 The status indicator indicates two important status'. Firstly, it indicates
 	 that the shell is inactive and waiting for a command. Secondly, it indicates
