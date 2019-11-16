@@ -140,26 +140,99 @@
 	I am also trying to document the specifications of my prompt more thoroughly,
 	with each element matching a rule or goal of my prompt.
 
-	#+BEGIN_SRC fish :tangle yes :tangle config.fish
-		set __fish_git_prompt_show_informative_status 'yes'
 
-		function fish_prompt
-				set -l lastexit $status
-				set -l userhost (set_color black)$USER@(hostname):
-				set -l workingdir (set_color blue)(prompt_pwd)
-				set -l gitprompt (set_color --dim --italics white)(__fish_git_prompt)
+** The Username & Host Name
+	 I used to always include my username and machine host name in the prompt.
+	 After some reflection, I came to the conclusion that this information is
+	 only useful to me in the following situations:
+	 
+	 - When I am SSH'd into another machine
+	 - When I am the root user
+	 
+	 These are the rules I am going to set in-place regarding displaying the user
+	 and prompt:
+	 
+	 1. Given I am in a terminal for a local machine, when I log in as a non-root
+			user, then do not display the username, and do not display the host name.
+	 2. Given I am in a terminal for a local machine, when I log in as the root
+			user, then display the username in a bold red.
+	 3. Given I am in a terminal for a remote machine, when I log in as a non-root
+			user, then display the username in magenta, and display the host name in
+		  green.
+	 4. Given I am in a terminal for a remote machine, when I log in as a the root
+			user, then display the username in bold red, and display the host name in
+		  green.
 
-				if test $lastexit -eq 0
-						set symbol (set_color --bold green)λ\ 
-				else
-						set symbol (set_color --bold red)λ\ 
-				end
+** The Directory Path 
+	 The directory path is a chunk of information that is absolutely necessary
+	 for working inside a terminal interface. I know of some people that do not
+	 display their current working directory, and those people are *mad*.
+	 
+	 How the path is displayed is based on the context of the current directory.
+	 The possible contexts being: inside a Git repo, inside the current users
+	 home directory, inside the root file system (excluding users home
+	 directories). In all contexts, I truncate the directory names to one
+	 character excluding the current directory.
+	 
+	 These are the rules for the directory path:
 
-				echo
-				echo "$userhost""$workingdir""$gitprompt"
-				echo "$symbol"(set_color normal)
-		end
-	#+END_SRC
+	 1. Given the current directory is part of a Git repo, when I am inside
+			a directory, then display the directory path with the root of the path
+			being the root of the Git repo, and display the directory path in blue.
+	 2. Given the current directory is part of the current users home directory,
+			when I am inside a directory, then display the directory path with the root
+			of the path being the root of the home directory, and display the directory
+			path in blue.
+	 3. Given the current directory is part of the root directory, and the current
+			directory is not the current users home directory, and the current directory
+			is not a Git repo, when I am inside a directory, then display the directory
+			path with the root of the path being the root directory, and display the
+			directory in blue, and display the directory in italics.
+
+** The Git Branch 
+	 Seeing the currently checked-out branch in the prompt has saved me from
+	 accidentally destroying my work more often than I should admit. It can also
+	 serve as a good way to regain context of what I was last working on.
+	 
+	 The rules for the Git branch are:
+
+	 1. Given the current directory is part if a Git repo, when I am inside a
+			directory, then display the name of the currently checked-out branch,
+			and display the branch name in green.
+
+** The Git Status & State
+	 While not as useful as seeing the branch information, it is still
+	 nice to see the status of my working tree at a glance. The situation where
+	 I get the most use out of this is when I am in the middle of a merge or 
+	 rebase. For implementation, I will be leveraging the included Git status
+	 functions from the Fish shell.
+	 
+	 I am choosing to not write out explicit rules for all possible statuses
+	 and states that Git could be in. I am not a masochist, and I already spend
+	 too much time thinking about my shell prompt as is.
+	 
+	 The rules for the Git status & state are:
+
+	 1. Given the current directory is part if a Git repo, when I am inside a
+			directory, then display the status and/or state of the working tree,
+			and display the status and/or state in grey, and display the status
+			and/or state in italics.
+
+** The Status Indicator
+	 The status indicator indicates two important status'. Firstly, it indicates
+	 that the shell is inactive and waiting for a command. Secondly, it indicates
+	 the success/failure state of the last command ran. The exit status indication
+	 is mostly useful for when I am writing scripts that do not yet
+	 have proper error outputs. These could be one-off scripts, scripts that are
+	 in development, or scripts that I have left in a neglected state and should
+	 be ashamed of.
+	 
+	 The rules for the status indicator are:
+
+	 1. Given the previously ran command returned the success exit code, when the
+			indicator is displayed, then display the indicator in green.
+	 2. Given the previously ran command returned a failure exit code, when the
+			indicator is displayed, then display the indicator in red.
 
 * Aliases
 	An alias is essentially a wrapper around an existing command. Calling the
@@ -1282,3 +1355,4 @@
 	
 	
 
+#  LocalWords:  rebase
