@@ -163,6 +163,34 @@
 			user, then display the username in bold red, and display the host name in
 		  green.
 
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
+		 function __prompt_username_host_name
+				 # First, lets check if we are inside an SSH session, or if we are on a local
+				 # machine. This is done by seeing if the SSH_CLIENT environment variable
+				 # is set. If it is set, then we are relatively certian that we are inside an
+				 # SSH session.
+				 # set -l is_machine_remote (test -n "$SSH_CLIENT")
+
+				 # Next, lets check if we are the root user. We do this by invoking
+				 # `id --user --name` to get the name for the current user.
+				 set -l current_users_name (id --user --name)
+				 # set -l is_user_root (test "$current_users_name" = "root")
+
+				 # Now, lets go handle if we are displaying a username.
+				 if test "$current_users_name" = "root"
+						 set_color --bold red; echo -n "root"
+				 else if test -n "$SSH_CLIENT"
+						 set_color magenta; echo -n "$current_users_name"
+				 end
+
+				 # Lastly, lets handle if we are displaying a hostname.
+				 if test -n "$SSH_CLIENT"
+						 set_color normal; echo -n " on "
+						 set_color green; echo -n (hostname)": "
+				 end
+		 end
+	 #+END_SRC
+
 ** The Directory Path 
 	 The directory path is a chunk of information that is absolutely necessary
 	 for working inside a terminal interface. I know of some people that do not
