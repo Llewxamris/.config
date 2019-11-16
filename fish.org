@@ -217,6 +217,23 @@
 			path with the root of the path being the root directory, and display the
 			directory in blue, and display the directory in italics.
 
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
+		 function __prompt_directory_path
+				 # Fish shell handles going between the users home as the root path and
+				 # the root directory as the root of the path. The Git repository root
+				 # is the only thing that needs to manually handled. Do do this, we will
+				 # check if the current directory is part of a Git repository. If it is,
+				 # we display that as the root.
+				 set -l git_repo_root (git rev-parse --show-toplevel 2>/dev/null)
+				 if test -n "$git_repo_root"
+						 set_color blue; echo -n ~(string replace "$git_repo_root" \
+						 (basename "$git_repo_root") (pwd))
+				 else
+						 set_color blue; echo (prompt_pwd)
+				 end
+		 end
+	 #+END_SRC
+
 ** The Git Branch 
 	 Seeing the currently checked-out branch in the prompt has saved me from
 	 accidentally destroying my work more often than I should admit. It can also
