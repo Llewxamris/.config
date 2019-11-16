@@ -3,7 +3,7 @@
 #+SUBTITLE: Configuration file for the Alacritty terminal emulator
 #+AUTHOR: Maxwell Haley
 #+EMAIL: maxwell.r.haley@gmail.com
-#  LocalWords:  Alacritty Iosevka
+#  LocalWords:  Alacritty Iosevka Leuven
 
 * Preface
 #+BEGIN_SRC yaml :tangle yes :tangle alacritty.yml
@@ -54,7 +54,17 @@ draw_bold_text_with_bright_colors: false
 #+END_SRC
 
 * Colours
-#+BEGIN_SRC yaml :tangle yes :tangle alacritty.yml
+	My colours scheme is derived from the [[https://github.com/fniessen/emacs-leuven-theme][Leuven Theme]]
+	for Emacs. For some elements (e.g. primary background and foreground colours)
+	it was obvious which Leuven face was needed. Other colours were not as simple.
+	Brighter colours, like cyan or yellow, are used mostly by Leuven as background
+	or highlight faces. This makes them unusable for text colour, especially
+	if it is directly against the pure white background.
+	
+	I have annotated each colour in this configuration with a comment declaring
+	which Leuven color class or custom face I lifted the value from.
+
+ #+BEGIN_SRC yaml :tangle yes :tangle alacritty.yml
 colors:
   primary:
     background: '0xFFFFFF' # default :background
@@ -89,16 +99,11 @@ colors:
 #+END_SRC
 
 * Mouse
+	The only mouse setting I change is to copy selected text to the primary
+	clipboard. This way I can select output and quickly paste it elsewhere.
+	For example, throwing errors into a search engine.
+
 #+BEGIN_SRC yaml :tangle yes :tangle alacritty.yml
-mouse:
-  hide_when_typing: true
-
-  url:
-    launcher:
-      program: xdg-open
-      args: []
-    modifiers: Control
-
 selection:
   save_to_clipboard: true
 #+END_SRC
