@@ -3,7 +3,7 @@
 #+AUTHOR: Maxwell Haley
 #+EMAIL: maxwell.r.haley@gmail.com
 #+DATE: 2019-10-22
-#  LocalWords:  Kubernetes Autoscale Rollout
+#  LocalWords:  Kubernetes Autoscale Rollout Starship Spacefish repo
 
 * Preface
 	#+BEGIN_SRC fish :tangle yes :tangle config.fish
@@ -120,26 +120,25 @@
 	The best part is, there is no right or wrong answer +except for keeping it
 	the default+. Hopefully my prompt gives viewers a positive impression of who
 	I am. If it doesn't, then tough. I like it.
-
-	My prompt shows the current user and host name, followed by the current
-	working directory. The current working directory is truncated so that all
-	parent directories only display their first character to prevent it from
-	growing large and unwieldy. If the current working directory is a ~git~
-	repository, then the current branch name is displayed. On the next line,
-	the prompt symbol (a lambda) is displayed. The lambda changes colour based
-	on the exit code of the previously ran command. Green if the exit code is 0,
-	and red on all other codes.
 	
-	I chose this prompt, because I feel that it displays all the information I
-	regularly need. The truncated current working directory is great for glancing
-	at a terminal and understanding my location on my file system. The ~git~
-	branch status helps bring context into what I was previously doing within a
-	repository (and has many times stopped me from running potentially
-	destructive commands within the wrong branch). And the lambda is a nice
-	piece of visual flare that reveals important information that is sometimes
-	hidden from sight. The only thing in the prompt that is not truly needed
-	is the user and host name. Personally though, I feel that a prompt without
-	~user@host~ is incomplete.
+	I am in the process of changing my prompt. For a few weeks, I was using the
+	[[https://starship.rs/][Starship]] cross-shell prompt. It was quite fast, and I enjoy how it handles
+	some situations like being the root user, showing the host when in an
+	SSH connection, the directory path changing when inside a Git repo, and
+	others. However, I found some of the default features to not be useful
+	for my workflow (e.g. showing the version of a language being used), not
+	useful enough for practical use (e.g. showing the Kubernetes information
+	only when a template is available), or simply missing a feature I would
+	like (e.g. Showing Azure information over AWS). Lastly, I don't want to
+	learn a new programming language just to update my shell prompt. The shell
+	should be able to create it's own prompt. There also exists a Fish shell
+	native version from the developer of Starship called [[https://github.com/matchai/spacefish][Spacefish]]. While
+	I decided not to with Spacefish, it did make a fantastic reference point
+	as to how to write a more complex shell prompt in the Fish shell scripting
+	language.
+
+	I am also trying to document the specifications of my prompt more thoroughly,
+	with each element matching a rule or goal of my prompt.
 
 	#+BEGIN_SRC fish :tangle yes :tangle config.fish
 		set __fish_git_prompt_show_informative_status 'yes'
