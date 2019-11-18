@@ -227,9 +227,9 @@
 				 set -l git_repo_root (git rev-parse --show-toplevel 2>/dev/null)
 				 if test -n "$git_repo_root"
 						 set_color blue; echo -n ~(string replace "$git_repo_root" \
-						 (basename "$git_repo_root") (pwd))
+						 (basename "$git_repo_root") (pwd))" "
 				 else
-						 set_color blue; echo (prompt_pwd)
+						 set_color blue; echo (prompt_pwd)" "
 				 end
 		 end
 	 #+END_SRC
