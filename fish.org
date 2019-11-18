@@ -140,6 +140,25 @@
 	I am also trying to document the specifications of my prompt more thoroughly,
 	with each element matching a rule or goal of my prompt.
 
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
+		 function fish_prompt
+				 # Store the exit code of the last ran command. If I don't do this here, then
+				 # getting the exit code later can result in getting the exit code from
+				 # one of the __prompt functions.
+				 # The exit code is used to determin the colour of the status indicator.
+				 set -l last_exit_code $status
+
+				 echo # Just gives more breathing room.
+
+				 __prompt_username_host_name
+				 __prompt_directory_path
+				 __prompt_git_branch
+				 __prompt_git_status_state
+				 __prompt_status_indicator "$last_exit_code"
+
+				 set_color normal # Ensure the colour is reset
+		 end
+	 #+END_SRC
 
 ** The Username & Host Name
 	 I used to always include my username and machine host name in the prompt.
