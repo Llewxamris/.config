@@ -330,6 +330,18 @@
 	 2. Given the previously ran command returned a failure exit code, when the
 			indicator is displayed, then display the indicator in red.
 
+	 #+BEGIN_SRC fish :tangle yes :tangle config.fish
+		 function __prompt_status_indicator
+				 set -l prompt_symbol '❯ '
+
+				 if test "$argv[1]" -eq 0
+						 set_color brgreen; echo -n $prompt_symbol
+				 else
+						 set_color brred; echo -n $prompt_symbol
+				 end
+		 end
+	 #+END_SRC
+
 * Aliases
 	An alias is essentially a wrapper around an existing command. Calling the
 	alias calls an existing command with predefined flags already set. This
