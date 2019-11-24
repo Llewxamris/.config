@@ -362,7 +362,7 @@
 	 #+END_SRC
 
 * Aliases
-	An alias is essentially a wrapper around an existing command. Calling the
+	An alias is essentially a wrapper around an existing command. Calling the 
 	alias calls an existing command with predefined flags already set. This
 	abstracts away the need to include, or even see these flags when entering
 	in the command. 
