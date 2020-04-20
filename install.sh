@@ -1,9 +1,9 @@
 #!/bin/sh
 
-ALACRITTY_SRC="alacritty.yml"
+ALACRITTY_SRC="dist/alacritty.yml"
 ALACRITTY_DEST="${HOME}/.config/alacritty/alacritty.yml"
 
-TMUX_SRC="config.tmux"
+TMUX_SRC="dist/config.tmux"
 TMUX_DEST="${HOME}/.config/tmux/tmux.conf"
 
 BASH_SRC="dist/bashrc.bash"
