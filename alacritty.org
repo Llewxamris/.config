@@ -3,18 +3,19 @@
 #+SUBTITLE: Configuration file for the Alacritty terminal emulator
 #+AUTHOR: Maxwell Haley
 #+EMAIL: maxwell.r.haley@gmail.com
-#  LocalWords:  Alacritty Iosevka Leuven
+#+PROPERTY: header-args:yaml :tangle dist/alacritty.yml :mkdirp yes
+#  LocalWords: Alacritty Iosevka Leuven
 
 * Preface
-#+BEGIN_SRC yaml :tangle yes :tangle alacritty.yml
-#   ___  _                 _ _   _         
-#  / _ \| |               (_) | | |        
-# / /_\ \ | __ _  ___ _ __ _| |_| |_ _   _ 
+#+BEGIN_SRC yaml
+#   ___  _                 _ _   _
+#  / _ \| |               (_) | | |
+# / /_\ \ | __ _  ___ _ __ _| |_| |_ _   _
 # |  _  | |/ _` |/ __| '__| | __| __| | | |
 # | | | | | (_| | (__| |  | | |_| |_| |_| |
 # \_| |_/_|\__,_|\___|_|  |_|\__|\__|\__, |
 #                                     __/ |
-#                                    |___/ 
+#                                    |___/
 #+END_SRC
 
 * The Window
@@ -22,7 +23,7 @@
 	bit of padding between the sides of the window and the terminal. Without it,
 	the text is uncomfortably close to the edge of the monitor.
 
-#+BEGIN_SRC yaml :tangle yes :tangle alacritty.yml
+#+BEGIN_SRC yaml
 window:
   padding:
     x: 5
@@ -31,40 +32,40 @@ window:
 #+END_SRC
 
 * Fonts
-	Configure the use of the Iosevka font. As well, disable converting all bold
-	text to use the bright colours.
+Configure the use of the Go Mono font. As well, disable converting all bold
+text to use the bright colours.
 
-#+BEGIN_SRC yaml :tangle yes :tangle alacritty.yml
+#+BEGIN_SRC yaml
 font:
   normal:
-    family: Iosevka Term SS04
-    style: Medium
+    family: Go Mono
+    style: Regular
 
   bold:
-    family: Iosevka Term SS04
+    family: Go Mono
     style: Bold
 
   italic:
-    family: Iosevka Term SS04
-    style: Oblique, Medium
+    family: Go Mono
+    style: Italic, Regular
 
-  size: 13
+  size: 12
 
 draw_bold_text_with_bright_colors: false
 #+END_SRC
 
 * Colours
-	My colours scheme is derived from the [[https://github.com/fniessen/emacs-leuven-theme][Leuven Theme]]
-	for Emacs. For some elements (e.g. primary background and foreground colours)
-	it was obvious which Leuven face was needed. Other colours were not as simple.
-	Brighter colours, like cyan or yellow, are used mostly by Leuven as background
-	or highlight faces. This makes them unusable for text colour, especially
-	if it is directly against the pure white background.
-	
+	My colours scheme is derived from the [[https://github.com/fniessen/emacs-leuven-theme][Leuven Theme]] for Emacs. For some
+	elements (e.g. primary background and foreground colours) it was obvious which
+	Leuven face was needed. Other colours were not as simple. Brighter colours,
+	like cyan or yellow, are used mostly by Leuven as background or highlight
+	faces. This makes them unusable for text colour, especially if it is directly
+	against the pure white background.
+
 	I have annotated each colour in this configuration with a comment declaring
 	which Leuven color class or custom face I lifted the value from.
 
- #+BEGIN_SRC yaml :tangle yes :tangle alacritty.yml
+ #+BEGIN_SRC yaml
 colors:
   primary:
     background: '0xFFFFFF' # default :background
@@ -103,7 +104,8 @@ colors:
 	clipboard. This way I can select output and quickly paste it elsewhere.
 	For example, throwing errors into a search engine.
 
-#+BEGIN_SRC yaml :tangle yes :tangle alacritty.yml
+#+BEGIN_SRC yaml
 selection:
   save_to_clipboard: true
 #+END_SRC
+
