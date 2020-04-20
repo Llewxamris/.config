@@ -1,0 +1,634 @@
+# -*- compile-command: "make bash" -*-
+#+TITLE: Bash Configuration
+#+SUBTITLE: Configuration file for the Bourne Again Shell
+#+AUTHOR: Maxwell Haley
+#+EMAIL: maxwell.r.haley@gmail.com
+#+DATE: 2020-04-14
+#+PROPERTY: header-args :mkdirp yes
+#  LocalWords: POSIX CLI TUI runtime rc TTY Readline XOFF XON readline
+
+
+* Profile
+:PROPERTIES:
+:header-args:shell: :tangle dist/profile.sh
+:END:
+
+When in a multi-user system, you need a way for each user to define their
+environment independently. The ~.profile~ file is one such way. It defines user
+specific environment variables for an entire session. POSIX-conforming shells
+will read from this file when used as a login shell. Some graphical interface
+applications (e.g., login managers, window managers, desktop environments) will
+also read from the ~.profile~ file, since they usually take the place of a login
+shell.
+
+It's important to note that this means anything within ~.profile~ must conform
+the POSIX shell.
+
+** The Executable Path
+The ~PATH~ environment variable is a comma-delimited list of directories that
+contain executable files. When running an external command, most applications
+will read the ~PATH~ to find the actual file. This includes the shell, some
+graphical shells, and applications that use external applications (e.g. Emacs).
+
+On Windows, I inherit the path from the windows ~%PATH%~ user variable, so I do
+not want to set the path and override anything. Migrating the contents of
+~%PATH%~ to ~$PATH~ would mean anything not running within my UNIX-like shell
+environment would not have access to those values. I also would rather not
+duplicate the ~PATH~ values, so I only use the Windows-specific variable.
+
+#+BEGIN_SRC shell
+  if [ "$(uname)" = "Linux" ]; then
+     export PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin
+  fi
+#+END_SRC
+
+** Text Editors
+The ~EDITOR~ and ~VISUAL~ environment variables defines what command I want
+executed when an application needs to open a file in an external editor.
+~EDITOR~ typically points to an editor with a "terminal-friendly" editor, while
+~VISUAL~ is an editor for a graphical interface.
+
+In my case, I have never been in a situation where I absolutely cannot spawn
+graphical windows. So I set these to both be ~emacsclient~. This will open the
+file for editing in an existing Emacs frame connected to a running Emacs daemon.
+If the daemon is not available, it falls back to calling the command within
+~--alternate-editor~. In my case, it falls back to regular Emacs.
+
+#+BEGIN_SRC shell
+  export EDITOR='emacsclient --alternate-editor="emacs"'
+  export VISUAL="$EDITOR"
+#+END_SRC
+
+** Terminal & Shell
+Applications that run in a terminal environment commonly need to know the
+capabilities of your default shell and terminal.
+
+~SHELL~ is the absolute path to your chosen shell. In my case (as you can tell
+by the name if this file), I want to set this to Bash.
+#+BEGIN_SRC shell
+  export SHELL="/bin/bash"
+#+END_SRC
+
+CLI and TUI applications can look at the ~TERM~ environment variable to
+determine the capabilities available (e.g. acceptable colour code values). I
+currently use ~xterm-256color~. Not because I use Xterm, but because relevant
+applications (~tmux~ in particular) understand that to mean all the capabilities
+in Xterm as well as the ability to output true colours.
+
+#+BEGIN_SRC shell
+  export TERM="xterm-256color"
+#+END_SRC
+
+** Programming Homes & Paths
+Compilers and programming frameworks often look for relevant environment
+variables as a way to define how you want to configure your build environment.
+This could be the location of libraries, binaries, or project work spaces.
+
+*** Java
+~JAVA_HOME~ is the location of the Java Development Kit base directory. Java
+frameworks and development environments will use this directory as a starting
+point to find required libraries and binaries. Since one may have more than one
+version of the JDK installed, it's best practice to define the active version as
+~JAVA_HOME~. Occasionally, frameworks may also look for a ~JDK_HOME~ for the
+same purpose.
+
+#+BEGIN_SRC shell
+     export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"
+     export JDK_HOME="${JAVA_HOME}"
+#+END_SRC
+
+~JRE_HOME~ is the location of the /Java Runtime Environment/ base directory.
+Java frameworks and development environments use this environment variable to
+find required libraries and binaries for running Java applications. We should
+reuse the same JRE for the version of the JDK assigned to the ~JAVA_HOME~
+environment variable.
+
+#+BEGIN_SRC shell
+     export JRE_HOME="${JAVA_HOME}/jre"
+#+END_SRC
+
+~JAVA_TOOL_OPTIONS~ allows me to define options that I want given to the Java
+Virtual Machine by default. In my case, I set the default character-set to UTF-8
+like any sane person would want.
+
+#+BEGIN_SRC shell
+  export JAVA_TOOL_OPTIONS='-Dfile.encoding="UTF-8"'
+#+END_SRC
+
+*** Go
+~GOPATH~ is a list of paths for finding both user created Go source code, as
+well as downloaded Go libraries (e.g. when getting an application via ~go get~).
+
+#+BEGIN_SRC shell
+     export GOPATH="/home/max/go"
+#+END_SRC
+
+*** Rust
+~CARGO_HOME~ specifies the location of cached registry indexes, Git checkouts,
+and compiled binaries. By default, the location is ~$HOME/.cargo~. To match the
+Freedesktop standard, I change this location to ~$HOME/.local/share/cargo~. I
+would prefer to point the cached items to ~$HOME/.cache/cargo~ and the binaries
+to ~$HOME/.local/bin~, but there isn't a good way to split these up. Instead, I
+use ~lndir~ to link ~$HOME/.local/share/cargo/bin~ to ~/$HOME/.local/bin~.
+
+#+BEGIN_SRC shell
+     export CARGO_HOME="${HOME}/.local/share/cargo"
+#+END_SRC
+
+* Bash Profile
+:PROPERTIES:
+:header-args:bash: :tangle dist/bash-profile.bash
+:END:
+
+When using Bash as a login shell, it reads the user-specific ~.bash_profile~
+file (technically it does read ~.profile~ if ~.bash_profile~ and ~.bash_login~
+does not exist (in that order), but if either do for some reason then it will
+not. It is safer to be explicit and use the first read file). This file has the
+same purpose as ~.profile~ (to set information that should be immutable
+session-wide). The major difference being that it is (for the most part) only
+parsed by Bash itself. This means environment variables set here would not be
+visible to applications that follow the POSIX standard of only reading
+~.profile~.
+
+To make sure Bash still has access the environment variables set in the
+~.profile~, I have ~.bash_profile~ source it. I also source the ~.bashrc~ file
+as well, so the login shell has access to the Bash configuration before kicking
+off the interactive shell itself.
+
+#+BEGIN_SRC bash
+  [[ -f ~/.profile ]] && source ~/.profile # Get environment variables
+
+  [[ -f ~/.bashrc ]] && source ~/.bashrc # Get Bash specific configuration
+#+END_SRC
+
+* Bash Run Configuration
+:PROPERTIES:
+:header-args:bash: :tangle dist/bashrc.bash
+:END:
+
+Like most early Linux applications, Bash configures itself at runtime using a
+/"rc"/ file (/"run command"/ files in early UNIX, /"run configuration"/ in modern
+UNIX/Linux). The ~.bashrc~ file contains Bash configuration specific to
+/interactive/ shell sessions (unlike ~.profile~ or ~.bash_profile~, which are
+only read during login shell sessions). Anything to do with Bash's behaviour
+while I am actively using it belongs in this file.
+
+This is an important distinction, because I do not want my preferences for
+interactive sessions with Bash to bleed into non-interactive sessions (i.e.
+running a shell script). This can cause portability problems, and make it harder
+to debug problems if I did not create the script.
+
+** Stop Non-Interactive Sessions
+I cannot find a source for it, but I remember learning that some Linux
+distributions (Debian/Ubuntu being an example) will have non-interactive Bash
+shell sessions still read the ~.bashrc~ file. Since I do not want this to
+happen, I make sure that the configuration exits out if the Bash session reading
+it is not interactive.
+
+#+BEGIN_SRC bash
+  [[ $- == *i* ]] || exit 0 # Either $- contains the character "i", or exit.
+#+END_SRC
+
+** Tab-completion
+Is able to use completion files to allow users to tab-complete partially entered
+commands. This means I can enter ~ema<TAB>~, and Bash will expand that to
+~emacs~. Some completion files go further, allowing for tab-completion of
+options and arguments.
+
+Bash comes with a default set of completions. There are two locations where they
+are commonly stored, so I check both and use whichever exists.
+
+#+BEGIN_SRC bash
+  if [[ -f /usr/share/bash-completion/bash_completion ]]; then
+    source /usr/share/bash-completion/bash_completion
+  elif [[ -f /etc/bash_completion ]]; then
+    source /etc/bash_completion
+  fi
+#+END_SRC
+
+I set bash to attempt to "correct" spelling errors when tab-completing a
+directory name that does not exist.
+
+#+BEGIN_SRC bash
+  shopt -s dirspell
+#+END_SRC
+
+If I try to activate tab-complete on an empty line, Bash will search and return
+possible values from /the entire path!/ I cannot think of a reason to want this,
+so I disable it by setting the options ~no_empty_cmd_completion~.
+
+#+BEGIN_SRC bash
+  shopt -s no_empty_cmd_completion
+#+END_SRC
+
+** History
+Bash keeps a log of (almost) all commands. This is useful since:
+
+1. Bash gives interactive functions to go through your history
+2. I can look through the history myself
+
+Bash only writes to the history file on exit, storing the history in memory
+until then. By default it limits the amount of lines stored in the file and in
+memory storage to 500. This is far too small, so I increase it to 10,000.
+
+#+BEGIN_SRC bash
+  HISTSIZE=10000
+  HISTFILESIZE=10000
+#+END_SRC
+
+Bash has three options form controlling what it chooses to save to the history.
+
+- ~ignorespace~ :: Ignores any commands that begin with a space. This is useful to
+not save commands that contain secrets or sensitive information.
+- ~ignoredups~ :: Ignores commands that are exactly the same as the previously
+  saved command.
+- ~erasedups~ :: Erases all previous instances of the current command from the
+  history.
+
+Since I value the order of commands when reading history, I do not set
+~erasedups~. I do enable both of the ignore options. Bash provides a shorthand
+value to do this named ~ignoreboth~.
+
+#+BEGIN_SRC bash
+  HISTCONTROL="ignoreboth"
+#+END_SRC
+
+I want Bash to store multi-line commands as a single entry. That way, I can grab
+the entire command from history. To do this, I need to set the ~cmdhist~ option.
+
+#+BEGIN_SRC bash
+  shopt -s cmdhist
+#+END_SRC
+
+I also do not want Bash to overwrite the history file, which is its default
+behaviour. ~histappend~ will make sure to append to the history file only.
+
+#+BEGIN_SRC bash
+  shopt -s histappend
+#+END_SRC
+
+When interactively searching through the Bash history, you can go between
+/forward search/ and /reverse search/. Annoyingly, the shortcut for forward
+search is ~C-s~, which will pause the TTY output. In the age of terminal
+multiplexers, I have never paused the TTY on purpose. So I disable the XON/XOFF
+functionality.
+
+#+BEGIN_SRC bash
+  stty -ixon
+#+END_SRC
+
+** Man Page Colour Support
+#+BEGIN_SRC bash
+  LESS_TERMCAP_mb=$'\E[01;31m'
+  LESS_TERMCAP_md=$'\E[01;31m'
+  LESS_TERMCAP_me=$'\E[0m'
+  LESS_TERMCAP_se=$'\E[0m'
+  LESS_TERMCAP_so=$'\E[01;44;33m'
+  LESS_TERMCAP_ue=$'\E[0m'
+  LESS_TERMCAP_us=$'\E[01;32m'
+#+END_SRC
+
+** Directory Navigation
+~cdspell~ will attempt to correct "minor errors" if the directory give to ~cd~
+does not exist. It will print its "corrected" name first before changing
+directories.
+
+#+BEGIN_SRC bash
+  shopt -s cdspell
+#+END_SRC
+
+** Globs, Expansions & Patterns
+Bash supports using /"globs/" (wildcard characters such as ~*~ and ~?~) within
+commands. Bash /expands/ globs before executing a command. For example, ~rm
+dir/*~ expands to all contents of the directory ~dir~. This is a powerful tool
+for writing short Bash commands.
+
+~extglob~ enables the more complex /"pattern-list"/ globs. These globs match
+based on the occurrences of sub-patterns. This allows the testing of
+one-to-many patterns within a single pattern.
+
+#+BEGIN_SRC bash
+  shopt -s extglob
+#+END_SRC
+
+~globstar~ enables the ~**~ glob. This expands to mean all files, directories,
+and sub-directories. It is effectively a recursive ~*~.
+
+#+BEGIN_SRC bash
+  shopt -s globstar
+#+END_SRC
+
+~failglob~ will fail a command if any patterns fail to expand to at least one
+file.
+
+#+BEGIN_SRC bash
+  shopt -s failglob
+#+END_SRC
+
+** Aliases & Functions
+An alias is basically a special type of expansion within Bash. Instead of
+expanding to filenames, an alias expands to a command. I use aliases for two
+purposes:
+
+1. Wrapping one-liners
+2. Shadowing existing commands
+
+Defining one-liners in an alias is faster than storing them inside a script that
+is available on the ~PATH~, as Bash does not have to fork a new job when
+expanding an alias.
+
+On the same note, I use Bash functions to act as more complex aliases. Because
+the value of an alias is a string, complex flow control or input parsing can
+become hard to read. Structuring them as properties simply works better.
+
+By /shadowing existing commands/, I mean taking an existing command name and
+using it as an alias or function name so the alias/function runs instead.
+Usually, this is so I can tack on default arguments or options to these
+commands. For example, I may alias ~ls~ to ~ls --list~ so invoking ~ls~ always
+displays in the list mode.
+
+*** Directory Listing
+#+BEGIN_SRC bash
+  alias ls="ls \
+      --color=auto \
+      --group-directories-first \
+      --dereference \
+      --human-readable"
+  alias l="ls -C --ignore-backups --classify"
+  alias la="l --almost-all"
+  alias ll="l -l"
+  alias lla="ll --almost-all"
+  alias lld="ls -l | egrep '^d'"
+  alias llf="ls -l | egrep -v '^d'"
+  alias llk="ll --reverse -S"
+  alias llr="ll --recursive"
+  alias llx="ll -X"
+#+END_SRC
+
+*** Docker
+As with the Git abbreviations, I haven't really taken full advantage of the
+expansion properties to make working with Docker easier. These are just
+shortcuts.
+
+#+BEGIN_SRC bash
+  alias datt="docker attach"
+  alias dex="docker exec --interactive --tty"
+  alias dimg="docker images"
+  alias dip="docker inspect --format '{{ .NetworkSettings.IPAddress }}'"
+  alias dip="docker push"
+  alias dstart="docker start"
+  alias dstop="docker stop"
+#+END_SRC
+
+*** Editing
+To quickly edit a file, I use the ~e~ alias. This expands to invoking the Emacs
+client, resulting in the file opening inside a new or existing Emacs session.
+This is similar to my ~EDITOR~ value, except it returns control back to the
+shell immediately.
+
+#+BEGIN_SRC bash
+  alias e='emacsclient --no-wait --alternate-editor="emacs"'
+  alias ec="e --create-frame" # Always creates a new frame
+  alias ebash="e $HOME/git/dotfiles/bash.org" # Opens this file in a new frame
+#+END_SRC
+
+#+BEGIN_SRC bash
+  alias vim='vim -u "${XDG_CONFIG_HOME:-$HOME/.config}"/vim/config.vim'
+  alias tmux='tmux -f "${XDG_CONFIG_HOME:$HOME/.config}"/tmux/config.tmux'
+#+END_SRC
+
+*** Git
+While Git is a fantastic source code management solution, it has a sometimes
+annoying, sometimes awful, interface. Little inconsistencies here and there
+mixed with an awkward combination of sub-commands and flags can make working
+with Git on the CLI a hassle. You'll notice that none of these abbreviations
+help with the interface issues, because I am a baddie.
+
+#+BEGIN_SRC bash
+  alias g="git status"
+  alias ga="git add"
+  alias ga.="git add ."
+  alias gb="git branch"
+  alias gc="git commit"
+  alias gc.="git commit"
+  alias gd="git diff"
+  alias gf="git fetch"
+  alias gl="git log"
+  alias gll="git log --all --decorate --oneline --graph"
+  alias glp="git log --patch"
+  alias gllp="git log --all --decorate --oneline --graph --patch"
+  alias gm="git merge"
+  alias gp="git push"
+  alias gpl="git pull"
+  alias gr="git restore"
+  alias gre="git reset"
+  alias greh="git reset --hard"
+  alias gres="git reset --soft"
+  alias gs="git switch"
+  alias gsc="git switch -c"
+#+END_SRC
+
+*** Utility
+#+BEGIN_SRC bash
+  alias da='date "+%Y-%m-%dT%TZ%z"'
+  alias h="history | grep"
+  alias p="ps aux | grep"
+  alias grep="grep --colour=auto"
+  alias q="exit"
+  alias reload="source ${HOME}/.bashrc"
+#+END_SRC
+
+#+BEGIN_SRC bash
+  uu() {
+      sudo apt update && sudo apt upgrade && sudo apt autoremove
+  }
+
+  uuu() {
+      sudo apt update && sudo apt full-upgrade && sudo apt autoremove
+  }
+#+END_SRC
+
+#+BEGIN_SRC bash
+  fix-mouse() {
+      sudo modprobe --remove psmouse && sudo modprobe psmouse
+  }
+#+END_SRC
+
+** The Prompt
+The goal of my prompt is to convey important information based on context. If
+the information is not needed at this given moment, then I do not want to see
+it. The rules in place are:
+
+1. Only show the username if it does not contain "max" (my default username is
+   "max", and it is my full name on Windows)
+2. Show the username in red if it is "root"
+3. Only show the hostname if I am in an SSH session
+4. Show git information (only active when inside a Git repository)
+5. Don't bother with the username, hostname, or git information if I am on
+   Windows
+
+The reason for not showing most information on Windows is because:
+
+1. I do not have more than one user
+2. I never SSH into a machine that I can install fish/this configuration onto
+3. Getting the information for the Git prompt is /so mind-slaughteringly slow/
+
+That last point is also why on Linux I set the ~PROMPT_COMMAND~ environment
+variable instead of ~PS1~. Bash evaluates ~PROMPT_COMMAND~ for each instance of
+the prompt. Windows is terrible in situations like this, where small commands
+are ran in sequence. It causes massive slowdowns, usually meaning 8 to 10 second
+delays each time a command exits before the shell is available. This is the same
+reason for using raw ANSI codes instead of calling ~tput~. Since ~tput~ is an
+external command, Windows just cannot handle calling it more than once.
+
+#+BEGIN_SRC bash
+  _pre=
+  _post=
+  _os=$(uname)
+  build_prompt() {
+      local -r EXIT="$?"
+      local -r ESC="\033"
+      local -r BR_RED="\[${ESC}[31;1m\]"
+      local -r BR_GREEN="\[${ESC}[32;1m\]"
+      local -r BLUE="\[${ESC}[34m\]"
+      local -r MAGENTA="\[${ESC}[35m\]"
+      local -r RESET="\[${ESC}[39;0m\]"
+
+      local cwd="${BLUE}\w"
+      local status_indicator=
+      local username=
+
+      if [[ ${EXIT} = "0" ]]; then
+          status_indicator="${BR_GREEN}>"
+      else
+          status_indicator="${BR_RED}>"
+      fi
+
+      if [[ $_os = "Linux" ]]; then
+          if [[ ${USER} = "root" ]]; then
+              username="${BR_RED}root"
+          elif [[ ${USER} != "max" ]]; then
+              username="${MAGENTA}${USER}"
+          fi
+
+          if [[ -n "$SSH_CLIENT" ]]; then
+              username="${username}@\h"
+          fi
+
+          if [[ -n ${username} ]]; then
+              username="${username}:"
+          fi
+      fi
+
+      _pre="\n${username}${RESET}${cwd}"
+      _post="\n${status_indicator} ${RESET}"
+  }
+
+  GIT_PS1_SHOWDIRTYSTATE="true"
+  GIT_PS1_SHOWUNTRACKEDFILES="true"
+  GIT_PS1_SHOWUPSTREAM="auto verbose git"
+  GIT_PS1_STATESEPARATOR="|"
+
+  if [[ $_os = "Linux" ]]; then
+      PROMPT_COMMAND='build_prompt && __git_ps1 "${_pre}" "${_post}" " [%s]"'
+  else
+      build_prompt
+      PS1="${_pre}${_post}"
+  fi
+#+END_SRC
+
+* Input Run Configuration (The Readline)
+:PROPERTIES:
+:header-args:prog: :tangle dist/inputrc.readline
+:END:
+
+Readline is a library used by Bash that allows users to manipulate text. This
+includes moving the cursor, editing text, and completion. Readline looks at the
+~.inputrc~ file for user-specific configuration and key binds.
+
+Readline is not only used by Bash, so any applications that take advantage of
+Readline will inherit these settings.
+
+** Completion Behaviour
+Readline can ignore case when performing filename matching and completion by
+setting ~completion-ignore-case~ to ~on~.
+
+#+BEGIN_SRC prog
+set completion-ignore-case on
+#+END_SRC
+
+Setting ~completion-map-case~ makes the Readline treat =-= and =_= as equivalent
+(given that ~completion-ignore-case~ is also on).
+
+#+BEGIN_SRC prog
+set completion-map-case on
+#+END_SRC
+
+If the common prefix for completions is greater than the value of
+~completion-prefix-display-length~, replace it with ellipsis. For a value of
+three, ~file1.txt~ and ~file2.txt~ would become ~...1.txt~ and ~...2.txt~.
+
+#+BEGIN_SRC prog
+set completion-prefix-display-length 3
+#+END_SRC
+
+~mark-symlinked-directories~ adds a =/= after completed names which are symbolic
+links to a directory.
+
+#+BEGIN_SRC prog
+set mark-symlinked-directories on
+#+END_SRC
+
+By default, ambiguous completions (completions that could have more than one
+result) and unmodified completions (completions that have no partial completions
+before a word is complete) do not immediately show possible completions.
+Instead, it rings the bell. Only on the second completion does it list. I have
+never once been happy that the bell has rung on my machine /ever/.
+
+#+BEGIN_SRC prog
+set show-all-if-ambiguous on
+set show-all-if-unmodified
+#+END_SRC
+
+Completions performed in the middle of a word can result in duplicated portions
+of the word following the cursor. ~skip-completed-text~ will prevent duplication
+from occurring.
+
+#+BEGIN_SRC prog
+  set skip-completed-text on
+#+END_SRC
+
+** Visual Behaviour
+Never ring the bell.
+
+#+BEGIN_SRC prog
+set bell-style none
+#+END_SRC
+
+Text editors and IDE can have a quality-of-life feature to highlight or
+otherwise draw attention to a parenthesis's opener/closer (if it exists).
+Readline offers something in the same realm with ~blink-matching-paren~. It will
+move the cursor quickly to the open parenthesis matching an newly inserted
+closing parenthesis to visually indicate what the parenthesis is surrounding.
+
+#+BEGIN_SRC prog
+set blink-matching-paren on
+#+END_SRC
+
+Readline can colour code the list of completions. ~colored-completion-prefix~
+colour codes common prefixes of possible completions, and ~colored-stats~
+colour codes the file type if the completion is for a file.
+
+#+BEGIN_SRC prog
+set colored-completion-prefix on
+set colored-stats on
+#+END_SRC
+
+Similar to ~colored-stats~, ~visual-stats~ will tag a character to the end of a
+filename to denote its file type (e.g., =/= for directories, =*= for executable
+files, etc.).
+
+#+BEGIN_SRC prog
+set visible-stats on
+#+END_SRC
+
