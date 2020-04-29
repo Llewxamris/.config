@@ -21,7 +21,7 @@ PROFILEDEST = .profile
 
 .PHONY: all install alacritty bash tmux clean uninstall
 
-all: alacritty bash tmux
+all: alacritty bash tmux vim
 install:
 		$(SHELL) -c "./install.sh"
 alacritty:
