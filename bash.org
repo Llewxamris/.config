@@ -5,8 +5,8 @@
 #+EMAIL: maxwell.r.haley@gmail.com
 #+DATE: 2020-04-14
 #+PROPERTY: header-args :mkdirp yes
-#  LocalWords: POSIX CLI TUI runtime rc TTY Readline XOFF XON readline
-
+#  LocalWords: POSIX CLI TUI runtime rc TTY Readline XOFF XON readline XDG
+#  LocalWords: Freedesktop
 
 * Profile
 :PROPERTIES:
@@ -133,6 +133,50 @@ use ~lndir~ to link ~$HOME/.local/share/cargo/bin~ to ~/$HOME/.local/bin~.
 
 #+BEGIN_SRC shell
      export CARGO_HOME="${HOME}/.local/share/cargo"
+#+END_SRC
+
+** XDG Base Directories
+Freedesktop.org has the [[https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html][XDG Base Directories]] specification. It defines
+directories programs should use when searching or storing user-specific program
+data (i.e., data files, configuration files, cached data, and runtime
+files/objects). I like this specification. In the past, an application might
+create a new hidden directory inside the users home director to store this data.
+Or worse, just dump it all straight into the home directory! This clutter is
+frustrating. It makes it hard to find application data (since they all
+effectively do their own thing) if you have deleted an application and want to
+tidy up everything left behind, for example.
+
+The specification defines a set of environment variables that applications can
+check to determine where to store their data, as well as a default location in
+the case the user has not set the environment variables. Even though I set mine,
+I still use the default location values for simplicity.
+
+(The ~XDG_RUNTIME_DIR~ is not set here. The OS sets that for me.)
+
+For user-specific data files, ~XDG_DATA_HOME~ defines the base directory to
+store data in, and ~XDB_DATA_DIRS~ defines additional directories to search if
+the target file is not in the base directory.
+
+#+BEGIN_SRC shell
+  export XDG_DATA_HOME="${HOME}/.local/share"
+  export XDG_DATA_DIRS="/usr/local/share/:/usr/share/"
+#+END_SRC
+
+For user-specific configuration files, ~XDG_CONFIG_HOME~ defines the base
+directory to search and store configuration in, and ~XDG_CONFIG_DIRS~ defines
+additional directories to search if the target file is not in the base
+directory.
+
+#+BEGIN_SRC shell
+  export XDG_CONFIG_HOME="${HOME}/.config"
+  export XDG_CONFIG_DIRS="/etc/xdg/"
+#+END_SRC
+
+For user-specific cache files, ~XDG_CACHE_HOME~ defines the base directory to
+search and store cached files and objects.
+
+#+BEGIN_SRC shell
+  export XDG_CACHE_HOME="${HOME}/.cache"
 #+END_SRC
 
 * Bash Profile
