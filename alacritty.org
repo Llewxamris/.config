@@ -55,48 +55,44 @@ draw_bold_text_with_bright_colors: false
 #+END_SRC
 
 * Colours
-	My colours scheme is derived from the [[https://github.com/fniessen/emacs-leuven-theme][Leuven Theme]] for Emacs. For some
-	elements (e.g. primary background and foreground colours) it was obvious which
-	Leuven face was needed. Other colours were not as simple. Brighter colours,
-	like cyan or yellow, are used mostly by Leuven as background or highlight
-	faces. This makes them unusable for text colour, especially if it is directly
-	against the pure white background.
-
-	I have annotated each colour in this configuration with a comment declaring
-	which Leuven color class or custom face I lifted the value from.
+I based my colours on the [[https://gitlab.com/dj_goku/modus-themes][Modus Operandi]] theme for Emacs. I find it colourful
+enough to not be visually boring, but not too colourful to be visually noisy. If
+the source of the colour is non-obvious, then it has a comment stating what the
+source was.
 
  #+BEGIN_SRC yaml
 colors:
   primary:
-    background: '0xFFFFFF' # default :background
-    foreground: '0x333333' # default :foreground
+    background: '0xFFFFFF' # bg-main
+    foreground: '0x000000' # fg-main
 
   cursor:
-    text: '0x333333' # default :foreground
-    cursor: '0x21BDFF' # cursor :background
+    text: '0xFFFFFF'       # bg-main
+    cursor: '0x000000'     # bg-main
 
   selection:
-    background: '0x8ED3FF' # region :background
+    background: '0xBCBCBC' # bg-region
+    foreground: '0x000000' # fg-main
 
   normal:
-    black:   '0x000000'
-    red:     '0xFE251E' # flycheck-error :underline :color
-    green:   '0x008000' # string :foreground
-    yellow:  '0xFFA500' # warning :foreground
-    blue:    '0x000088' # code-block :foreground
-    magenta: '0x6434A3' # font-lock-type-face :foreground
-    cyan:    '0x123555' # ol2 :overline
-    white:   '0x8D8D84' # font-lock-comment-face :foreground
+    black:   '0x000000'    # fg-main
+    red:     '0xA80000'
+    green:   '0x005F00'
+    yellow:  '0x8B3800'
+    blue:    '0x0030A6'
+    magenta: '0x721045'
+    cyan:    '0x005589'
+    white:   '0xF3F1F3'    # bg-alt
 
   bright:
-    black:   '0x555555' # org-block-begin-line :foreground
-    red:     '0xFF0000' # gnus-group-news-4 :foreground
-    green:   '0x158A15' # flycheck-fringe-info :foreground
-    yellow:  '0xF4B400' # ???
-    blue:    '0x335EA8' # mode-line :box :background
-    magenta: '0xBA36A5' # font-lock-variable-name-face :foreground
-    cyan:    '0x008ED1' # org-meta-line :foreground
-    white:   '0x9A9A9A' # linum :foreground
+    black:   '0x424242'    # fg-inactive
+    red:     '0xB60000'    # red-intense
+    green:   '0x006800'    # green-intense
+    yellow:  '0x904200'    # yellow-intense
+    blue:    '0x1111EE'    # blue-intense
+    magenta: '0x7000E0'    # magenta-intense
+    cyan:    '0x205B93'    # cyan-intense
+    white:   '0xF8F8F8'    # bg-dim
 #+END_SRC
 
 * Mouse
