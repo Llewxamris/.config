@@ -43,8 +43,8 @@ To ensure tmux will load its support for 256 truecolour, I set the default
 terminal and override the resulting terminal value.
 
 #+BEGIN_SRC fundamental
-	set -g default-terminal "xterm-256color"
-	set -g terminal-overrides ',xterm-256color:Tc'
+  set -g default-terminal "tmux-256color"
+  set -g terminal-overrides ",gnome*:Tc,*:U8=0"
 #+END_SRC
 
 There is noticeable delay in Vim when switching between modes if Vim is
