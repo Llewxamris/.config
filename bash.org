@@ -24,22 +24,23 @@ shell.
 It's important to note that this means anything within ~.profile~ must conform
 the POSIX shell.
 
+When running on Windows, I do not want to set any session-wide environment
+variables. The only thing that would source the ~.profile~ file is my UNIX-like
+shell environment, so all other applications would be in the dark. So instead I
+inherit from the Windows system and user variables.
+
+#+BEGIN_SRC shell
+  [ "$(uname)" != "Linux" ] && return 1
+#+END_SRC
+
 ** The Executable Path
 The ~PATH~ environment variable is a comma-delimited list of directories that
 contain executable files. When running an external command, most applications
 will read the ~PATH~ to find the actual file. This includes the shell, some
 graphical shells, and applications that use external applications (e.g. Emacs).
 
-On Windows, I inherit the path from the windows ~%PATH%~ user variable, so I do
-not want to set the path and override anything. Migrating the contents of
-~%PATH%~ to ~$PATH~ would mean anything not running within my UNIX-like shell
-environment would not have access to those values. I also would rather not
-duplicate the ~PATH~ values, so I only use the Windows-specific variable.
-
 #+BEGIN_SRC shell
-  if [ "$(uname)" = "Linux" ]; then
-     export PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin
-  fi
+  export PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin
 #+END_SRC
 
 ** Text Editors
