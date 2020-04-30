@@ -681,3 +681,17 @@ files, etc.).
 set visible-stats on
 #+END_SRC
 
+** Key Binds
+Readline allows users to configure the key bindings that execute functions. Not
+all of the functions have a bind by default.
+
+Set the up-arrow and down-arrow key to search history. The way this works means
+that with nothing entered, the arrow keys work as they do by default. With any
+text entered, then the arrow keys will search for a command in the history
+containing the text as a suffix.
+
+#+BEGIN_SRC prog
+  "\e[A": history-search-backward
+  "\e[B": history-search-forward
+#+END_SRC
+
