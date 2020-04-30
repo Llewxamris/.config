@@ -21,6 +21,9 @@ READLINE_DEST="${HOME}/.inputrc"
 VIM_SRC="dist/config.vim"
 VIM_DEST="${HOME}/.config/vim/config.vim"
 
+LSCOLORS_SRC="dist/dircolours.txt"
+LSCOLORS_DEST="${HOME}/.local/share/lscolors.sh"
+
 create_link() {
     ln --symbolic --force  \
        "$(readlink --canonicalize "$2")" "$1"
@@ -49,6 +52,9 @@ main() {
                 ;;
             "${VIM_SRC}")
                 create_link "${VIM_DEST}" "${file}"
+                ;;
+            "${LSCOLORS_SRC}")
+                dircolors -b "${LSCOLORS_SRC}" > "${LSCOLORS_DEST}"
                 ;;
         esac
     done

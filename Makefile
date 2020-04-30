@@ -18,6 +18,7 @@ TMUXDEST = .config/tmux/config.tmux
 BASHDEST = .bashrc
 BASHPROFDEST = .bash_profile
 PROFILEDEST = .profile
+LSCOLORSDEST = .local/share/lscolors.sh
 
 .PHONY: all install alacritty bash tmux clean uninstall
 
@@ -40,3 +41,4 @@ uninstall:
 		$(RM) $(RMFLAGS) $(PREFIX)/$(BASHDEST)
 		$(RM) $(RMFLAGS) $(PREFIX)/$(BASHPROFDEST)
 		$(RM) $(RMFLAGS) $(PREFIX)/$(PROFILEDEST)
+		$(RM) $(RMFLAGS) $(PREFIX)/$(LSCOLORSDEST)
