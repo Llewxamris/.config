@@ -437,9 +437,13 @@ shell immediately.
   alias ebash="e $HOME/git/dotfiles/bash.org" # Opens this file in a new frame
 #+END_SRC
 
+I store Vim's and Tmux's configuration files within the XDG configuration base
+directory. To load them, I alias the ~vim~ and ~tmux~ command to always include
+the option that sets the configuration file.
+
 #+BEGIN_SRC bash
-  alias vim='vim -u "${XDG_CONFIG_HOME:-$HOME/.config}"/vim/config.vim'
-  alias tmux='tmux -f "${XDG_CONFIG_HOME:$HOME/.config}"/tmux/config.tmux'
+  alias vim='vim -u ${XDG_CONFIG_HOME}/vim/config.vim'
+  alias tmux='tmux -f ${XDG_CONFIG_HOME}/tmux/tmux.conf'
 #+END_SRC
 
 *** Git
