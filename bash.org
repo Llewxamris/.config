@@ -40,7 +40,7 @@ will read the ~PATH~ to find the actual file. This includes the shell, some
 graphical shells, and applications that use external applications (e.g. Emacs).
 
 #+BEGIN_SRC shell
-  export PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin
+  export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin:${HOME}/.local/bin"
 #+END_SRC
 
 ** Text Editors
@@ -117,11 +117,12 @@ like any sane person would want.
 #+END_SRC
 
 *** Go
-~GOPATH~ is a list of paths for finding both user created Go source code, as
-well as downloaded Go libraries (e.g. when getting an application via ~go get~).
+~GOBIN~ states the directory ~go get~ should install binaries into. I set it to
+a ~bin/~ directory that is a sibling to the default XDG user data home
+directory.
 
 #+BEGIN_SRC shell
-     export GOPATH="/home/max/go"
+  export GOBIN="${HOME}/.local/bin"
 #+END_SRC
 
 *** Rust
