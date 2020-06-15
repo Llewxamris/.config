@@ -141,8 +141,7 @@ directory.
 and compiled binaries. By default, the location is ~$HOME/.cargo~. To match the
 Freedesktop standard, I change this location to ~$HOME/.local/share/cargo~. I
 would prefer to point the cached items to ~$HOME/.cache/cargo~ and the binaries
-to ~$HOME/.local/bin~, but there isn't a good way to split these up. Instead, I
-use ~lndir~ to link ~$HOME/.local/share/cargo/bin~ to ~/$HOME/.local/bin~.
+to ~$HOME/.local/bin~, but there isn't a good way to split these up.
 
 #+BEGIN_SRC shell
      export CARGO_HOME="${HOME}/.local/share/cargo"
