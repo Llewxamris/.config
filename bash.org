@@ -6,7 +6,7 @@
 #+DATE: 2020-04-14
 #+PROPERTY: header-args :mkdirp yes
 #  LocalWords: POSIX CLI TUI runtime rc TTY Readline XOFF XON readline XDG
-#  LocalWords: Freedesktop
+#  LocalWords: Freedesktop Leiningen
 
 * Profile
 :PROPERTIES:
@@ -84,6 +84,17 @@ in Xterm as well as the ability to output true colours.
 Compilers and programming frameworks often look for relevant environment
 variables as a way to define how you want to configure your build environment.
 This could be the location of libraries, binaries, or project work spaces.
+
+*** Clojure
+The ~lein~ script (used to invoke Leiningen proper) looks for Leiningen's
+binaries in the directory specified in the ~LEIN_HOME~ environment variable. By
+default this is ~$HOME/.lein~, but I would rather it follow the XDG standards.
+So I set ~LEIN_HOME~ to a more appropriate location under the XDG data home
+directory.
+
+#+begin_src shell
+  export LEIN_HOME="${HOME}/.local/share/lein"
+#+end_src
 
 *** Java
 ~JAVA_HOME~ is the location of the Java Development Kit base directory. Java
