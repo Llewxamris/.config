@@ -40,7 +40,7 @@ will read the ~PATH~ to find the actual file. This includes the shell, some
 graphical shells, and applications that use external applications (e.g. Emacs).
 
 #+BEGIN_SRC shell
-  export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin:${HOME}/.local/bin"
+  export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin:/home/max/.local/bin:/home/max/.local/share/cargo/bin"
 #+END_SRC
 
 ** Text Editors
