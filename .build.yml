@@ -1,0 +1,25 @@
+image: debian/testing
+packages:
+  - emacs-nox
+  - shellcheck
+secrets:
+  - 15e4b50e-f2ee-45eb-a6c3-a9502765f740
+sources:
+  - git@git.sr.ht:~llewxamris/.config
+tasks:
+  - build: |
+      cd .config/ || exit 1
+      make all
+  - verify: |
+      cd .config/dist
+
+      shellcheck \
+        --exclude=SC1090,SC1091,SC2034 \
+        --shell=bash \
+        --severity=warning \
+        bash-profile.bash bashrc.bash
+
+      shellcheck \
+        --shell=sh \
+        --severity=warning \
+        profile.sh
