@@ -5,8 +5,8 @@
 #+EMAIL: maxwell.r.haley@gmail.com
 #+DATE: 2020-04-14
 #+PROPERTY: header-args :mkdirp yes
-#  LocalWords: POSIX CLI TUI runtime rc TTY Readline XOFF XON readline XDG
-#  LocalWords: Freedesktop Leiningen
+#  LocalWords: POSIX CLI TUI runtime rc TTY Readline XOFF XON readline XDG UTF
+#  LocalWords: Freedesktop Leiningen toolchain linters formatters toolchains
 
 * Profile
 :PROPERTIES:
@@ -146,6 +146,19 @@ use ~lndir~ to link ~$HOME/.local/share/cargo/bin~ to ~/$HOME/.local/bin~.
 
 #+BEGIN_SRC shell
      export CARGO_HOME="${HOME}/.local/share/cargo"
+#+END_SRC
+
+~rustup~ is a toolchain manager for the Rust language. It acts as a single
+location to install core tooling (e.g., package manager, compiler, etc.),
+development tooling (e.g., linters, formatters, language servers, etc.), and to
+switch between different versions of Rust and the downloaded tooling. A handy
+tool, but the default location ~rustup~ installs toolchains and configuration is
+~$HOME/.rustup~. I would rather follow the XDG Base Directories specification,
+and store related data into the XDG data directory. Setting the ~RUSTUP_HOME~
+environment variable allows me to do so.
+
+#+BEGIN_SRC shell
+  export RUSTUP_HOME="${HOME}/.local/share/rustup"
 #+END_SRC
 
 ** XDG Base Directories
