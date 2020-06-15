@@ -466,7 +466,7 @@ shell immediately.
 #+BEGIN_SRC bash
   alias e='emacsclient --no-wait --alternate-editor="emacs"'
   alias ec="e --create-frame" # Always creates a new frame
-  alias ebash="e $HOME/git/dotfiles/bash.org" # Opens this file in a new frame
+  alias ebash='e ${HOME}/git/dotfiles/bash.org' # Opens this file in a new frame
 #+END_SRC
 
 I store Vim's and Tmux's configuration files within the XDG configuration base
@@ -516,7 +516,7 @@ help with the interface issues, because I am a baddie.
   alias p="ps aux | grep"
   alias grep="grep --colour=auto"
   alias q="exit"
-  alias reload="source ${HOME}/.bashrc"
+  alias reload='source ${HOME}/.bashrc'
 #+END_SRC
 
 #+BEGIN_SRC bash
