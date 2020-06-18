@@ -8,18 +8,18 @@ sources:
   - git@git.sr.ht:~llewxamris/.config
 tasks:
   - build: |
-      cd .config/ || exit 1
-      make all
+        cd .config/ || exit 1
+        make all
   - verify: |
-      cd .config/dist
+        cd .config/dist || exit 1
 
-      shellcheck \
-        --exclude=SC1090,SC1091,SC2034 \
-        --shell=bash \
-        --severity=warning \
-        bash-profile.bash bashrc.bash
+        shellcheck \
+            --exclude=SC1090,SC1091,SC2034 \
+            --shell=bash \
+            --severity=warning \
+            bash-profile.bash bashrc.bash
 
-      shellcheck \
-        --shell=sh \
-        --severity=warning \
-        profile.sh
+        shellcheck \
+            --shell=sh \
+            --severity=warning \
+            profile.sh
