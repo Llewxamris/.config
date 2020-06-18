@@ -29,3 +29,7 @@ tasks:
         git remote add github git@github.com:Llewxamris/.config.git
         git push --tags github HEAD
 
+triggers:
+  - action: email
+    condition: always
+    to: Maxwell Haley <maxwell.r.haley@gmail.com>
