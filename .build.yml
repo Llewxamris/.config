@@ -23,3 +23,9 @@ tasks:
             --shell=sh \
             --severity=warning \
             profile.sh
+  - mirror: |
+        ssh-keyscan github.com >> ~/.ssh/known_hosts
+        cd .config/ || exit 1
+        git remote add github git@github.com:Llewxamris/.config.git
+        git push --tags github HEAD
+
