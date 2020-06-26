@@ -5,13 +5,13 @@ packages:
 secrets:
   - 15e4b50e-f2ee-45eb-a6c3-a9502765f740
 sources:
-  - git@git.sr.ht:~llewxamris/.config
+  - git@git.sr.ht:~llewxamris/dotfiles
 tasks:
   - build: |
-        cd .config/ || exit 1
+        cd dotfiles/ || exit 1
         make all
   - verify: |
-        cd .config/dist || exit 1
+        cd dotfiles/dist || exit 1
 
         shellcheck \
             --exclude=SC1090,SC1091,SC2034 \
@@ -25,7 +25,7 @@ tasks:
             profile.sh
   - mirror: |
         ssh-keyscan github.com >> ~/.ssh/known_hosts
-        cd .config/ || exit 1
+        cd dotfiles/ || exit 1
         git remote add github git@github.com:Llewxamris/.config.git
         git push --tags github HEAD:master
 
