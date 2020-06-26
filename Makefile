@@ -19,10 +19,11 @@ BASHDEST = .bashrc
 BASHPROFDEST = .bash_profile
 PROFILEDEST = .profile
 LSCOLORSDEST = .local/share/lscolors.sh
+SWAYDEST = .config/sway/config
 
-.PHONY: all install alacritty bash tmux clean uninstall
+.PHONY: all install alacritty bash tmux sway clean uninstall
 
-all: alacritty bash tmux vim
+all: alacritty bash sway tmux vim
 install:
 		$(SHELL) -c "./install.sh"
 alacritty:
@@ -31,6 +32,8 @@ bash:
 		$(EMACS) $(EMACSFLAGS) --eval '(org-babel-tangle-file "bash.org")'
 tmux:
 		$(EMACS) $(EMACSFLAGS) --eval '(org-babel-tangle-file "tmux.org")'
+sway:
+		$(EMACS) $(EMACSFLAGS) --eval '(org-babel-tangle-file "sway.org")'
 vim:
 		$(EMACS) $(EMACSFLAGS) --eval '(org-babel-tangle-file "vim.org")'
 clean:
@@ -42,3 +45,4 @@ uninstall:
 		$(RM) $(RMFLAGS) $(PREFIX)/$(BASHPROFDEST)
 		$(RM) $(RMFLAGS) $(PREFIX)/$(PROFILEDEST)
 		$(RM) $(RMFLAGS) $(PREFIX)/$(LSCOLORSDEST)
+		$(RM) $(RMFLAGS) $(PREFIX)/$(SWAYDEST)

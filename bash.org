@@ -228,6 +228,14 @@ off the interactive shell itself.
   [[ -f ~/.profile ]] && source ~/.profile # Get environment variables
 
   [[ -f ~/.bashrc ]] && source ~/.bashrc # Get Bash specific configuration
+
+  # If running from tty1 start sway
+  if [ "$(tty)" = "/dev/tty1" ]; then
+    export WOBSOCKET="${XDG_RUNTIME_DIR}/wob"
+    mkfifo "${WOBSOCKET}"
+    exec sway
+  fi
+
 #+END_SRC
 
 * Bash Run Configuration

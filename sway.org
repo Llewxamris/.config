@@ -1,0 +1,365 @@
+# -*- compile-command: "make sway install" -*-
+#+TITLE: Sway Configuration
+#+SUBTITLE: Configuration file for the Sway window manager
+#+AUTHOR: Maxwell Haley
+#+EMAIL: maxwell.r.haley@gmail.com
+#+DATE: 2020-06-19
+#+PROPERTY: header-args :mkdirp yes :tangle dist/sway.conf
+#  LocalWords:  fullscreen
+
+* Variables
+Sway's configuration allows for setting variables. I can reference these
+variables later on to either abstract away complexity, or to enhance
+readability.
+
+Set the modifier key. The modifier key is the main driving key for all
+Sway-specific key binds. I set my modifier key to ~Mod1~, or ~Alt~.
+
+#+begin_src conf
+  set $mod Mod1
+#+end_src
+
+I use Vim-style directional keys. To aide readability, I set a variable
+describing the direction the key represents.
+
+#+begin_src conf
+  set $left h
+  set $down j
+  set $up k
+  set $right l
+#+end_src
+
+I use ~swaylock~ to lock my screen. Since there are multiple ways to trigger
+screen locking, and since the configuration /can/ get complicated, I define it
+as a variable.
+
+#+begin_src conf
+  set $lock-cmd swaylock -f
+#+end_src
+
+* Inputs
+Sway's ~input~ command lets me configure how Sway interacts with input devices.
+Things like keyboard layouts, touchpads, mice, etc. I can define input
+configuration on a per-device basis (by getting its name from ~swaymsg -t
+get_inputs~), or I can configure an entire /type/ of device. This is handy, as
+it means configuration will carry over regardless of specific models. For
+example, ensuring keyboard behaviour is the same between my builtin and external
+keyboard.
+
+** Keyboard
+- Set the display before a key starts repeating on a single held press to 250
+  milliseconds
+- Swap the =CapsLock= key with the =Esc= key
+
+#+begin_src conf
+  input type:keyboard {
+      repeat_delay 250
+      xkb_options caps:swapescape
+  }
+#+end_src
+
+** TouchPad
+- Disable the TouchPad while typing on the keyboard
+- Treat a tap on the TouchPad like a mouse click
+
+#+begin_src conf
+  input type:touchpad {
+      dwt true
+      tap enabled
+      natural_scroll enabled
+  }
+#+end_src
+
+* Outputs
+Sway's ~output~ command lets me configure how and what Sway will display. I can
+configure things like the wallpaper, resolutions of monitors, display
+positioning, scaling, etc. ~output~ follows this pattern:
+
+~output <display-name> <command> [arguments]~
+
+The ~bg~ command sets the background wallpaper. The display name provided is
+~*~, which sets the wallpaper on /all/ displays. Alternatively, I could set a
+unique background per monitor. The final argument is the scaling mode in the
+case the image does not fit the displays resolution.
+
+#+begin_src conf
+  output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+#+end_src
+
+I sometimes use my monitor in /"clamshell"/ mode. This means attaching my laptop to
+an external monitor, and then closing the lid. This may be because it is late at
+night, and I want to decrease the light level in the room. Or I am working with
+two laptops, and have a second one placed on top. Either way, I want Sway to
+disable all outputs to my laptops built-in display. Fortunately, the
+~bindswitch~ command lets my execute additional commands whenever the laptop
+switch is either engaged or disengaged.
+
+The ~--locked~ flag allows commands to run even if I have locked the screen, and
+the ~--reload~ flag executes the command on reload (which effectively syncs the
+status of my lid switch with Swat).
+
+#+begin_src conf
+  bindswitch --reload --locked lid:on output eDP-1 disable
+  bindswitch --reload --locked lid:off output eDP-1 enable
+#+end_src
+
+* Startup applications
+** Swayidle
+When my machine is idle, one of two things is true:
+
+1. I have left it with the intent to return back to it in the short-term
+2. I have left it with the intent to return back to it in the long-term
+
+In case #1, I want my machine to protect itself from someone looking to take
+advantage of my short-term departure. Locking the screen, and requiring a
+password to move on fulfils this.
+
+In case #2, I want my machine to lower its energy consumption (e.g. There is no
+point in having the display on).
+
+#+begin_src conf
+  exec swayidle -w \
+      timeout 300 $lock-cmd \
+      timeout 600 'swaymsg "output * dpms off"' \
+          resume 'swaymsg "output * dpms on"'
+
+#+end_src
+
+** Mako
+GUI applications may want to send me notifications on occasion. Firefox being
+the main application, but it is not uncommon for applications to want a way to
+asynchronously notify a user something has happened. Mako is a daemon that will
+listen for notifications and display the message on the screen.
+
+#+begin_src conf
+  exec mako
+#+end_src
+
+** Wob
+To display a nice "progress" bar on the screen when adjusting brightness/volume,
+I use the ~wob~ application. Whenever I adjust the brightness/volume, I send the
+new value to a named pipe. That pipes location is available in the environment
+variable ~WOBSOCKET~, and its value is constantly sent to ~wob~ to display the bar.
+
+#+begin_src conf
+  exec tail --follow "${WOBSOCKET}" | wob
+#+end_src
+
+* Key bindings
+As I mentioned, the modifier key drives Sway specific key binding. A good set of
+key bindings is /essential/ for a keyboard driven window manager like Sway.
+
+** Basics
+Open a new terminal in a new window.
+#+begin_src conf
+  bindsym $mod+Return exec alacritty
+#+end_src
+
+Kill the window that my focus is currently on.
+#+begin_src conf
+  bindsym $mod+Shift+q kill
+#+end_src
+
+Invoke the application launcher.
+#+begin_src conf
+  bindsym $mod+d exec dmenu_path | dmenu | xargs swaymsg exec --
+#+end_src
+
+Set holding down ~$mod+lmb~ to drag floating windows, and ~$mod+rmb~ to resize windows.
+#+begin_src conf
+  floating_modifier $mod normal
+#+end_src
+
+Reload the Sway configuration file.
+#+begin_src conf
+  bindsym $mod+Shift+c reload
+#+end_src
+
+Exit Sway (and the Wayland session).
+#+begin_src conf
+  bindsym $mod+Shift+e exec swaynag -t warning -m 'Do you really want to exit sway?' -b 'Yes, exit sway' 'swaymsg exit'
+#+end_src
+
+Lock the screen.
+#+begin_src conf
+  bindsym Mod4+l exec $lock-cmd
+#+end_src
+
+Launch a new Emacsclient window.
+#+begin_src conf
+  bindsym $mod+ctrl+e exec emacsclient -n -c
+#+end_src
+
+Support my laptops media + extended keys.
+#+begin_src conf
+  bindsym XF86MonBrightnessUp exec media-controller brightness up
+  bindsym XF86MonBrightnessDown exec media-controller brightness down
+
+  bindsym XF86AudioRaiseVolume exec media-controller volume up
+  bindsym XF86AudioLowerVolume exec media-controller volume down
+  bindsym XF86AudioMute exec media-controller volume mute
+#+end_src
+
+** Window manipulation
+*** Navigation & positioning
+As mentioned, I use Vim-style directional keys. I use ~$mod+[hjkl]~ to change my
+focus between open windows in a given workspace, and ~$mod+Shift+[hjkl]~ to
+move the position of windows in a given workspace.
+
+#+begin_src conf
+  bindsym $mod+$left focus left
+  bindsym $mod+$down focus down
+  bindsym $mod+$up focus up
+  bindsym $mod+$right focus right
+
+  bindsym $mod+Shift+$left move left
+  bindsym $mod+Shift+$down move down
+  bindsym $mod+Shift+$up move up
+  bindsym $mod+Shift+$right move right
+#+end_src
+
+I also define a "Window Mode" that I can trigger if I am planning to move more
+than one window in a row (e.g. I am rearranging a workspace).
+
+#+begin_src conf
+  mode "window" {
+      # Change which window I am focusing on
+      bindsym $left  focus left
+      bindsym $down  focus down
+      bindsym $up    focus up
+      bindsym $right focus right
+
+      # Move the window around
+      bindsym Shift+$left  move left
+      bindsym Shift+$down  move down
+      bindsym Shift+$up    move up
+      bindsym Shift+$right move right
+
+      # Return to default mode
+      bindsym Return mode "default"
+      bindsym Escape mode "default"
+  }
+  bindsym $mod+w mode "window"
+#+end_src
+
+*** Resizing
+~$mod+r~ enters "Resize Mode", which allows me to change the height & width of a
+focused window. I could bind these to their own keys and not only have the mode,
+but I cannot think of a comfortable bind.
+
+#+begin_src conf
+  mode "resize" {
+      bindsym $left resize shrink width 10px
+      bindsym $down resize grow height 10px
+      bindsym $up resize shrink height 10px
+      bindsym $right resize grow width 10px
+
+      # Return to default mode
+      bindsym Return mode "default"
+      bindsym Escape mode "default"
+  }
+  bindsym $mod+r mode "resize"
+#+end_src
+
+*** Layout
+~$mod+[bv]~ lets me choose if the next window opened will split the currently
+focused window horizontally, or vertically.
+
+#+begin_src conf
+  bindsym $mod+b splith
+  bindsym $mod+v splitv
+#+end_src
+
+~$mod+[ste]~ lets me switch between the [s]tacking layout, [t]abbed layout, and
+the [s]plit container layout when in tiling mode.
+
+The difference between a /window/ and a /container/ is that a container can
+contain more than one window. This means I can have a series of tabbed windows,
+with a split window on its own.
+
+- Stacking :: Presents windows as if they are on top of one another, with only
+  the titlebar present. Each open window takes additional vertical space.
+  Vertical focus changes moves between the stacked windows.
+
+- Tabbed :: Presents windows similar to a web browser, with a single titlebar
+  showing all available windows. Horizontal focus changes moves between the
+  tabs.
+
+- Split :: Presents all windows side-by-side, with no overlapping.
+
+#+begin_src conf
+  bindsym $mod+s layout stacking
+  bindsym $mod+t layout tabbed
+  bindsym $mod+e layout toggle split
+#+end_src
+
+Focus on the parent container (i.e. the container that contains all containers
+within a workspace). This allows for some powerful combinations of containers.
+For example: You can have a stack of windows next to a single window, and have
+both of them be a single tab in the parent container.
+
+#+begin_src conf
+  bindsym $mod+a focus parent
+#+end_src
+
+Takes the window that is currently focused, and makes it fullscreen (note that
+it only takes the window, not the full container).
+
+#+begin_src conf
+  bindsym $mod+f fullscreen
+#+end_src
+
+Toggle the focused window between tiling and floating mode, and switch between
+focusing on tiled windows vs floating windows.
+
+#+begin_src conf
+  bindsym $mod+Shift+space floating toggle
+  bindsym $mod+space focus mode_toggle
+#+end_src
+
+** Workspaces
+#+begin_src conf
+  bindsym $mod+1 workspace 1
+  bindsym $mod+2 workspace 2
+  bindsym $mod+3 workspace 3
+  bindsym $mod+4 workspace 4
+  bindsym $mod+5 workspace 5
+  bindsym $mod+6 workspace 6
+  bindsym $mod+7 workspace 7
+  bindsym $mod+8 workspace 8
+  bindsym $mod+9 workspace 9
+  bindsym $mod+0 workspace 10
+  # Move focused container to workspace
+  bindsym $mod+Shift+1 move container to workspace 1
+  bindsym $mod+Shift+2 move container to workspace 2
+  bindsym $mod+Shift+3 move container to workspace 3
+  bindsym $mod+Shift+4 move container to workspace 4
+  bindsym $mod+Shift+5 move container to workspace 5
+  bindsym $mod+Shift+6 move container to workspace 6
+  bindsym $mod+Shift+7 move container to workspace 7
+  bindsym $mod+Shift+8 move container to workspace 8
+  bindsym $mod+Shift+9 move container to workspace 9
+  bindsym $mod+Shift+0 move container to workspace 10
+#+end_src
+
+* Visuals
+Set the swaybar value, and add a one pixel border around windows.
+
+#+begin_src conf
+  bar {
+      position top
+
+      # When the status_command prints a new line to stdout, swaybar updates.
+      # The default just shows the current date and time.
+      status_command while date +'%Y-%m-%d %l:%M:%S %p'; do sleep 1; done
+
+      colors {
+          statusline #ffffff
+          background #323232
+          inactive_workspace #32323200 #32323200 #5c5c5c
+      }
+  }
+
+  default_border pixel 1
+#+end_src
+

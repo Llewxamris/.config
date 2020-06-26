@@ -24,6 +24,9 @@ VIM_DEST="${HOME}/.config/vim/config.vim"
 LSCOLORS_SRC="dist/dircolours.txt"
 LSCOLORS_DEST="${HOME}/.local/share/lscolors.sh"
 
+SWAY_SRC="dist/sway.conf"
+SWAY_DEST="${HOME}/.config/sway/config"
+
 create_link() {
     ln --symbolic --force  \
        "$(readlink --canonicalize "$2")" "$1"
@@ -55,6 +58,9 @@ main() {
                 ;;
             "${LSCOLORS_SRC}")
                 dircolors -b "${LSCOLORS_SRC}" > "${LSCOLORS_DEST}"
+                ;;
+            "${SWAY_SRC}")
+                create_link "${SWAY_DEST}" "${file}"
                 ;;
         esac
     done
