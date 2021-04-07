@@ -1,0 +1,63 @@
+#+TITLE: systemd Units
+#+AUTHOR: Maxwell Haley
+#+EMAIL: maxwell.r.haley@gmail.com
+#+DATE: 2021-04-06
+#+PROPERTY: header-args :mkdirp yes
+
+* Wob
+~wob~ is a lightweight progress bar for Wayland. I specifically use it for
+showing the relative value of both brightness & volume.
+
+Using ~wob~ is straightforward. Sending a number =n= over ~STDIN~ creates a bar
+representing =n/100=. The recommended way to do this is to create a FIFO pipe,
+then have a daemon tailing the pipe and handing the value over to ~wob~.
+
+There are a few "gotcha's" that can come up from doing this, so I chose to
+leverage systemd to smooth things out. First, I define a systemd socket so
+systemd manages the existence of the FIFO pipe.
+
+#+BEGIN_SRC conf :tangle dist/wob.socket
+[Socket]
+ListenFIFO=/tmp/wobpipe
+
+[Install]
+WantedBy=sway-session.target
+#+END_SRC
+
+Something nice systemd provides when using sockets is the automatic starting of
+services that read off of the socket. The following service will start
+automatically whenever any data is sent to the socket. Systemd will buffer the
+data, then send it to the service (as per the service unit definition).
+
+#+BEGIN_SRC conf :tangle dist/wob.service
+[Service]
+ExecStart=/usr/bin/wob -v
+Type=simple
+
+StandardInput=fd:wob.socket
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=sway-session.target
+#+END_SRC
+
+* Swayidle
+#+BEGIN_SRC conf :tangle dist/swayidle.service
+[Unit]
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/swayidle -d \
+                            -w \
+                            timeout 300 'swaylock --daemonize' \
+                            timeout 600 'swaymsg "output * dpms off"' \
+                                    resume 'swaymsg "output * dpms on"' \
+                            lock 'swaylock --daemonize'
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=sway-session.target
+#+END_SRC

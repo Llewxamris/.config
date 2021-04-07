@@ -1,0 +1,34 @@
+#!/bin/sh
+set -euox
+
+SYSTEMD_UNIT_DIR="${HOME}/.config/systemd/user"
+DIST_DIR="$(readlink --canonicalize ./dist)"
+
+create_link() {
+    _filename="$1"
+    _target_dir="$2"
+    ln --symbolic --force  \
+        "${DIST_DIR}/${_filename}" \
+        "$(readlink --canonicalize "${_target_dir}")/${_filename}"
+}
+
+main() {
+    for f in *.org; do
+        # Skip this iteration if the file does not exist
+        [ -e "${f}" ] || continue
+
+        emacs --batch --load=org --quick \
+            --eval "(org-babel-tangle-file \"${f}\")"
+    done
+
+    create_link "wob.socket" "${SYSTEMD_UNIT_DIR}"
+    create_link "wob.service" "${SYSTEMD_UNIT_DIR}"
+    create_link "swayidle.service" "${SYSTEMD_UNIT_DIR}"
+    # create_link ".profile" "${HOME}"
+    # create_link ".bash_profile" "${HOME}"
+    # create_link ".inputrc" "${HOME}"
+    # create_link ".inputrc" "${HOME}"
+    # create_link "lscolors.sh" "${HOME}/.local/share"
+}
+
+main "$@"
